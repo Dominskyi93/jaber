@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Jaber"
 include(":app")
- 
+include(":templates:android-library")

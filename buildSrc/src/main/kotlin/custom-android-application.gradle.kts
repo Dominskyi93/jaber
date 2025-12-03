@@ -6,12 +6,12 @@ plugins {
 
 android {
     compileSdk {
-        version = release(36)
+        version = release(Const.TargetSdk)
     }
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 36
+        minSdk = Const.MinSdk
+        targetSdk = Const.TargetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
