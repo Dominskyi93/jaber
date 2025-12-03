@@ -33,8 +33,10 @@ plugin-android-application = { module = "com.android.application:com.android.app
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
 plugin-kotlin-compose = { module = "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin", version.ref = "kotlin" }
 plugin-android-library = { module = "com.android.library:com.android.library.gradle.plugin", version.ref = "agp" }
+plugin-kotlin-jvm = { module = "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
 
 [plugins]
 custom-android-application = { id = "custom-android-application" }
 custom-android-library = { id = "custom-android-library" }
+custom-kotlin-library = { id = "custom-kotlin-library" }
 
