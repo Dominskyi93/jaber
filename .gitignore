@@ -1,15 +1,37 @@
-*.iml
-.gradle
+### Gradle ###
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!**/gradle-wrapper.jar
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+
+# Build output
+build/
+**/build/
+
+### buildSrc ###
+buildSrc/build/
+buildSrc/.gradle/
+buildSrc/build/generated-sources/
+
+### IntelliJ / Android Studio ###
+.idea/
+*.iml
+
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+### OS files ###
 .DS_Store
-/build
+
+### Android ###
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+### Others ###
+**/local.properties
