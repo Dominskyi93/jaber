@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.messenger.templates.presentation"
+    namespace = "com.messenger.templates.feature.presentation"
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.messenger.templates.presentation
+package com.messenger.templates.feature.presentation
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
