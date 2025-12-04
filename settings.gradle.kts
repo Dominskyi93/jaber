@@ -26,3 +26,5 @@ rootProject.name = "Jaber"
 include(":app")
 include(":templates:android-library")
 include(":templates:kotlin-library")
+include(":templates:feature:domain")
+include(":templates:feature:presentation")

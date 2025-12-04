@@ -15,6 +15,8 @@ android {
 dependencies {
     implementation(projects.templates.androidLibrary)
     implementation(projects.templates.kotlinLibrary)
+    implementation(projects.templates.feature.domain)
+    implementation(projects.templates.feature.presentation)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
