@@ -8,12 +8,11 @@ interface Logger {
         private var instance: Logger = DefaultLogger
 
         override fun e(exception: Exception, message: String) {
-            println("ERROR: $message")
-            exception.printStackTrace()
+            instance.e(exception, message)
         }
 
         override fun d(message: String) {
-            println("DEBUG: $message")
+            instance.d(message)
         }
 
         fun set(logger: Logger) {

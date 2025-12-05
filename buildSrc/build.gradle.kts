@@ -8,4 +8,6 @@ dependencies {
     implementation(libs.plugin.kotlin.jvm)
     implementation(libs.plugin.kotlin.android)
     implementation(libs.plugin.kotlin.compose)
+    implementation(libs.plugin.hilt.android)
+    implementation(libs.plugin.ksp)
 }
