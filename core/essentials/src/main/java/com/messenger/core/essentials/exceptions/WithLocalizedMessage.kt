@@ -1,5 +1,7 @@
 package com.messenger.core.essentials.exceptions
 
-interface WithLocalizedMessage {
-    fun getLocalizedErrorMessage(): String
+import com.messenger.core.essentials.resources.StringProvider
+
+interface WithLocalizedMessage<T : StringProvider> {
+    fun getLocalizedErrorMessage(stringProvider: T): String
 }
