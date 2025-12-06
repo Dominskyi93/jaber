@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.messenger.core.common.android"
+    namespace = "com.messenger.templates.feature.presentation"
 }
 
 dependencies {
-    api(projects.core.essentials)
+    api(projects.features.init.domain)
 
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.timber)
+    implementation(libs.hilt.compiler)
+    implementation(projects.core.essentials)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

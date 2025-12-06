@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logger.d("NewOnCreate")
+        logger.d("MainActivity:onCreate")
         setContent {
             JaberTheme {
                 JaberApp()
