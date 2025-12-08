@@ -1,6 +1,5 @@
-package com.messenger.core.essentials.exceptions
+package com.messenger.core.essentials.resources
 
-import com.messenger.core.essentials.resources.StringProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 

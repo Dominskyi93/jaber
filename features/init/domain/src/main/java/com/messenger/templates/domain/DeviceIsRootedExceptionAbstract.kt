@@ -1,19 +1,19 @@
 package com.messenger.templates.domain
 
-import com.messenger.core.essentials.exceptions.AppException
-import com.messenger.core.essentials.exceptions.StringProviderStore
-import com.messenger.core.essentials.exceptions.WithLocalizedMessage
+import com.messenger.core.essentials.exceptions.base.AbstractAppException
+import com.messenger.core.essentials.resources.StringProviderStore
+import com.messenger.core.essentials.exceptions.base.WithLocalizedMessage
 
-class DeviceIsRootedException() : InitAppException("Device is rooted") {
+class DeviceIsRootedExceptionAbstract() : InitAbstractAppException("Device is rooted") {
     override fun getLocalizedErrorMessage(stringProvider: InitStringProvider): String {
         return stringProvider.deviceIsRootedErrorMessage
     }
 }
 
-abstract class InitAppException(
+abstract class InitAbstractAppException(
     message: String,
     cause: Throwable? = null
-) : AppException(message, cause), WithLocalizedMessage {
+) : AbstractAppException(message, cause), WithLocalizedMessage {
     override fun getLocalizedErrorMessage(stringProviderStore: StringProviderStore): String {
         return getLocalizedErrorMessage(stringProviderStore<InitStringProvider>())
     }

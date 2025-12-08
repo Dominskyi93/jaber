@@ -1,7 +1,7 @@
 package com.messenger.core.essentials.exceptions.mapper
 
-import com.messenger.core.essentials.exceptions.StringProviderStore
-import com.messenger.core.essentials.exceptions.WithLocalizedMessage
+import com.messenger.core.essentials.resources.StringProviderStore
+import com.messenger.core.essentials.exceptions.base.WithLocalizedMessage
 import com.messenger.core.essentials.resources.CoreStringProvider
 import javax.inject.Inject
 
