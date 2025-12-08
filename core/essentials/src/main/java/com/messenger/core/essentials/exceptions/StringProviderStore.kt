@@ -1,0 +1,16 @@
+package com.messenger.core.essentials.exceptions
+
+import com.messenger.core.essentials.resources.StringProvider
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class StringProviderStore @Inject constructor(
+    @PublishedApi
+    internal val stringProviders: Map<Class<*>, @JvmSuppressWildcards StringProvider>
+) {
+
+    inline operator fun <reified T : StringProvider> invoke(): T {
+        return stringProviders[T::class.java] as T
+    }
+}

@@ -6,10 +6,13 @@ import com.messenger.core.essentials.exceptions.mapper.DefaultExceptionMessageMa
 import com.messenger.core.essentials.exceptions.mapper.ExceptionToMessageMapper
 import com.messenger.core.essentials.logger.Logger
 import com.messenger.core.essentials.resources.CoreStringProvider
+import com.messenger.core.essentials.resources.StringProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.ClassKey
+import dagger.multibindings.IntoMap
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,9 +22,11 @@ interface CommonAndroidModule {
     fun bindLogger(logger: AndroidLogger): Logger
 
     @Binds
+    @IntoMap
+    @ClassKey(CoreStringProvider::class)
     fun bindCoreStringProvider(
         impl: CoreStringProviderImpl
-    ): CoreStringProvider
+    ): StringProvider
 
     @Binds
     fun bindExceptionToMessageMapper(

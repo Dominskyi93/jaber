@@ -10,7 +10,13 @@ abstract class AppException(
 abstract class CoreAppException(
     message: String,
     cause: Throwable? = null
-) : AppException(message, cause), WithLocalizedMessage<CoreStringProvider>
+) : AppException(message, cause), WithLocalizedMessage {
+    override fun getLocalizedErrorMessage(stringProviderStore: StringProviderStore): String {
+        return getLocalizedErrorMessage(stringProviderStore<CoreStringProvider>())
+    }
+
+    abstract fun getLocalizedErrorMessage(stringProvider: CoreStringProvider): String
+}
 
 class UnknownException() : AppException("Unknown exception")
 
