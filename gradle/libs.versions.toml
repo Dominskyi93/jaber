@@ -51,4 +51,5 @@ custom-android-library = { id = "custom-android-library" }
 custom-kotlin-library = { id = "custom-kotlin-library" }
 hilt = { id = "com.google.dagger.hilt.android" }
 ksp = { id = "com.google.devtools.ksp" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose"}
 
