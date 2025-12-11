@@ -7,12 +7,15 @@ junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.0"
-composeBom = "2024.09.00"
+composeBom = "2025.11.01"
 appcompat = "1.6.1"
 material = "1.10.0"
 timber = "5.0.1"
 hilt = "2.57.2"
 ksp = "2.3.0"
+navigation = "2.9.0"
+hiltNavigation = "1.2.0"
+coroutines = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +39,9 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 plugin-android-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
@@ -51,5 +57,5 @@ custom-android-library = { id = "custom-android-library" }
 custom-kotlin-library = { id = "custom-kotlin-library" }
 hilt = { id = "com.google.dagger.hilt.android" }
 ksp = { id = "com.google.devtools.ksp" }
-compose = { id = "org.jetbrains.kotlin.plugin.compose"}
+compose = { id = "org.jetbrains.kotlin.plugin.compose" }
 
