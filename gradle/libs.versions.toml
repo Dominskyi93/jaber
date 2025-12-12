@@ -16,6 +16,8 @@ ksp = "2.3.0"
 navigation = "2.9.0"
 hiltNavigation = "1.2.0"
 coroutines = "1.10.2"
+agpVersion = "8.13.1"
+kotlinVersion = "2.2.21"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,4 +60,6 @@ custom-kotlin-library = { id = "custom-kotlin-library" }
 hilt = { id = "com.google.dagger.hilt.android" }
 ksp = { id = "com.google.devtools.ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose" }
+android-library = { id = "com.android.library", version.ref = "agpVersion" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
 
