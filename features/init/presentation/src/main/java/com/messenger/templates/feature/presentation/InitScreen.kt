@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +20,7 @@ import com.messenger.core.essentials.exceptions.ConnectionExceptionAbstractCore
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
+import com.messenger.core.theme.components.ProgressButton
 import com.messenger.templates.domain.entities.KeyFeature
 
 @Composable
@@ -30,12 +32,15 @@ fun InitScreen(viewModel: InitViewModel = hiltViewModel()) {
         modifier = Modifier.fillMaxSize(),
         onTryAgainAction = {}
     ) { state ->
-        InitContent(state)
+        InitContent(
+            state = state,
+            onLetsGoAction = viewModel::letsGo
+        )
     }
 }
 
 @Composable
-fun InitContent(state: InitViewModel.State) {
+fun InitContent(state: InitViewModel.State, onLetsGoAction: () -> Unit) {
 
     Column(
         modifier = Modifier
@@ -57,6 +62,15 @@ fun InitContent(state: InitViewModel.State) {
             text = keyFeature.description,
             textAlign = TextAlign.Center
         )
+
+        MediumVerticalSpace()
+
+        ProgressButton(
+            isInProgress = state.isCheckAuthInProgress,
+            text = stringResource(R.string.let_s_go),
+            onClick = onLetsGoAction
+        )
+
     }
 }
 
@@ -69,10 +83,10 @@ fun InitContentPreview() {
                 0L,
                 "DFHsdfh sdf",
                 "sldkgsd sdfg sdf gsdf gsdf gsdfgsd fgsdf g"
-            )
+            ),
+            false
         )
-
-    )
+    ) {}
 }
 
 @Preview
@@ -80,7 +94,8 @@ fun InitContentPreview() {
 private fun SuccessContainerView() {
     ContainerView(
         container = Container.Success("twest test test"),
-        onTryAgainAction = {}) { value ->
+        onTryAgainAction = {}
+    ) { value ->
         Text(
             text = value
         )

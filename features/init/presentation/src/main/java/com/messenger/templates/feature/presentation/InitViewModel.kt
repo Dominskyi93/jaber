@@ -9,7 +9,6 @@ import com.messenger.templates.domain.entities.KeyFeature
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -24,25 +23,15 @@ class InitViewModel @Inject constructor(
 
     val stateFlow: StateFlow<Container<State>> =
         getKeyFeatureUseCase.invoke()
-            .containerMap { keyFeature -> State(keyFeature) }
+            .containerMap { keyFeature -> State(keyFeature, false) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Container.Loading)
 
+    fun letsGo() {
 
-    fun <T> ViewModel.load(
-        loader: suspend () -> T
-    ): StateFlow<Container<T>> {
-        return flow {
-            emit(Container.Loading)
-            try {
-                val result = loader()
-                emit(Container.Success(result))
-            } catch (e: Exception) {
-                emit(Container.Error(e))
-            }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Container.Loading)
     }
 
     data class State(
-        val keyFeature: KeyFeature
+        val keyFeature: KeyFeature,
+        val isCheckAuthInProgress: Boolean
     )
 }
