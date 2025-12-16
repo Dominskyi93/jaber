@@ -4,23 +4,48 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 sealed class Container<out T> {
-    abstract fun <R> map(mapper: (T) -> R): Container<R>
+
+    abstract fun <R> fold(
+        onSuccess: (T) -> R,
+        onError: (Exception) -> R,
+        onLoading: () -> R
+    ): R
 
     data object Loading : Container<Nothing>() {
-        override fun <R> map(mapper: (Nothing) -> R) = Loading
+        override fun <R> fold(
+            onSuccess: (Nothing) -> R,
+            onError: (Exception) -> R,
+            onLoading: () -> R
+        ): R = onLoading()
     }
 
     data class Error(
         val exception: Exception
     ) : Container<Nothing>() {
-        override fun <R> map(mapper: (Nothing) -> R) = this
+        override fun <R> fold(
+            onSuccess: (Nothing) -> R,
+            onError: (Exception) -> R,
+            onLoading: () -> R
+        ): R = onError(exception)
     }
 
     data class Success<T>(
         val value: T
     ) : Container<T>() {
-        override fun <R> map(mapper: (T) -> R) = Success(mapper(value))
+        override fun <R> fold(
+            onSuccess: (T) -> R,
+            onError: (Exception) -> R,
+            onLoading: () -> R
+        ): R = onSuccess(value)
     }
+}
+
+fun <T, R> Container<T>.map(mapper: (T) -> R): Container<R> {
+    return fold(
+        onSuccess = { Container.Success(mapper(it)) },
+        onError = { Container.Error(it) },
+        onLoading = { Container.Loading }
+    )
 }
 
 fun <T, R> Flow<Container<T>>.containerMap(

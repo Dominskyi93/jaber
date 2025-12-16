@@ -16,9 +16,10 @@ android {
 dependencies {
     api(projects.features.init.domain)
     implementation(projects.core.essentials)
+    implementation(projects.core.theme)
     //hilt
     implementation(libs.hilt.android)
-    implementation(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     //compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
