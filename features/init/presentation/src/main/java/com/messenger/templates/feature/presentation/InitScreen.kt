@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.messenger.core.essentials.Container
-import com.messenger.core.essentials.exceptions.ConnectionExceptionAbstractCore
+import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
@@ -118,7 +118,7 @@ private fun PendingContainerView() {
 @Composable
 private fun ErrorContainerView() {
     ContainerView<String>(
-        container = Container.Error(ConnectionExceptionAbstractCore()),
+        container = Container.Error(ConnectionException()),
         onTryAgainAction = {}) { value ->
         Text(
             text = value
