@@ -62,4 +62,3 @@ hilt = { id = "com.google.dagger.hilt.android" }
 ksp = { id = "com.google.devtools.ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization"}
-

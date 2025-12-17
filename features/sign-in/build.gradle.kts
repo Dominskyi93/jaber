@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.messenger.jaber.navigation"
+    namespace = "com.messenger.jaber.feature.signin"
 
     buildFeatures {
         compose = true
