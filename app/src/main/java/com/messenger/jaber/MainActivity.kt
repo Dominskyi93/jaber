@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import com.messenger.common.android.AndroidExceptionHandler
 import com.messenger.core.essentials.logger.Logger
 import com.messenger.jaber.ui.theme.JaberTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,12 +34,16 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var logger: Logger
 
+    @Inject
+    lateinit var exceptionHandler: AndroidExceptionHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logger.d("MainActivity:onCreate")
         setContent {
             JaberTheme {
                 JaberApp()
+                exceptionHandler.ErrorDialog()
             }
         }
     }

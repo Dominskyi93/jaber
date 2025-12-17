@@ -35,8 +35,4 @@ interface CommonAndroidModule {
         impl: DefaultExceptionMessageMapper
     ): ExceptionToMessageMapper
 
-    @Binds
-    fun bindExceptionHandler(
-        impl: AndroidExceptionHandler
-    ): ExceptionHandler
 }
