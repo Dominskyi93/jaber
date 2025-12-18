@@ -1,14 +1,16 @@
-package com.messenger.templates.feature.presentation
+package com.messenger.jaber.feature.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.messenger.core.essentials.Container
 import com.messenger.core.essentials.exceptions.handler.ExceptionHandler
 import com.messenger.core.essentials.map
-import com.messenger.templates.domain.IsAuthorizedUseCase
-import com.messenger.templates.domain.entities.KeyFeature
+import com.messenger.jaber.domain.GetKeyFeatureUseCase
+import com.messenger.jaber.domain.IsAuthorizedUseCase
+import com.messenger.jaber.domain.entities.KeyFeature
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,17 +20,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-interface GetKeyFeatureUseCase {
-    operator fun invoke(): Flow<Container<KeyFeature>>
-}
-
+@HiltViewModel
 class InitViewModel @Inject constructor(
-    private val getKeyFeatureUseCase: GetKeyFeatureUseCase,
+    getKeyFeatureUseCase: GetKeyFeatureUseCase,
     private val isAuthorizedUseCase: IsAuthorizedUseCase,
     private val exceptionHandler: ExceptionHandler
 ) : ViewModel() {
 
     private val vmStateFlow = MutableStateFlow(ViewModelState())
+
+    private val _effectsFlow = MutableStateFlow(Effects())
+    val effectsFlow: StateFlow<Effects> = _effectsFlow
 
     val stateFlow: StateFlow<Container<State>> = combine(
         getKeyFeatureUseCase.invoke(),
@@ -47,14 +49,20 @@ class InitViewModel @Inject constructor(
                 if (isAuthorized) {
 
                 } else {
-
+                    _effectsFlow.update { it.copy(launchSignInScreen = Unit) }
                 }
+                delay(2000)
+                hideProgress()
             } catch (e: Exception) {
                 ensureActive()
                 hideProgress()
                 exceptionHandler.handleException(e)
             }
         }
+    }
+
+    fun onLaunchSignInProcessed() {
+        _effectsFlow.update { it.copy(launchSignInScreen = null) }
     }
 
     private fun showProgress() {
@@ -65,12 +73,16 @@ class InitViewModel @Inject constructor(
         vmStateFlow.update { it.copy(isCheckAuthInProgress = false) }
     }
 
+    private data class ViewModelState(
+        val isCheckAuthInProgress: Boolean = false
+    )
+
     data class State(
         val keyFeature: KeyFeature,
         val isCheckAuthInProgress: Boolean
     )
 
-    private data class ViewModelState(
-        val isCheckAuthInProgress: Boolean = false
+    data class Effects(
+        val launchSignInScreen: Unit? = null
     )
 }

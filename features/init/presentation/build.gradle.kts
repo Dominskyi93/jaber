@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.messenger.jaber.features.init.presentation"
+    namespace = "com.messenger.jaber.feature.presentation"
 
     buildFeatures {
         compose = true

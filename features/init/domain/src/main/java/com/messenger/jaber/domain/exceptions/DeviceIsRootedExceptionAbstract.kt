@@ -1,9 +1,9 @@
-package com.messenger.templates.domain.exceptions
+package com.messenger.jaber.domain.exceptions
 
 import com.messenger.core.essentials.exceptions.base.AbstractAppException
 import com.messenger.core.essentials.resources.StringProviderStore
 import com.messenger.core.essentials.exceptions.base.WithLocalizedMessage
-import com.messenger.templates.domain.resources.InitStringProvider
+import com.messenger.jaber.domain.resources.InitStringProvider
 
 class DeviceIsRootedExceptionAbstract() : InitAbstractAppException("Device is rooted") {
     override fun getLocalizedErrorMessage(stringProvider: InitStringProvider): String {

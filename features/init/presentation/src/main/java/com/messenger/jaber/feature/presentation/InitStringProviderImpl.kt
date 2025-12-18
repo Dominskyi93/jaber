@@ -1,7 +1,7 @@
-package com.messenger.templates.feature.presentation
+package com.messenger.jaber.feature.presentation
 
 import android.content.Context
-import com.messenger.templates.domain.resources.InitStringProvider
+import com.messenger.jaber.domain.resources.InitStringProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.messenger.templates.domain.resources
+package com.messenger.jaber.domain.resources
 
 import com.messenger.core.essentials.resources.StringProvider
 

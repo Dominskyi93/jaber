@@ -1,4 +1,4 @@
-package com.messenger.templates.domain.entities
+package com.messenger.jaber.domain.entities
 
 data class KeyFeature(
     val id: Long,

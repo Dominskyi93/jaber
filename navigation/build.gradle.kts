@@ -15,6 +15,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.features.init.presentation)
+    implementation(projects.features.signIn.presentation)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

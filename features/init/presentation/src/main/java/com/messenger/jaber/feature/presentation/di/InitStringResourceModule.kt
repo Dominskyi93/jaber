@@ -1,8 +1,8 @@
-package com.messenger.templates.feature.presentation.di
+package com.messenger.jaber.feature.presentation.di
 
 import com.messenger.core.essentials.resources.StringProvider
-import com.messenger.templates.domain.resources.InitStringProvider
-import com.messenger.templates.feature.presentation.InitStringProviderImpl
+import com.messenger.jaber.domain.resources.InitStringProvider
+import com.messenger.jaber.feature.presentation.InitStringProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

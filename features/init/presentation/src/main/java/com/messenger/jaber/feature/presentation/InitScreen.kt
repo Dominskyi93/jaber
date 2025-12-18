@@ -1,4 +1,4 @@
-package com.messenger.templates.feature.presentation
+package com.messenger.jaber.feature.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,11 +22,16 @@ import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
-import com.messenger.templates.domain.entities.KeyFeature
+import com.messenger.jaber.domain.entities.KeyFeature
 
 @Composable
 fun InitScreen(viewModel: InitViewModel = hiltViewModel()) {
     val container by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val effects by viewModel.effectsFlow.collectAsStateWithLifecycle()
+
+    LaunchedEffect(effects.launchSignInScreen) {
+
+    }
 
     ContainerView(
         container = container,
