@@ -1,4 +1,4 @@
-package com.messenger.jaber.feature.signin.domain
+package com.messenger.jaber.signin.domain
 
 import org.junit.Test
 
