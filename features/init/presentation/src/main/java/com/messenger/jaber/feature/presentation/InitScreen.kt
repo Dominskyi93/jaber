@@ -25,12 +25,18 @@ import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.domain.entities.KeyFeature
 
 @Composable
-fun InitScreen(viewModel: InitViewModel = hiltViewModel()) {
+fun InitScreen(
+    onLaunchSignInScreen: () -> Unit,
+    viewModel: InitViewModel = hiltViewModel()
+) {
     val container by viewModel.stateFlow.collectAsStateWithLifecycle()
     val effects by viewModel.effectsFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(effects.launchSignInScreen) {
-
+        effects.launchSignInScreen?.let {
+            onLaunchSignInScreen()
+            viewModel.onLaunchSignInProcessed()
+        }
     }
 
     ContainerView(

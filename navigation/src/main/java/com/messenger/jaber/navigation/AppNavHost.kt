@@ -20,7 +20,7 @@ fun AppNavHost(
     val navController = rememberNavController()
     val navGraph = remember {
         navController.createGraph(startDestination) {
-            buildAppNavGraph()
+            buildAppNavGraph(navController)
             nanGraphBuilder()
         }
     }
