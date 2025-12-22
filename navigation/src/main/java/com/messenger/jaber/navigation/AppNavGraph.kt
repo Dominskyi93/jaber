@@ -10,13 +10,7 @@ fun NavGraphBuilder.buildAppNavGraph(
     navController: NavController
 ) {
     composable<InitRoute> {
-        InitScreen(
-            onLaunchSignInScreen = {
-                navController.navigate(SignInRoute) {
-                    popUpTo(0)
-                }
-            }
-        )
+        InitScreen()
     }
     composable<SignInRoute> {
         SignInScreen()

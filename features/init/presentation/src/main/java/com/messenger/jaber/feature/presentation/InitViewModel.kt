@@ -23,14 +23,12 @@ import javax.inject.Inject
 @HiltViewModel
 class InitViewModel @Inject constructor(
     getKeyFeatureUseCase: GetKeyFeatureUseCase,
+    private val router: InitRouter,
     private val isAuthorizedUseCase: IsAuthorizedUseCase,
     private val exceptionHandler: ExceptionHandler
 ) : ViewModel() {
 
     private val vmStateFlow = MutableStateFlow(ViewModelState())
-
-    private val _effectsFlow = MutableStateFlow(Effects())
-    val effectsFlow: StateFlow<Effects> = _effectsFlow
 
     val stateFlow: StateFlow<Container<State>> = combine(
         getKeyFeatureUseCase.invoke(),
@@ -49,7 +47,7 @@ class InitViewModel @Inject constructor(
                 if (isAuthorized) {
 
                 } else {
-                    _effectsFlow.update { it.copy(launchSignInScreen = Unit) }
+                    router.launchSignIn()
                 }
                 delay(2000)
                 hideProgress()
@@ -59,10 +57,6 @@ class InitViewModel @Inject constructor(
                 exceptionHandler.handleException(e)
             }
         }
-    }
-
-    fun onLaunchSignInProcessed() {
-        _effectsFlow.update { it.copy(launchSignInScreen = null) }
     }
 
     private fun showProgress() {
@@ -80,9 +74,5 @@ class InitViewModel @Inject constructor(
     data class State(
         val keyFeature: KeyFeature,
         val isCheckAuthInProgress: Boolean
-    )
-
-    data class Effects(
-        val launchSignInScreen: Unit? = null
     )
 }

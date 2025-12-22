@@ -13,9 +13,9 @@ import androidx.navigation.createGraph
 
 @Composable
 fun AppNavHost(
+    modifier: Modifier = Modifier,
     startDestination: Route = InitRoute,
-    nanGraphBuilder: NavGraphBuilder.() -> Unit = {},
-    modifier: Modifier = Modifier
+    nanGraphBuilder: NavGraphBuilder.() -> Unit = {}
 ) {
     val navController = rememberNavController()
     val navGraph = remember {
@@ -36,5 +36,4 @@ fun AppNavHost(
             graph = navGraph
         )
     }
-
 }
