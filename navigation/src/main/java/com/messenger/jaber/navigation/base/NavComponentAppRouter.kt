@@ -1,7 +1,11 @@
 package com.messenger.jaber.navigation.base
 
+import androidx.compose.runtime.Composable
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.messenger.jaber.navigation.Route
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
@@ -41,6 +45,18 @@ class NavComponentAppRouter @Inject constructor() : AppRouter {
             command.invoke(navController)
         } else {
             commands.add(command)
+        }
+    }
+
+    @HiltViewModel
+    class VM @Inject constructor(
+        val appRouter: NavComponentAppRouter
+    ) : ViewModel()
+
+    companion object {
+        @Composable
+        fun get(): NavComponentAppRouter {
+            return hiltViewModel<VM>().appRouter
         }
     }
 
