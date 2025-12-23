@@ -17,6 +17,7 @@ navigation = "2.9.6"
 hiltNavigation = "1.3.0"
 coroutines = "1.10.2"
 serialization = "2.2.21"
+effects = "2.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +45,8 @@ javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+effects-hilt-compose = { module = "com.uandcode:effects2-hilt-compose", version.ref = "effects"}
+effects-hilt-compiler = { module = "com.uandcode:effects2-hilt-compiler", version.ref = "effects"}
 
 plugin-android-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
