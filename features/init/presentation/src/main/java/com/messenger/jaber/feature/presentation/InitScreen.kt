@@ -21,23 +21,28 @@ import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
+import com.messenger.jaber.core.navigation.dsl.ScreenScope
+import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.domain.entities.KeyFeature
 
 @Composable
-fun InitScreen(
+fun ScreenScope.initScreen(
     viewModel: InitViewModel = hiltViewModel()
 ) {
-    val container by viewModel.stateFlow.collectAsStateWithLifecycle()
+    toolbar = ScreenToolbar.Hidden
+    content {
+        val container by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    ContainerView(
-        container = container,
-        modifier = Modifier.fillMaxSize(),
-        onTryAgainAction = {}
-    ) { state ->
-        InitContent(
-            state = state,
-            onLetsGoAction = viewModel::letsGo
-        )
+        ContainerView(
+            container = container,
+            modifier = Modifier.fillMaxSize(),
+            onTryAgainAction = {}
+        ) { state ->
+            InitContent(
+                state = state,
+                onLetsGoAction = viewModel::letsGo
+            )
+        }
     }
 }
 

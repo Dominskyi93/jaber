@@ -15,6 +15,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.navigationDsl)
     implementation(projects.features.init.presentation)
     implementation(projects.features.signIn.presentation)
     //hilt

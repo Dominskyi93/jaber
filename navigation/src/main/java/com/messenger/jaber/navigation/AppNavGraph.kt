@@ -1,15 +1,15 @@
 package com.messenger.jaber.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.messenger.jaber.feature.presentation.InitScreen
-import com.messenger.jaber.signin.presentation.SignInScreen
+import com.messenger.jaber.feature.presentation.initScreen
+import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
+import com.messenger.jaber.navigation.base.composable
+import com.messenger.jaber.signin.presentation.signInScreen
 
-fun NavGraphBuilder.buildAppNavGraph() {
+fun ExtendedNavGraphBuilder.buildAppNavGraph() {
     composable<InitRoute> {
-        InitScreen()
+        initScreen()
     }
     composable<SignInRoute> {
-        SignInScreen()
+        signInScreen()
     }
 }

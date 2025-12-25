@@ -14,9 +14,10 @@ android {
 }
 
 dependencies {
-    api(projects.features.init.domain)
+    api(projects.features.signIn.domain)
     implementation(projects.core.essentials)
     implementation(projects.core.theme)
+    implementation(projects.core.navigationDsl)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
