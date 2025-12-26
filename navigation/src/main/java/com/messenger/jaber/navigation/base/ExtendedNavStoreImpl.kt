@@ -34,7 +34,6 @@ class ExtendedNavStoreImpl(
         content: ScreenScope.(T) -> Unit
     ) {
         configurations[routeClass] = Configuration(content)
-
     }
 
     @Composable
@@ -65,8 +64,7 @@ class ExtendedNavStoreImpl(
     }
 
     private class Configuration<T : Route>(
-        private val content: (ScreenScope.(T) -> Unit)
-
+        private val content: ScreenScope.(T) -> Unit
     ) {
         fun applyTo(screenScope: ScreenScope, route: T) {
             screenScope.content(route)

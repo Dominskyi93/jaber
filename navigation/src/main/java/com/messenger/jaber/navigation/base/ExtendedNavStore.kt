@@ -15,7 +15,7 @@ interface ExtendedNavStore {
 
     fun <T : Route> registerConfiguration(
         routeClass: KClass<T>,
-        content: (ScreenScope.(T) -> Unit)
+        content: ScreenScope.(T) -> Unit
     )
 
     @Composable

@@ -25,12 +25,10 @@ import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.domain.entities.KeyFeature
 
-@Composable
-fun ScreenScope.initScreen(
-    viewModel: InitViewModel = hiltViewModel()
-) {
+fun ScreenScope.initScreen() {
     toolbar = ScreenToolbar.Hidden
     content {
+        val viewModel: InitViewModel = hiltViewModel()
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()
 
         ContainerView(

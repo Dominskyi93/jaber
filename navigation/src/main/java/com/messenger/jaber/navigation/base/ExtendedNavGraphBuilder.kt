@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 interface ExtendedNavGraphBuilder {
     fun <T : Route> composable(
         routeClass: KClass<T>,
-        content: (ScreenScope.(T) -> Unit)
+        content: ScreenScope.(T) -> Unit
     )
 }
 

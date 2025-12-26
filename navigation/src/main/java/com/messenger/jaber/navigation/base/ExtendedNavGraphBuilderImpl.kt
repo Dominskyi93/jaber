@@ -13,7 +13,7 @@ class ExtendedNavGraphBuilderImpl(
 ) : ExtendedNavGraphBuilder {
     override fun <T : Route> composable(
         routeClass: KClass<T>,
-        content: (ScreenScope.(T) -> Unit)
+        content: ScreenScope.(T) -> Unit
     ) {
         navStore.registerConfiguration(routeClass, content)
         navGraphBuilder.composable(routeClass) { navEntry ->
