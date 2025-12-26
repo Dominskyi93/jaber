@@ -1,0 +1,2 @@
+com.messenger.core.essentials.exceptions.mapper.ExceptionToMessageMapper
+com.messenger.core.essentials.entities.**

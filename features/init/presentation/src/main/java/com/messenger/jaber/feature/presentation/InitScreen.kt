@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,10 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.messenger.core.essentials.Container
+import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
+import com.messenger.core.theme.components.ImageView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
@@ -63,6 +66,13 @@ fun InitContent(state: InitViewModel.State, onLetsGoAction: () -> Unit) {
 
         MediumVerticalSpace()
 
+        ImageView(
+            imageSource = keyFeature.image,
+            modifier = Modifier.size(Dimens.LargeImageSize)
+        )
+
+        MediumVerticalSpace()
+
         Text(
             text = keyFeature.description,
             textAlign = TextAlign.Center
@@ -85,9 +95,10 @@ fun InitContentPreview() {
     InitContent(
         InitViewModel.State(
             KeyFeature(
-                0L,
-                "Lorem ipsu",
-                "Lorem ipsum dolor sit amet, consetet"
+                id = 0L,
+                title = "Lorem ipsu",
+                description = "Lorem ipsum dolor sit amet, consetet",
+                image = ImageSource.Empty
             ),
             false
         )

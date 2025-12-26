@@ -17,6 +17,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.okhttp)
     //compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
