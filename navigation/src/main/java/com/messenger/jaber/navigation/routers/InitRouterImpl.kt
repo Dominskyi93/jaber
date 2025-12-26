@@ -15,5 +15,4 @@ class InitRouterImpl @Inject constructor(
     override fun navigateUp() {
         appRouter.goBack()
     }
-
 }

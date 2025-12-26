@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
@@ -41,7 +42,8 @@ fun BoxScope.SignInContent(
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "SignInScreen, authorize = $container"
+                text = "SignInScreen, authorize = $container",
+                textAlign = TextAlign.Center
             )
         }
     }

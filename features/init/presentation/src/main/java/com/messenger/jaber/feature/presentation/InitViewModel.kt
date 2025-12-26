@@ -9,7 +9,6 @@ import com.messenger.jaber.domain.GetKeyFeatureUseCase
 import com.messenger.jaber.domain.IsAuthorizedUseCase
 import com.messenger.jaber.domain.entities.KeyFeature
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,8 +48,6 @@ class InitViewModel @Inject constructor(
                 } else {
                     router.launchSignIn()
                 }
-                delay(2000)
-                hideProgress()
             } catch (e: Exception) {
                 ensureActive()
                 hideProgress()

@@ -1,18 +1,15 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.messenger.jaber.navigation
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
@@ -46,6 +43,7 @@ fun AppNavHost(
             }
         }
     }
+    var showBackButton by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         val navigator = navController
@@ -53,6 +51,7 @@ fun AppNavHost(
             .getNavigator(ComposeNavigator::class.java)
         navigator.backStack.collect { backStack ->
             navStore.onBackStackChanged(backStack)
+            showBackButton = backStack.size > 1
         }
     }
 
@@ -74,24 +73,20 @@ fun AppNavHost(
         topBar = {
             val toolbar = navStore.screen.toolbar
             if (toolbar is ScreenToolbar.Default) {
-                TopAppBar(
-                    title = {
-                        Text(toolbar.title)
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                    )
+                AppToolBar(
+                    title = toolbar.title,
+                    showBackButton = showBackButton,
+                    onBackPressed = { navController.navigateUp() },
                 )
-
             }
-
         },
         modifier = modifier
     ) { paddingValues ->
+        val topPadding = animateDpAsState(paddingValues.calculateTopPadding())
         NavHost(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(top = topPadding.value),
             navController = navController,
             graph = navGraph
         )
