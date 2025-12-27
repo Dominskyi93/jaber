@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.messenger.common.android.AndroidExceptionHandler
 import com.messenger.core.essentials.logger.Logger
+import com.messenger.core.theme.material.JaberTheme
 import com.messenger.jaber.navigation.AppNavHost
-import com.messenger.jaber.ui.theme.JaberTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

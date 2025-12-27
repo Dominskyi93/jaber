@@ -1,16 +1,24 @@
 package com.messenger.jaber.feature.presentation
 
+import android.content.res.Configuration
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,9 +32,12 @@ import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ImageView
 import com.messenger.core.theme.components.ProgressButton
+import com.messenger.core.theme.previews.PreviewScreenContent
+import com.messenger.core.theme.previews.ScreenPreview
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.domain.entities.KeyFeature
+import kotlinx.coroutines.delay
 
 fun ScreenScope.initScreen() {
     toolbar = ScreenToolbar.Hidden
@@ -48,11 +59,21 @@ fun ScreenScope.initScreen() {
 }
 
 @Composable
-fun InitContent(state: InitViewModel.State, onLetsGoAction: () -> Unit) {
+fun InitPortraitContent(
+    state: InitViewModel.State,
+    onLetsGoAction: () -> Unit
+) {
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(Unit) {
+        delay(1000)
+        scrollState.animateScrollTo(scrollState.maxValue, tween(1000))
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .padding(Dimens.MediumPadding),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -85,13 +106,80 @@ fun InitContent(state: InitViewModel.State, onLetsGoAction: () -> Unit) {
             text = stringResource(R.string.let_s_go),
             onClick = onLetsGoAction
         )
-
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun InitContentPreview() {
+fun InitContent(
+    state: InitViewModel.State,
+    onLetsGoAction: () -> Unit
+) {
+    val configuration = LocalConfiguration.current
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        InitLandscapeContent(
+            state = state,
+            onLetsGoAction = onLetsGoAction
+        )
+    } else {
+        InitPortraitContent(
+            state = state,
+            onLetsGoAction = onLetsGoAction
+        )
+    }
+}
+
+@Composable
+fun InitLandscapeContent(
+    state: InitViewModel.State,
+    onLetsGoAction: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val keyFeature = state.keyFeature
+        Column(
+            modifier = Modifier
+                .padding(Dimens.MediumPadding)
+                .weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = keyFeature.title,
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center
+            )
+
+            MediumVerticalSpace()
+
+            Text(
+                text = keyFeature.description,
+                textAlign = TextAlign.Center
+            )
+
+            MediumVerticalSpace()
+
+            ProgressButton(
+                isInProgress = state.isCheckAuthInProgress,
+                text = stringResource(R.string.let_s_go),
+                onClick = onLetsGoAction
+            )
+        }
+        ImageView(
+            imageSource = keyFeature.image,
+            modifier = Modifier
+                .wrapContentSize()
+                .size(Dimens.LargeImageSize)
+                .weight(1f)
+        )
+    }
+}
+
+@ScreenPreview
+@Composable
+fun InitContentPreview() = PreviewScreenContent {
     InitContent(
         InitViewModel.State(
             KeyFeature(

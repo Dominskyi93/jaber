@@ -1,4 +1,4 @@
-package com.messenger.jaber.ui.theme
+package com.messenger.core.theme.material
 
 import androidx.compose.ui.graphics.Color
 

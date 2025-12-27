@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
 import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.core.theme.R
 import com.messenger.core.theme.Shapes
@@ -41,10 +41,16 @@ fun RemoteImageView(
     contentDescription: String?,
     modifier: Modifier = Modifier
 ) {
-    AsyncImage(
+    SubcomposeAsyncImage(
         model = url,
         modifier = modifier,
-        contentDescription = contentDescription
+        contentDescription = contentDescription,
+        error = {
+            EmptyImageView(
+                modifier = Modifier.matchParentSize(),
+                contentDescription = contentDescription
+            )
+        }
     )
 }
 

@@ -16,6 +16,7 @@ android {
 
 dependencies {
     implementation(projects.core.commonAndroid)
+    implementation(projects.core.theme)
     api(projects.features.init.presentation)
     api(projects.navigation)
 
