@@ -42,6 +42,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
