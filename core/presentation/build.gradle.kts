@@ -15,8 +15,8 @@ android {
 
 dependencies {
     implementation(projects.core.essentials)
-    implementation(projects.core.theme)
-    implementation(projects.core.navigationDsl)
+//    implementation(projects.core.theme)
+//    implementation(projects.core.navigationDsl)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -30,8 +30,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     //navigation
-    implementation(libs.navigation.compose)
-    implementation(libs.hilt.navigation)
+//    implementation(libs.navigation.compose)
+//    implementation(libs.hilt.navigation)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

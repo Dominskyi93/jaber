@@ -1,10 +1,10 @@
 package com.messenger.jaber.feature.presentation
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.messenger.core.essentials.Container
-import com.messenger.core.essentials.exceptions.handler.ExceptionHandler
 import com.messenger.core.essentials.map
+import com.messenger.jaber.core.presentation.AbstractViewModel
+import com.messenger.jaber.core.presentation.WithCommonDependencies
 import com.messenger.jaber.domain.IsAuthorizedUseCase
 import com.messenger.jaber.domain.ShowRandomKeyFeatureUseCase
 import com.messenger.jaber.domain.entities.KeyFeature
@@ -26,9 +26,8 @@ import javax.inject.Inject
 class InitViewModel @Inject constructor(
     showRandomKeyFeature: ShowRandomKeyFeatureUseCase,
     private val router: InitRouter,
-    private val isAuthorizedUseCase: IsAuthorizedUseCase,
-    private val exceptionHandler: ExceptionHandler
-) : ViewModel() {
+    private val isAuthorizedUseCase: IsAuthorizedUseCase
+) : AbstractViewModel(), WithCommonDependencies {
 
     private val vmStateFlow = MutableStateFlow(ViewModelState())
 
@@ -51,7 +50,6 @@ class InitViewModel @Inject constructor(
             State(keyFeature, vmState.isCheckAuthInProgress)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Container.Loading)
-
 
     fun letsGo() {
         viewModelScope.launch {

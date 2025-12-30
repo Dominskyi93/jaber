@@ -16,6 +16,7 @@ android {
 dependencies {
     api(projects.features.init.domain)
     implementation(projects.core.essentials)
+    implementation(projects.core.presentation)
     implementation(projects.core.theme)
     implementation(projects.core.navigationDsl)
     //hilt
