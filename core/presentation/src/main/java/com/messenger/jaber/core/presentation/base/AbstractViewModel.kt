@@ -1,4 +1,4 @@
-package com.messenger.jaber.core.presentation
+package com.messenger.jaber.core.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

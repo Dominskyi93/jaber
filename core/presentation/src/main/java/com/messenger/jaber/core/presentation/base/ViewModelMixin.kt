@@ -1,4 +1,4 @@
-package com.messenger.jaber.core.presentation
+package com.messenger.jaber.core.presentation.base
 
 import kotlinx.coroutines.CoroutineScope
 import kotlin.reflect.KClass

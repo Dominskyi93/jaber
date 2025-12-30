@@ -3,8 +3,8 @@ package com.messenger.jaber.feature.presentation
 import androidx.lifecycle.viewModelScope
 import com.messenger.core.essentials.Container
 import com.messenger.core.essentials.map
-import com.messenger.jaber.core.presentation.AbstractViewModel
-import com.messenger.jaber.core.presentation.WithCommonDependencies
+import com.messenger.jaber.core.presentation.WithMviState
+import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.domain.IsAuthorizedUseCase
 import com.messenger.jaber.domain.ShowRandomKeyFeatureUseCase
 import com.messenger.jaber.domain.entities.KeyFeature
@@ -27,7 +27,8 @@ class InitViewModel @Inject constructor(
     showRandomKeyFeature: ShowRandomKeyFeatureUseCase,
     private val router: InitRouter,
     private val isAuthorizedUseCase: IsAuthorizedUseCase
-) : AbstractViewModel(), WithCommonDependencies {
+) : AbstractViewModel(),
+    WithMviState<InitViewModel.State> {
 
     private val vmStateFlow = MutableStateFlow(ViewModelState())
 
