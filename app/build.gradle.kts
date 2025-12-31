@@ -17,8 +17,9 @@ android {
 dependencies {
     implementation(projects.core.commonAndroid)
     implementation(projects.core.theme)
-    api(projects.features.init.presentation)
-    api(projects.navigation)
+    implementation(projects.features.init.presentation)
+    implementation(projects.navigation)
+    implementation(projects.glue)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

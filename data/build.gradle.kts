@@ -9,11 +9,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.essentials)
+    api(projects.core.essentials)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.datastore.preferences)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

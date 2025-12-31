@@ -9,7 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.essentials)
+    implementation(projects.data)
+    implementation(projects.features.init.presentation)
+    implementation(projects.features.signIn.presentation)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

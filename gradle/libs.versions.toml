@@ -19,6 +19,7 @@ coroutines = "1.10.2"
 serialization = "2.2.21"
 effects = "2.0.0"
 coil = "3.3.0"
+datastore = "1.1.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,7 @@ effects-hilt-compose = { module = "com.uandcode:effects2-hilt-compose", version.
 effects-hilt-compiler = { module = "com.uandcode:effects2-hilt-compiler", version.ref = "effects" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
 
 plugin-android-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
