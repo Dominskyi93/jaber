@@ -8,4 +8,6 @@ sealed interface ImageSource {
         val url: String
     ) : ImageSource
 
+    data class Resource(val resId: Int) : ImageSource
+
 }

@@ -1,12 +1,13 @@
 package com.messenger.jaber.domain.entities
 
+import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.entities.ImageSource
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 data class KeyFeature(
-    val id: Long,
+    val id: Id,
     val title: String,
     val description: String,
     val image: ImageSource,

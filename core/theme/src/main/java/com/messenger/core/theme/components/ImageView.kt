@@ -32,7 +32,31 @@ fun ImageView(
                 contentDescription = contentDescription
             )
         }
+
+        is ImageSource.Resource -> {
+            LocalImageView(
+                resId = imageSource.resId,
+                modifier = modifier,
+                contentDescription = contentDescription
+            )
+        }
     }
+}
+
+@Composable
+fun LocalImageView(
+    resId: Int,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(resId),
+        contentDescription = contentDescription,
+        modifier = modifier.background(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            shape = Shapes.MediumRoundedCornerShape
+        )
+    )
 }
 
 @Composable
@@ -59,8 +83,8 @@ fun EmptyImageView(
     modifier: Modifier = Modifier,
     contentDescription: String? = null
 ) {
-    Image(
-        painter = painterResource(R.drawable.ic_empty_image),
+    LocalImageView(
+        resId = R.drawable.ic_empty_image,
         contentDescription = contentDescription,
         modifier = modifier.background(
             color = MaterialTheme.colorScheme.secondaryContainer,

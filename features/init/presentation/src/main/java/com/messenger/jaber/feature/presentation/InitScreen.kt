@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.messenger.core.essentials.Container
+import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
@@ -183,7 +184,7 @@ fun InitContentPreview() = PreviewScreenContent {
     InitContent(
         InitViewModel.State(
             KeyFeature(
-                id = 0L,
+                id = Id.Empty,
                 title = "Lorem ipsu",
                 description = "Lorem ipsum dolor sit amet, consetet",
                 image = ImageSource.Empty
