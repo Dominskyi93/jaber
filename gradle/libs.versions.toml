@@ -1,5 +1,8 @@
 [versions]
 agp = "8.13.2"
+firebaseAuth = "24.0.1"
+firebaseBom = "34.6.0"
+googleServices = "4.4.4"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -39,6 +42,8 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -52,7 +57,7 @@ effects-hilt-compose = { module = "com.uandcode:effects2-hilt-compose", version.
 effects-hilt-compiler = { module = "com.uandcode:effects2-hilt-compiler", version.ref = "effects" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 plugin-android-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
@@ -71,3 +76,4 @@ hilt = { id = "com.google.dagger.hilt.android" }
 ksp = { id = "com.google.devtools.ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

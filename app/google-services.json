@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712384319800",
+    "project_id": "jaber-dbcce",
+    "storage_bucket": "jaber-dbcce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712384319800:android:c86acedc135558bd2eb1cd",
+        "android_client_info": {
+          "package_name": "com.messenger.jaber"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBT0dWnZDpKHFuq1_n3GtkI5Y3lVJyFWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

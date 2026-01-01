@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="signinscreen">SignInScreen</string>
+    <string name="invalid_login_and_or_password">Invalid login and/or password</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="empty_field_error">%1$s is empty</string>
 </resources>

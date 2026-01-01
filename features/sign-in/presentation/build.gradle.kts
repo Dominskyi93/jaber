@@ -21,6 +21,9 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
     //compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
