@@ -10,3 +10,8 @@ import androidx.compose.ui.unit.dp
 fun MediumVerticalSpace() {
     Spacer(Modifier.height(16.dp))
 }
+
+@Composable
+fun SmallVerticalSpace() {
+    Spacer(Modifier.height(10.dp))
+}

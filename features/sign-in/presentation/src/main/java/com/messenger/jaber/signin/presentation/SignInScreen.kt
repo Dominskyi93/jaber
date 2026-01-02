@@ -25,7 +25,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.messenger.core.theme.Dimens
-import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
@@ -80,18 +79,16 @@ fun SignInContent(
                 }
             },
             isError = state.emptyFieldError?.inputField == InputField.LOGIN,
-//            supportingText = if (state.emptyFieldError?.inputField == InputField.LOGIN) {
-//                Text(state.emptyFieldError.message)
-//            } else {
-//                null
-//            },
+            supportingText = {
+                if (state.emptyFieldError?.inputField == InputField.LOGIN) {
+                    Text(state.emptyFieldError.message)
+                }
+            },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
             )
         )
-
-        MediumVerticalSpace()
 
         OutlinedTextField(
             value = password,
@@ -101,6 +98,12 @@ fun SignInContent(
                     onClearErrorMessages()
                 }
             },
+            isError = state.emptyFieldError?.inputField == InputField.PASSWORD,
+            supportingText = {
+                if (state.emptyFieldError?.inputField == InputField.PASSWORD) {
+                    Text(state.emptyFieldError.message)
+                }
+            },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
@@ -108,16 +111,12 @@ fun SignInContent(
             )
         )
 
-        MediumVerticalSpace()
-
         ProgressButton(
             isInProgress = state.isLoginInProgress,
             text = "Sign in"
         ) {
             onSignInAction(Credentials.Default(email, password))
         }
-
-        MediumVerticalSpace()
 
         TextButton(
             onClick = {},
