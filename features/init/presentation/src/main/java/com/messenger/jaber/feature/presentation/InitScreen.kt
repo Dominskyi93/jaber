@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.messenger.core.essentials.Container
+import com.elveum.container.Container
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.core.essentials.exceptions.ConnectionException
@@ -198,7 +198,7 @@ fun InitContentPreview() = PreviewScreenContent {
 @Composable
 private fun SuccessContainerView() {
     ContainerView(
-        container = Container.Success("twest test test"),
+        container = com.elveum.container.Container.Success("twest test test"),
         onTryAgainAction = {}
     ) { value ->
         Text(
@@ -211,7 +211,7 @@ private fun SuccessContainerView() {
 @Composable
 private fun PendingContainerView() {
     ContainerView<String>(
-        container = Container.Loading,
+        container = Container.Pending,
         onTryAgainAction = {}) { value ->
         Text(
             text = value

@@ -10,6 +10,7 @@ android {
 
 dependencies {
     api(projects.core.essentials)
+    implementation(projects.features.signIn.domain)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

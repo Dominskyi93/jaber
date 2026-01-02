@@ -18,9 +18,12 @@ dependencies {
     implementation(projects.core.essentials)
     implementation(projects.core.theme)
     implementation(projects.core.navigationDsl)
+    implementation(projects.core.presentation)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    //container
+    implementation("com.elveum:container:2.0.0-beta05")
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

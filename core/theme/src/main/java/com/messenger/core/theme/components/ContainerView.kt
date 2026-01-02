@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.messenger.core.essentials.Container
+import com.elveum.container.Container
 import com.messenger.core.essentials.exceptions.mapper.ExceptionToMessageMapper
 import com.messenger.core.theme.MediumVerticalSpace
 import com.messenger.core.theme.R
@@ -29,7 +29,7 @@ fun <T> ContainerView(
     Box(modifier.fillMaxSize()) {
         when (container) {
 
-            is Container.Loading -> {
+            is Container.Pending -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )

@@ -2,6 +2,8 @@ package com.messenger.jaber.navigation.di
 
 import com.messenger.jaber.feature.presentation.InitRouter
 import com.messenger.jaber.navigation.routers.InitRouterImpl
+import com.messenger.jaber.navigation.routers.SignInRouterImpl
+import com.messenger.jaber.signin.presentation.SignInRouter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ interface RoutersModule {
     fun bindInitRouter(
         impl: InitRouterImpl
     ): InitRouter
+
+    @Binds
+    fun bindSignInRouter(
+        impl: SignInRouterImpl
+    ): SignInRouter
 }

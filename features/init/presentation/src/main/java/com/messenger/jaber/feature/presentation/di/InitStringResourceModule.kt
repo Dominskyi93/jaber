@@ -17,8 +17,13 @@ interface InitStringResourceModule {
     @Binds
     @IntoMap
     @ClassKey(InitStringProvider::class)
-    fun bindInitStringProvider(
+    fun bindInitStringProviderIntoMap(
         impl: InitStringProviderImpl
     ): StringProvider
+
+    @Binds
+    fun bindInitStringProvider(
+        impl: InitStringProviderImpl
+    ): InitStringProvider
 
 }

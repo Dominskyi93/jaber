@@ -1,32 +1,57 @@
 package com.messenger.jaber.signin.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.messenger.core.essentials.Container
-import com.messenger.core.essentials.map
-import com.messenger.jaber.domain.IsAuthorizedUseCase
-import com.messenger.jaber.signin.domain.Authorize
-import com.messenger.jaber.signin.domain.GetAuthorizedUseCase
+import com.messenger.jaber.core.presentation.WithMviState
+import com.messenger.jaber.core.presentation.base.AbstractViewModel
+import com.messenger.jaber.signin.domain.SignInUseCase
+import com.messenger.jaber.signin.domain.entities.Credentials
+import com.messenger.jaber.signin.domain.entities.InputField
+import com.messenger.jaber.signin.domain.exceptions.EmptyFieldException
+import com.messenger.jaber.signin.domain.resources.SignInStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInVM @Inject constructor(
-    getAuthorizedUseCase: GetAuthorizedUseCase
-) : ViewModel() {
+    private val signInUseCase: SignInUseCase,
+    private val signInStringProvider: SignInStringProvider,
+    private val router: SignInRouter
+) : AbstractViewModel(), WithMviState<SignInVM.State> {
 
-    val stateFlow: StateFlow<Container<State>> =
-        getAuthorizedUseCase.invoke().map { container ->
-            container.map { isAuthorized ->
-                State(defValue = isAuthorized)
-            }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Container.Loading)
+    private val reducer = createReducer(
+        initialState = ::State,
+        nextState = State::copy
+    )
+    val stateFlow = reducer.stateFlow
 
-    class State(
-        val defValue: Authorize
+    fun onLaunchTermAndConditions() = router.launchTermsAndConditions()
+    fun onLaunchPrivacyPolicy() = router.launchPrivacyPolicy()
+
+    fun signIn(credentials: Credentials) = launch {
+        try {
+            signInUseCase.invoke(credentials)
+            router.launchMain()
+        } catch (e: EmptyFieldException) {
+            showEmptyFieldErrorMessage(e.inputField)
+        }
+    }
+
+    fun clearErrorMessages() {
+        reducer.updateState { it.copy(emptyFieldError = null) }
+    }
+
+    private fun showEmptyFieldErrorMessage(field: InputField) {
+        val emptyErrorMessage = signInStringProvider.emptyFieldError(field)
+        val emptyFieldError = EmptyFieldError(field, emptyErrorMessage)
+        reducer.updateState { it.copy(emptyFieldError = emptyFieldError) }
+    }
+
+    data class State(
+        val isLoginInProgress: Boolean = false,
+        val emptyFieldError: EmptyFieldError? = null
+    )
+
+    data class EmptyFieldError(
+        val inputField: InputField,
+        val message: String
     )
 }

@@ -20,6 +20,8 @@ dependencies {
     //coil
     implementation(libs.coil.compose)
     implementation(libs.coil.okhttp)
+    //container
+    implementation("com.elveum:container:2.0.0-beta05")
     //compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
