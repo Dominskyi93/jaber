@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.jaber.data.R
-import com.messenger.jaber.data.VersioningRepository
+import com.messenger.jaber.data.VersioningDataRepository
 import com.messenger.jaber.data.versioning.entities.KeyFeatureDataEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -18,9 +18,9 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class VersioningRepositoryImpl @Inject constructor(
+class VersioningDataRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) : VersioningRepository {
+) : VersioningDataRepository {
 
     override suspend fun getKeyFeatures(): List<KeyFeatureDataEntity> = Id.idGenerator {
         listOf(

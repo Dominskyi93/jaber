@@ -1,7 +1,7 @@
 package com.messenger.jaber.glue.init
 
 import com.messenger.jaber.data.SessionProvider
-import com.messenger.jaber.data.session.entities.Token
+import com.messenger.jaber.data.session.entities.AuthDataToken
 import com.messenger.jaber.domain.repositories.AuthRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -12,7 +12,7 @@ class InitAuthRepository @Inject constructor(
 ) : AuthRepository {
     override suspend fun isAuthorized(): Boolean {
         return sessionProvider.getToken()
-            .map { it !is Token.Empty }
+            .map { it !is AuthDataToken.Empty }
             .first()
     }
 }

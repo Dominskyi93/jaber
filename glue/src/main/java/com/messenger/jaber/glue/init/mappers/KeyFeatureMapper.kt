@@ -1,6 +1,6 @@
 package com.messenger.jaber.glue.init.mappers
 
-import com.messenger.jaber.data.VersioningRepository
+import com.messenger.jaber.data.VersioningDataRepository
 import com.messenger.jaber.data.versioning.entities.KeyFeatureDataEntity
 import com.messenger.jaber.domain.entities.KeyFeature
 import javax.inject.Inject
@@ -11,7 +11,7 @@ interface KeyFeatureMapper {
     ): KeyFeature
 
     class Default @Inject constructor(
-        private val versioningRepository: VersioningRepository
+        private val versioningDataRepository: VersioningDataRepository
     ) : KeyFeatureMapper {
         override suspend fun toFeatureEntity(dataEntity: KeyFeatureDataEntity): KeyFeature {
             return KeyFeature(
@@ -19,7 +19,7 @@ interface KeyFeatureMapper {
                 title = dataEntity.title,
                 description = dataEntity.description,
                 image = dataEntity.image,
-                lastDisplayTime = versioningRepository.getLastDisplayTime(dataEntity.id)
+                lastDisplayTime = versioningDataRepository.getLastDisplayTime(dataEntity.id)
             )
         }
     }

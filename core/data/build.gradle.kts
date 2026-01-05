@@ -6,22 +6,30 @@ plugins {
 }
 
 android {
-    namespace = "com.messenger.jaber.data"
+    namespace = "com.messenger.jaber.core.data"
 }
 
 dependencies {
     api(projects.core.essentials)
-    implementation(projects.core.data)
-    implementation(projects.features.signIn.domain)
+
+    implementation(libs.androidx.core.ktx)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.datastore.preferences)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    //network
+    api(libs.retrofit)
+    api(libs.kotlinx.serialization.json)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+    //container
+    implementation(libs.container)
+    //test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

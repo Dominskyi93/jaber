@@ -5,7 +5,7 @@ import com.messenger.jaber.data.versioning.entities.KeyFeatureDataEntity
 import java.time.Period
 import java.time.ZonedDateTime
 
-interface VersioningRepository {
+interface VersioningDataRepository {
 
     suspend fun getKeyFeatures(): List<KeyFeatureDataEntity>
 

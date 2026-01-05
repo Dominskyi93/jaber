@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.2"
+container = "2.0.0-beta05"
 firebaseAuth = "24.0.1"
 firebaseBom = "34.7.0"
 googleServices = "4.4.4"
@@ -23,9 +24,13 @@ serialization = "2.2.21"
 effects = "2.0.0"
 coil = "3.3.0"
 datastore = "1.2.0"
+okhttp = "5.3.2"
+retrofit = "3.0.0"
+kotlinSerialization = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+container = { module = "com.elveum:container", version.ref = "container" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -58,6 +63,12 @@ effects-hilt-compiler = { module = "com.uandcode:effects2-hilt-compiler", versio
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlinSerialization" }
 
 plugin-android-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
 plugin-kotlin-android = { module = "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }

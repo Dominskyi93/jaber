@@ -1,7 +1,7 @@
 package com.messenger.jaber.data.versioning.di
 
-import com.messenger.jaber.data.VersioningRepository
-import com.messenger.jaber.data.versioning.VersioningRepositoryImpl
+import com.messenger.jaber.data.VersioningDataRepository
+import com.messenger.jaber.data.versioning.VersioningDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ interface VersioningModule {
 
     @Binds
     fun bindVersioningRepository(
-        impl: VersioningRepositoryImpl
-    ): VersioningRepository
+        impl: VersioningDataRepositoryImpl
+    ): VersioningDataRepository
 }
