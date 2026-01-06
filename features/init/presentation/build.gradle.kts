@@ -23,7 +23,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     //container
-    implementation("com.elveum:container:2.0.0-beta05")
+    implementation(libs.container)
     //compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

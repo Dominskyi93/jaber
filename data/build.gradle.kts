@@ -16,6 +16,8 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    //container
+    implementation(libs.container)
 
     implementation(libs.datastore.preferences)
     implementation(libs.androidx.core.ktx)

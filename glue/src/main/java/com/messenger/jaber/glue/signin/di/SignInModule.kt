@@ -1,6 +1,6 @@
 package com.messenger.jaber.glue.signin.di
 
-import com.messenger.jaber.glue.signin.GlueSignInRepository
+import com.messenger.jaber.glue.signin.SignInFeatureRepository
 import com.messenger.jaber.glue.signin.SignInLocalTokenRepository
 import com.messenger.jaber.signin.domain.repositories.LocalTokenRepository
 import com.messenger.jaber.signin.domain.repositories.SignInRepository
@@ -15,7 +15,7 @@ interface SignInModule {
 
     @Binds
     fun bindSignInRepository(
-        impl: GlueSignInRepository
+        impl: SignInFeatureRepository
     ): SignInRepository
 
     @Binds

@@ -2,4 +2,6 @@ package com.messenger.core.essentials.exceptions
 
 import com.messenger.core.essentials.exceptions.base.AbstractAppException
 
-class UnknownExceptionAbstract() : AbstractAppException("Unknown exception")
+class UnknownException(
+    cause: Throwable
+) : AbstractAppException("Unknown exception", cause)

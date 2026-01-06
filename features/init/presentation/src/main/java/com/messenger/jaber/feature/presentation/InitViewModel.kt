@@ -1,7 +1,7 @@
 package com.messenger.jaber.feature.presentation
 
 import com.elveum.container.Container
-import com.elveum.container.factory.ContainerFactory
+import com.elveum.container.factory.SubjectFactory
 import com.elveum.container.factory.createReloadableFlow
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
@@ -23,7 +23,7 @@ class InitViewModel @Inject constructor(
     WithMviState<State> {
 
     private val keyFeatureFlow: Flow<Container<KeyFeature>> =
-        ContainerFactory.createReloadableFlow {
+        SubjectFactory.createReloadableFlow {
             showRandomKeyFeature().collect { result ->
                 when (result) {
                     is ShowKeyFeatureResult.Show -> emit(result.keyFeature)
