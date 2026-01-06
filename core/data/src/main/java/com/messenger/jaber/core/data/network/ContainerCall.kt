@@ -25,9 +25,9 @@ inline fun <T> containerOf(block: () -> T): Container.Completed<T> {
                 ?.error
                 ?: e.message()
         } catch (e: Exception) {
-            errorContainer(InvalidBackendResponseException(e)).exception.message
+            return errorContainer(InvalidBackendResponseException(e))
         }
-        errorContainer(BackendException(code, message ?: "", null))
+        errorContainer(BackendException(code, message, null))
     } catch (e: SerializationException) {
         errorContainer(InvalidBackendResponseException(e))
     } catch (e: IOException) {

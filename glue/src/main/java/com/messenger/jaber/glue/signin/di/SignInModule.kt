@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface SignInModule {
+internal interface SignInModule {
 
     @Binds
     fun bindSignInRepository(
