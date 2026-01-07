@@ -7,8 +7,7 @@ import retrofit2.http.POST
 
 internal interface AccountsApi {
 
-    @POST
-    fun signIn(@Body request: SignInRequestDto): SignInResponseDto
-
+    @POST("login")
+    suspend fun signIn(@Body request: SignInRequestDto): SignInResponseDto
 
 }

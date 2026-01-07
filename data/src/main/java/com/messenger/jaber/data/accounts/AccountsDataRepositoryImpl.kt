@@ -12,7 +12,9 @@ import com.messenger.jaber.data.accounts.remote.AccountsApi
 import com.messenger.jaber.data.accounts.remote.dto.SignInRequestDto
 import com.messenger.jaber.data.session.entities.AuthDataToken
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 internal class AccountsDataRepositoryImpl @Inject constructor(
     private val accountsApi: AccountsApi
 ) : AccountsDataRepository {

@@ -1,5 +1,7 @@
 package com.messenger.jaber.data.session.di
 
+import com.messenger.jaber.core.data.network.interceptors.AuthTokenProvider
+import com.messenger.jaber.data.SessionManager
 import com.messenger.jaber.data.SessionProvider
 import com.messenger.jaber.data.session.SessionManagerImpl
 import dagger.Binds
@@ -15,5 +17,15 @@ internal interface SessionModule {
     fun bindSessionProvider(
         impl: SessionManagerImpl
     ): SessionProvider
+
+    @Binds
+    fun bindSessionManager(
+        impl: SessionManagerImpl
+    ): SessionManager
+
+    @Binds
+    fun bindAuthTokenProvider(
+        impl: SessionManagerImpl
+    ): AuthTokenProvider
 
 }
