@@ -3,7 +3,7 @@ package com.messenger.jaber.core.presentation
 import com.elveum.container.Container
 import com.elveum.container.reducer.ContainerReducer
 import com.elveum.container.reducer.combineContainersToReducer
-import com.elveum.container.reducer.toReducer
+import com.elveum.container.reducer.toContainerReducer
 import com.elveum.container.successContainer
 import com.messenger.jaber.core.presentation.base.ViewModelMixin
 import com.messenger.jaber.core.presentation.base.getMixinState
@@ -65,7 +65,7 @@ interface WithMviState<State> : ViewModelMixin, WithCommonDependencies {
         initialState: suspend (Boolean) -> State,
         nextState: suspend (State, Boolean) -> State
     ): ContainerReducer<State> {
-        return progressStateFlow.toReducer(
+        return progressStateFlow.toContainerReducer(
             initialState = initialState,
             nextState = nextState,
             scope = coroutineScope,

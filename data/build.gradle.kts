@@ -18,6 +18,9 @@ dependencies {
     ksp(libs.hilt.compiler)
     //container
     implementation(libs.container)
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 
     implementation(libs.datastore.preferences)
     implementation(libs.androidx.core.ktx)

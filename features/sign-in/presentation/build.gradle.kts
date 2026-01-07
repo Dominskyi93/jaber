@@ -23,8 +23,8 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     //container
-    implementation("com.elveum:container:2.0.0-beta05")
-    //Firebase
+    implementation(libs.container)
+    //firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     //compose

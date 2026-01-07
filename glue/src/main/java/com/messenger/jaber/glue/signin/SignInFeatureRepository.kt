@@ -2,9 +2,7 @@ package com.messenger.jaber.glue.signin
 
 import com.messenger.jaber.data.AccountsDataRepository
 import com.messenger.jaber.glue.signin.mappers.MappedCredentials
-import com.messenger.jaber.glue.signin.mappers.MappedToken
 import com.messenger.jaber.signin.domain.entities.Credentials
-import com.messenger.jaber.signin.domain.entities.Token
 import com.messenger.jaber.signin.domain.repositories.SignInRepository
 import javax.inject.Inject
 
@@ -12,9 +10,8 @@ internal class SignInFeatureRepository @Inject constructor(
     private val accountsDataRepository: AccountsDataRepository
 ) : SignInRepository {
 
-    override suspend fun signIn(credentials: Credentials): Token {
-        return accountsDataRepository
+    override suspend fun signIn(credentials: Credentials) {
+        accountsDataRepository
             .signIn(MappedCredentials(credentials))
-            .let(::MappedToken)
     }
 }
