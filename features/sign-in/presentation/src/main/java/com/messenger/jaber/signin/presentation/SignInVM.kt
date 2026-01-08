@@ -28,12 +28,19 @@ class SignInVM @Inject constructor(
     fun onLaunchPrivacyPolicy() = router.launchPrivacyPolicy()
 
     fun signIn(credentials: Credentials) = launch {
-        try {
-            val response = signInUseCase(credentials)
-            router.launchMain()
-        } catch (e: EmptyFieldException) {
-            showEmptyFieldErrorMessage(e.inputField)
-        }
+        val result = signInUseCase(credentials)
+        result.fold(
+            onSuccess = {
+                router.launchMain()
+            },
+            onFailure = { e ->
+                when (e) {
+                    is EmptyFieldException ->
+                        showEmptyFieldErrorMessage(e.inputField)
+
+                }
+            }
+        )
     }
 
     fun clearErrorMessages() {
@@ -48,7 +55,7 @@ class SignInVM @Inject constructor(
 
     data class State(
         val isLoginInProgress: Boolean = false,
-        val emptyFieldError: EmptyFieldError? = null
+        val emptyFieldError: EmptyFieldError? = null,
     )
 
     data class EmptyFieldError(

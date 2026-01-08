@@ -19,8 +19,7 @@ class InitViewModel @Inject constructor(
     showRandomKeyFeature: ShowRandomKeyFeatureUseCase,
     private val router: InitRouter,
     private val isAuthorizedUseCase: IsAuthorizedUseCase
-) : AbstractViewModel(),
-    WithMviState<State> {
+) : AbstractViewModel(), WithMviState<State> {
 
     private val keyFeatureFlow: Flow<Container<KeyFeature>> =
         SubjectFactory.createReloadableFlow {
@@ -35,7 +34,6 @@ class InitViewModel @Inject constructor(
     val stateFlow = keyFeatureFlow
         .containerToReducer(::State, State::copy)
         .stateFlow
-
 
     fun letsGo() {
         launch(

@@ -11,7 +11,12 @@ import javax.inject.Singleton
 class FirebaseAuthDataRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : FirebaseAuthDataRepository {
-    override suspend fun signIn(credentials: AuthDataCredentials) {
-        auth.signInWithEmailAndPassword(credentials.login, credentials.password).await()
+    override suspend fun signIn(credentials: AuthDataCredentials): Result<Unit> {
+        return try {
+            auth.signInWithEmailAndPassword(credentials.login, credentials.password).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

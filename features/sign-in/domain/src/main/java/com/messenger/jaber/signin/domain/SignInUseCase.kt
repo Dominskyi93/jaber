@@ -8,5 +8,5 @@ interface SignInUseCase {
      * throws InvalidCredentialsException
      * throws EmptyFieldException
      */
-    suspend operator fun invoke(credentials: Credentials)
+    suspend operator fun invoke(credentials: Credentials): Result<Unit>
 }

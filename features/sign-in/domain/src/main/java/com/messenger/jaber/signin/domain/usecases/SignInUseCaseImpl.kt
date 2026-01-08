@@ -10,8 +10,8 @@ internal class SignInUseCaseImpl @Inject constructor(
     private val signInRepository: SignInRepository
 ) : SignInUseCase {
 
-    override suspend fun invoke(credentials: Credentials) {
+    override suspend fun invoke(credentials: Credentials): Result<Unit> {
         credentials.validate()
-       return signInRepository.signIn(credentials)
+        return signInRepository.signIn(credentials)
     }
 }

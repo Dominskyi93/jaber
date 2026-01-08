@@ -17,7 +17,7 @@ internal class AccountsDataRepositoryImpl @Inject constructor(
 ) : AccountsDataRepository {
     override suspend fun signIn(
         credentials: AuthDataCredentials
-    ) {
+    ): Result<Unit> {
         return containerOf {
             firebaseAuthRepository.signIn(credentials)
         }.mapException(FirebaseAuthInvalidCredentialsException::class) {
