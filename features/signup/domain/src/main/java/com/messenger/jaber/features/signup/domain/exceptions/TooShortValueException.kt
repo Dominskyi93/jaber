@@ -11,6 +11,6 @@ class TooShortValueException(
     message = "$inputField is too short (min required chars = ${inputField.minChars}), current length = ${value.length}"
 ) {
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "${inputField.fieldName(stringProvider)} should not be less than ${inputField.minChars} chars."
+        return stringProvider.tooShortValueError(inputField)
     }
 }

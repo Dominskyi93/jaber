@@ -11,6 +11,6 @@ class InvalidRangeException(
     message = "$inputField should be in range ${inputField.range}."
 ) {
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "${inputField.fieldName(stringProvider)} should be in range ${inputField.range}."
+        return stringProvider.invalidRangeError(inputField)
     }
 }

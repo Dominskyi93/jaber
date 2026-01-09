@@ -17,3 +17,14 @@ interface NewAccount {
         override val lastName: String
     ) : NewAccount
 }
+
+fun NewAccount.toFieldValues(): List<InputFieldValue<*>> {
+    return listOf(
+        InputFieldValue(InputField.Login, login),
+        InputFieldValue(InputField.Password, password),
+        InputFieldValue(InputField.RepeatPassword, repeatPassword),
+        InputFieldValue(InputField.FirstName, firstName),
+        InputFieldValue(InputField.LastName, lastName),
+        InputFieldValue(InputField.Age, age)
+    )
+}

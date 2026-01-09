@@ -10,6 +10,6 @@ class EmptyFieldException(
     message = "$inputField is not be empty"
 ) {
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "${inputField.fieldName(stringProvider)} should not be empty"
+        return stringProvider.emptyFieldError(inputField)
     }
 }

@@ -12,6 +12,6 @@ class LoginAlreadyExistException(
     override val inputField = InputField.Login
 
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "This login already exists."
+        return stringProvider.loginAlreadyExistsError
     }
 }

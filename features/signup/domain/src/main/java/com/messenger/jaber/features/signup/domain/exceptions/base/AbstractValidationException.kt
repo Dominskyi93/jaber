@@ -8,5 +8,5 @@ abstract class AbstractValidationException(
 ) : AbstractSignUpAppException(
     message, cause
 ) {
-    abstract val inputField: InputField
+    abstract val inputField: InputField<*>
 }

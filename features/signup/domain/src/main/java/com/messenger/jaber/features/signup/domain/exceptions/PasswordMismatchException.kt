@@ -11,6 +11,6 @@ class PasswordMismatchException(
     override val inputField = InputField.RepeatPassword
 
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "Password and Repeat Password must contain the same password value."
+        return stringProvider.passwordMismatchError
     }
 }

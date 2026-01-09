@@ -11,6 +11,6 @@ class TooLongValueException(
     message = "$inputField is too long (max required chars = ${inputField.maxChars}), current length = ${value.length}"
 ) {
     override fun getLocalizedErrorMessage(stringProvider: SignUpStringProvider): String {
-        return "${inputField.fieldName(stringProvider)} should not be longer than ${inputField.maxChars} chars."
+        return stringProvider.tooLongValueError(inputField)
     }
 }

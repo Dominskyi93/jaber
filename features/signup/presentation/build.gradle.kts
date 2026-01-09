@@ -8,13 +8,15 @@ plugins {
 android {
     namespace = "com.messenger.jaber.features.signup.presentation"
 
+    resourcePrefix = "signup_"
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-    api(projects.features.signIn.domain)
+    api(projects.features.signup.domain)
     implementation(projects.core.essentials)
     implementation(projects.core.theme)
     implementation(projects.core.navigationDsl)
