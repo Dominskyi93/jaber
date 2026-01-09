@@ -11,4 +11,7 @@ data object InitRoute : Route
 data object SignInRoute : Route
 
 @Serializable
+data object SignUpRoute : Route
+
+@Serializable
 data object MainRoute : Route

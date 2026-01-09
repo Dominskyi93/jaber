@@ -5,4 +5,5 @@ interface SignInRouter {
     fun launchPrivacyPolicy()
     fun navigateUp()
     fun launchMain()
+    fun launchSignUp()
 }

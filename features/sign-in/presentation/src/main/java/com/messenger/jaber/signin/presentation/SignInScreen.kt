@@ -49,6 +49,7 @@ fun ScreenScope.signInScreen() {
             SignInContent(
                 state = state,
                 onSignInAction = viewModel::signIn,
+                onSignUpAction = viewModel::signUp,
                 onClearErrorMessages = viewModel::clearErrorMessages
             )
         }
@@ -59,6 +60,7 @@ fun ScreenScope.signInScreen() {
 fun SignInContent(
     state: SignInVM.State,
     onSignInAction: (Credentials) -> Unit,
+    onSignUpAction: () -> Unit,
     onClearErrorMessages: () -> Unit
 ) {
     var email by rememberSaveable { mutableStateOf("") }
@@ -130,7 +132,7 @@ fun SignInContent(
         }
 
         TextButton(
-            onClick = {},
+            onClick = onSignUpAction,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Create account")

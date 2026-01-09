@@ -12,4 +12,5 @@
     <string name="must_be_between_and">%1$s must be between %2$d and %3$d</string>
     <string name="is_too_long_maximum_characters">%1$s is too long (maximum %2$d characters</string>
     <string name="is_too_short_minimum_characters">%1$s is too short (minimum %2$d characters</string>
+    <string name="signup_sign_up_screen">Sign Up Screen</string>
 </resources>

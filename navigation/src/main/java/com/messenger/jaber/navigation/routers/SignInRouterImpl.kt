@@ -2,6 +2,7 @@ package com.messenger.jaber.navigation.routers
 
 import android.content.Context
 import android.widget.Toast
+import com.messenger.jaber.navigation.SignUpRoute
 import com.messenger.jaber.navigation.base.AppRouter
 import com.messenger.jaber.signin.presentation.SignInRouter
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,5 +26,9 @@ class SignInRouterImpl @Inject constructor(
 
     override fun launchMain() {
         Toast.makeText(context, "launchMain", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun launchSignUp() {
+        appRouter.restart(SignUpRoute)
     }
 }

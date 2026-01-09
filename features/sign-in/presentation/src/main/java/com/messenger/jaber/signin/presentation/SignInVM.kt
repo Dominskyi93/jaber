@@ -3,7 +3,6 @@ package com.messenger.jaber.signin.presentation
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.signin.domain.SignInUseCase
-import com.messenger.jaber.signin.domain.entities.AuthResponse
 import com.messenger.jaber.signin.domain.entities.Credentials
 import com.messenger.jaber.signin.domain.entities.InputField
 import com.messenger.jaber.signin.domain.exceptions.EmptyFieldException
@@ -41,6 +40,10 @@ class SignInVM @Inject constructor(
                 }
             }
         )
+    }
+
+    fun signUp() = launch {
+        router.launchSignUp()
     }
 
     fun clearErrorMessages() {
