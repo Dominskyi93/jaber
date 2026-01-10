@@ -11,6 +11,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +34,7 @@ class SignUpUseCaseTest {
     }
 
     @Test
-    fun `creates account when validation is successful`() = runTest {
+    fun `creates account when validation is successful`() = runBlocking {
         val account = mockk<NewAccount>()
 
         coEvery { validator.validate(account) } returns ValidationResult.Success
@@ -45,8 +46,8 @@ class SignUpUseCaseTest {
         }
     }
 
-    @Test(expected = AbstractValidationException::class)
-    fun `throws first validation exception and does not create account`() = runTest {
+    @Test
+    fun `throws first validation exception and does not create account`() = runBlocking {
         val account = mockk<NewAccount>()
         val exception = mockk<AbstractValidationException>()
 

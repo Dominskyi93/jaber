@@ -83,5 +83,4 @@ class NewAccountValidatorTest {
         assertTrue(result.exceptions.any { it is PasswordMismatchException })
         assertTrue(result.exceptions.any { it is LoginAlreadyExistException })
     }
-
 }
