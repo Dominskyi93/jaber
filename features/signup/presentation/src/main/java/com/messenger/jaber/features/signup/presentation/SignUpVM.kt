@@ -1,35 +1,145 @@
 package com.messenger.jaber.features.signup.presentation
 
 import com.elveum.container.Container
-import com.elveum.container.map
-import com.elveum.container.successContainer
+import com.messenger.jaber.core.presentation.WithInitCallback
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
+import com.messenger.jaber.features.signup.domain.SignUpUseCase
+import com.messenger.jaber.features.signup.domain.ValidateAccountUseCase
+import com.messenger.jaber.features.signup.domain.entities.InputField
+import com.messenger.jaber.features.signup.domain.entities.NewAccount
+import com.messenger.jaber.features.signup.domain.entities.ValidationResult
+import com.messenger.jaber.features.signup.domain.exceptions.base.AbstractValidationException
+import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableMap
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class SignUpVM @Inject constructor(
+    private val signUpUseCase: SignUpUseCase,
+    private val validateAccountUseCase: ValidateAccountUseCase,
+    private val router: SignUpRouter,
+    private val stringProvider: SignUpStringProvider
+) : AbstractViewModel(), WithInitCallback, WithMviState<SignUpVM.StateImpl> {
 
-) : AbstractViewModel(), WithMviState<SignUpVM.State> {
+    private val reducer = createReducer(
+        initialState = ::StateImpl,
+        nextState = StateImpl::copy
+    )
 
-    val stateFlow: MutableStateFlow<Container<State>> =
-        MutableStateFlow(successContainer(State()))
+    val stateFlow: StateFlow<Container<State>> = reducer.stateFlow
 
-    fun increment() = launch {
-        stateFlow.update { container ->
-            container.map { state ->
-                state.copy(counter = state.counter + 1)
-            }
+    private val validateRequestsFlow = MutableSharedFlow<NewAccount>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
+    override suspend fun onInitialized() {
+        validateRequestsFlow
+            .debounce(1000)
+            .collect(::validate)
+    }
+
+    fun executeAction(action: SignUpAction) {
+        when (action) {
+            is SignUpAction.SignUp -> signUp(action.account)
+            is SignUpAction.Validate -> validateRequestsFlow.tryEmit(action.account)
+            is SignUpAction.ClearError -> clearError(action.field)
+            is SignUpAction.EnableErrorMessages -> enableErrorMessages(action.field)
         }
     }
 
-    data class State(
-        val title: String = "Sign up",
-        val actionInProgress: Boolean = false,
-        val counter: Int = 0
+    private fun signUp(account: NewAccount) = launch(WithMviState.HideProgressPolicy.ON_ERROR) {
+        try {
+            signUpUseCase.invoke(account)
+            router.launchSignIn()
+        } catch (e: AbstractValidationException) {
+            currentCoroutineContext().ensureActive()
+            renderValidationException(e)
+            throw e // show default error dialog
+        }
+    }
+
+    private suspend fun validate(account: NewAccount) = launchSync {
+        val validationResult = validateAccountUseCase(account)
+        reducer.updateState { oldState ->
+            oldState.withNewValidationResult(validationResult)
+        }
+    }
+
+    private fun clearError(field: InputField<*>) {
+        reducer.updateState { oldState ->
+            oldState.clearError(field)
+        }
+    }
+
+    private fun enableErrorMessages(field: InputField<*>) {
+        reducer.updateState { oldState ->
+            oldState.enableErrorMessages(field)
+        }
+    }
+
+    private fun StateImpl.clearError(field: InputField<*>) = copy(
+        allErrorMessages = (allErrorMessages - field)
     )
+
+    private fun StateImpl.enableErrorMessages(field: InputField<*>) = copy(
+        fieldsWithEnabledErrors = fieldsWithEnabledErrors + field
+    )
+
+    private fun renderValidationException(e: AbstractValidationException) {
+        reducer.updateState { oldState ->
+            oldState.withValidationException(e)
+        }
+    }
+
+    private fun StateImpl.withValidationException(e: AbstractValidationException) = copy(
+        allErrorMessages = (allErrorMessages + toErrorMessagePair(e))
+    )
+
+    private fun StateImpl.withNewValidationResult(validationResult: ValidationResult) =
+        copy(allErrorMessages = validationResult.toErrorMessagesMap())
+
+    private fun ValidationResult.toErrorMessagesMap(): Map<InputField<*>, String> {
+        return when (this) {
+            is ValidationResult.Failure -> exceptions.associate(::toErrorMessagePair)
+            ValidationResult.Success -> emptyMap()
+        }
+    }
+
+    private fun toErrorMessagePair(e: AbstractValidationException) =
+        e.inputField to e.getLocalizedErrorMessage(stringProvider)
+
+    private suspend fun launchSync(action: suspend () -> Unit) {
+        try {
+            action()
+        } catch (e: Exception) {
+            coroutineContext.ensureActive()
+            logger.e(e)
+        }
+    }
+
+    interface State {
+        val isSignUpInProgress: Boolean
+        val errorMessages: ImmutableMap<InputField<*>, String>
+    }
+
+    private data class StateImpl(
+        override val isSignUpInProgress: Boolean = false,
+        val allErrorMessages: Map<InputField<*>, String> = emptyMap(),
+        val fieldsWithEnabledErrors: Set<InputField<*>> = emptySet()
+    ) : State {
+        override val errorMessages: ImmutableMap<InputField<*>, String> =
+            allErrorMessages.filterKeys(fieldsWithEnabledErrors::contains)
+                .toImmutableMap()
+    }
 }

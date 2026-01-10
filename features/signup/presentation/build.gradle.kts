@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.hilt.navigation)
 
+    implementation(libs.collections.immutable)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
