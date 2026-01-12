@@ -7,8 +7,10 @@ import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.features.signup.domain.SignUpUseCase
 import com.messenger.jaber.features.signup.domain.ValidateAccountUseCase
 import com.messenger.jaber.features.signup.domain.entities.InputField
+import com.messenger.jaber.features.signup.domain.entities.InputFieldValue
 import com.messenger.jaber.features.signup.domain.entities.NewAccount
 import com.messenger.jaber.features.signup.domain.entities.ValidationResult
+import com.messenger.jaber.features.signup.domain.entities.toFieldValues
 import com.messenger.jaber.features.signup.domain.exceptions.base.AbstractValidationException
 import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,7 +47,7 @@ class SignUpVM @Inject constructor(
 
     override suspend fun onInitialized() {
         validateRequestsFlow
-            .debounce(1000)
+            .debounce(VALIDATION_PERIOD_MILLIS)
             .collect(::validate)
     }
 
@@ -64,7 +66,7 @@ class SignUpVM @Inject constructor(
             router.launchSignIn()
         } catch (e: AbstractValidationException) {
             currentCoroutineContext().ensureActive()
-            renderValidationException(e)
+            renderValidationException(account, e)
             throw e // show default error dialog
         }
     }
@@ -96,14 +98,20 @@ class SignUpVM @Inject constructor(
         fieldsWithEnabledErrors = fieldsWithEnabledErrors + field
     )
 
-    private fun renderValidationException(e: AbstractValidationException) {
+    private fun renderValidationException(account: NewAccount, e: AbstractValidationException) {
         reducer.updateState { oldState ->
-            oldState.withValidationException(e)
+            oldState.withValidationException(account, e)
         }
     }
 
-    private fun StateImpl.withValidationException(e: AbstractValidationException) = copy(
-        allErrorMessages = (allErrorMessages + toErrorMessagePair(e))
+    private fun StateImpl.withValidationException(
+        account: NewAccount,
+        e: AbstractValidationException
+    ) = copy(
+        allErrorMessages = allErrorMessages + toErrorMessagePair(e),
+        fieldsWithEnabledErrors = account.toFieldValues()
+            .map(InputFieldValue<*>::inputField)
+            .toSet()
     )
 
     private fun StateImpl.withNewValidationResult(validationResult: ValidationResult) =
@@ -141,5 +149,9 @@ class SignUpVM @Inject constructor(
         override val errorMessages: ImmutableMap<InputField<*>, String> =
             allErrorMessages.filterKeys(fieldsWithEnabledErrors::contains)
                 .toImmutableMap()
+    }
+
+    internal companion object {
+        const val VALIDATION_PERIOD_MILLIS = 1000L
     }
 }
