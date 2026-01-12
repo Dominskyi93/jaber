@@ -34,7 +34,7 @@ class SignUpVM @Inject constructor(
 ) : AbstractViewModel(), WithInitCallback, WithMviState<SignUpVM.StateImpl> {
 
     private val reducer = createReducer(
-        initialState = ::StateImpl,
+        initialState = { StateImpl(it, stringProvider) },
         nextState = StateImpl::copy
     )
 
@@ -139,12 +139,14 @@ class SignUpVM @Inject constructor(
     interface State {
         val isSignUpInProgress: Boolean
         val errorMessages: ImmutableMap<InputField<*>, String>
+        val stringProvider: SignUpStringProvider
     }
 
     private data class StateImpl(
         override val isSignUpInProgress: Boolean = false,
+        override val stringProvider: SignUpStringProvider,
         val allErrorMessages: Map<InputField<*>, String> = emptyMap(),
-        val fieldsWithEnabledErrors: Set<InputField<*>> = emptySet()
+        val fieldsWithEnabledErrors: Set<InputField<*>> = emptySet(),
     ) : State {
         override val errorMessages: ImmutableMap<InputField<*>, String> =
             allErrorMessages.filterKeys(fieldsWithEnabledErrors::contains)

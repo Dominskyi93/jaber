@@ -6,6 +6,7 @@ import com.messenger.jaber.features.signup.domain.SignUpUseCase
 import com.messenger.jaber.features.signup.domain.ValidateAccountUseCase
 import com.messenger.jaber.features.signup.domain.entities.InputField
 import com.messenger.jaber.features.signup.domain.entities.NewAccount
+import com.messenger.jaber.features.signup.domain.entities.ValidationResult
 import com.messenger.jaber.features.signup.domain.exceptions.base.AbstractValidationException
 import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
 import com.messenger.jaber.features.signup.presentation.SignUpVM.Companion.VALIDATION_PERIOD_MILLIS
@@ -187,6 +188,84 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
                 validateAccountUseCase.invoke(refEq(account2))
             }
         }
+
+    @Test
+    fun `GIVEN error exists WHEN ClearError executed THEN error is removed`() =
+        runFlowTest {
+            val field = InputField.RepeatPassword
+            val errorMessage = "Error"
+
+            val account = mockk<NewAccount>(relaxed = true)
+            val exception = mockk<AbstractValidationException>()
+
+            every { exception.inputField } returns field
+            every { exception.getLocalizedErrorMessage(stringProvider) } returns errorMessage
+            coEvery { signUpUseCase.invoke(account) } throws exception
+
+            val collector = startCollectingState()
+            // trigger validation error
+            viewModel.executeAction(SignUpAction.SignUp(account))
+            // sanity check: error is visible
+            assertEquals(
+                mapOf(field to errorMessage),
+                collector.lastState().errorMessages
+            )
+            // act
+            viewModel.executeAction(SignUpAction.ClearError(field))
+            // assert
+            assertTrue(collector.lastState().errorMessages.isEmpty())
+        }
+
+    @Test
+    fun `GIVEN error exists but disabled WHEN EnableErrorMessages executed THEN error becomes visible`() =
+        runFlowTest {
+            val field = InputField.RepeatPassword
+            val errorMessage = "Error"
+
+            val validationException = mockk<AbstractValidationException>()
+            every { validationException.inputField } returns field
+            every { validationException.getLocalizedErrorMessage(stringProvider) } returns errorMessage
+
+            val validationResult = ValidationResult.Failure(listOf(validationException))
+            coEvery { validateAccountUseCase.invoke(any()) } returns validationResult
+
+            initializeViewModel()
+            val collector = startCollectingState()
+
+            val account = mockk<NewAccount>(relaxed = true)
+
+            // validation populates allErrorMessages, but errors are NOT enabled
+            viewModel.executeAction(SignUpAction.Validate(account))
+            advanceTimeBy(VALIDATION_PERIOD_MILLIS + 1)
+
+            assertTrue(
+                "Error should not be visible before enabling",
+                collector.lastState().errorMessages.isEmpty()
+            )
+            // act
+            viewModel.executeAction(SignUpAction.EnableErrorMessages(field))
+            // assert
+            assertEquals(
+                mapOf(field to errorMessage),
+                collector.lastState().errorMessages
+            )
+        }
+
+    @Test
+    fun `GIVEN ValidationResult Success WHEN validation applied THEN errorMessages empty`() =
+        runFlowTest {
+            val account = mockk<NewAccount>()
+            coEvery { validateAccountUseCase.invoke(account) } returns ValidationResult.Success
+
+            initializeViewModel()
+            val collector = startCollectingState()
+
+            viewModel.executeAction(SignUpAction.Validate(account))
+            advanceTimeBy(VALIDATION_PERIOD_MILLIS + 1)
+
+            assertTrue(collector.lastState().errorMessages.isEmpty())
+        }
+
 
     private fun FlowTestScope.startCollectingState() = viewModel.stateFlow.startCollecting()
     private fun TestFlowCollector<Container<SignUpVM.State>>.lastState() = lastItem.unwrap()

@@ -1,22 +1,44 @@
 package com.messenger.jaber.features.signup.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.elveum.container.Container
+import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
+import com.messenger.core.theme.modifiers.onFocusLost
+import com.messenger.core.theme.previews.PreviewScreenContent
+import com.messenger.core.theme.previews.ScreenPreview
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
+import com.messenger.jaber.features.signup.domain.entities.InputField
+import com.messenger.jaber.features.signup.domain.entities.NewAccount
+import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
+import com.messenger.jaber.features.signup.presentation.resources.SignUpStringProviderImpl
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 
 fun ScreenScope.signUpScreen() {
     toolbar = ScreenToolbar.Default(
@@ -31,7 +53,8 @@ fun ScreenScope.signUpScreen() {
             onTryAgainAction = {}
         ) { state ->
             SignUpContent(
-                viewModelState = state
+                state = state,
+                onAction = viewModel::executeAction
             )
         }
     }
@@ -39,30 +62,109 @@ fun ScreenScope.signUpScreen() {
 
 @Composable
 fun SignUpContent(
-    viewModelState: SignUpVM.State
+    state: SignUpVM.State,
+    onAction: (SignUpAction) -> Unit = {}
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
+            .padding(Dimens.MediumPadding)
+            .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = viewModelState.isSignUpInProgress.toString(),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge
-        )
 
-        Text(
-            text = "Counter: ",
-            style = MaterialTheme.typography.headlineLarge
-        )
+        val loginState = rememberSaveable { mutableStateOf("") }
+        val passwordState = rememberSaveable { mutableStateOf("") }
+        val repeatPasswordState = rememberSaveable { mutableStateOf("") }
+        val firstNameState = rememberSaveable { mutableStateOf("") }
+        val lastNameState = rememberSaveable { mutableStateOf("") }
+        val ageState = rememberSaveable { mutableStateOf("") }
 
-        ProgressButton(
-            isInProgress = viewModelState.isSignUpInProgress,
-            text = "Increment",
-            onClick = {}
-        )
+        val accountProvider: () -> NewAccount = {
+            NewAccount.Default(
+                login = loginState.value,
+                password = passwordState.value,
+                repeatPassword = repeatPasswordState.value,
+                firstName = firstNameState.value,
+                lastName = lastNameState.value,
+                age = ageState.value.toIntOrNull() ?: NewAccount.EMPTY_AGE
+            )
+        }
+
+        with(
+            SignUpUiState(state, accountProvider, onAction)
+        ) {
+            SignUpTextField(
+                valueState = loginState,
+                inputField = InputField.Login
+            )
+
+            SignUpTextField(
+                valueState = firstNameState,
+                inputField = InputField.FirstName
+            )
+
+            ProgressButton(
+                isInProgress = isSignUpInProgress,
+                text = stringResource(R.string.signup_create_account),
+                onClick = {
+                    val newAccount = accountProvider()
+                    onAction(SignUpAction.SignUp(newAccount))
+                }
+            )
+        }
+
+
     }
+}
 
+@Composable
+fun SignUpUiState.SignUpTextField(
+    valueState: MutableState<String>,
+    inputField: InputField<*>,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next
+) {
+    OutlinedTextField(
+        value = valueState.value,
+        onValueChange = {
+            valueState.value = it
+            onClearError(inputField)
+        },
+        modifier = Modifier.onFocusLost {
+            onEnableErrorMessages(inputField)
+            onValidate()
+        },
+        singleLine = true,
+        visualTransformation = visualTransformation,
+        enabled = !isSignUpInProgress,
+        isError = errorMessages.contains(inputField),
+        supportingText = {
+            errorMessages[inputField]?.let {
+                Text(it)
+            }
+        },
+        label = { Text(inputField.fieldName(stringProvider)) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        )
+    )
+}
+
+@ScreenPreview
+@Composable
+private fun SignUpContentPreview() = PreviewScreenContent {
+    Box(Modifier.fillMaxSize()) {
+        SignUpContent(PreviewState(SignUpStringProviderImpl(LocalContext.current)))
+    }
+}
+
+private class PreviewState(
+    override val stringProvider: SignUpStringProvider
+) : SignUpVM.State {
+    override val isSignUpInProgress: Boolean = false
+    override val errorMessages: ImmutableMap<InputField<*>, String> = persistentMapOf()
 }

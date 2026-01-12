@@ -16,6 +16,10 @@ interface NewAccount {
         override val firstName: String,
         override val lastName: String
     ) : NewAccount
+
+    companion object {
+        const val EMPTY_AGE = -1
+    }
 }
 
 fun NewAccount.toFieldValues(): List<InputFieldValue<*>> {
