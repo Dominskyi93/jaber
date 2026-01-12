@@ -27,8 +27,9 @@ datastore = "1.2.0"
 okhttp = "5.3.2"
 retrofit = "3.0.0"
 kotlinSerialization = "1.9.0"
-mockk = "1.14.6"
-collections-immutable = "0.3.8"
+mockk = "1.14.7"
+flowTest = "1.1.0"
+collections-immutable = "0.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,8 +62,7 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-effects-hilt-compose = { module = "com.uandcode:effects2-hilt-compose", version.ref = "effects" }
-effects-hilt-compiler = { module = "com.uandcode:effects2-hilt-compiler", version.ref = "effects" }
+flow-test = { module = "com.uandcode:flowtest", version.ref = "flowTest"}
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }

@@ -21,6 +21,7 @@ dependencies {
     implementation(projects.core.theme)
     implementation(projects.core.navigationDsl)
     implementation(projects.core.presentation)
+    testImplementation(projects.core.presentationTest)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -46,7 +47,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+//    testImplementation(libs.junit)
+//    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.espresso.core)
 }

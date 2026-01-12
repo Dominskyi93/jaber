@@ -24,15 +24,14 @@ fun ScreenScope.signUpScreen() {
     )
     content {
         val viewModel: SignUpVM = hiltViewModel()
-        val container: Container<SignUpVM.ViewModelState> by viewModel.stateFlow.collectAsState()
+        val container: Container<SignUpVM.State> by viewModel.stateFlow.collectAsState()
 
         ContainerView(
             container = container,
             onTryAgainAction = {}
         ) { state ->
             SignUpContent(
-                viewModelState = state,
-                increment = viewModel::increment
+                viewModelState = state
             )
         }
     }
@@ -40,8 +39,7 @@ fun ScreenScope.signUpScreen() {
 
 @Composable
 fun SignUpContent(
-    viewModelState: SignUpVM.ViewModelState,
-    increment: () -> Unit
+    viewModelState: SignUpVM.State
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -50,20 +48,20 @@ fun SignUpContent(
             .fillMaxSize()
     ) {
         Text(
-            text = viewModelState.title,
+            text = viewModelState.isSignUpInProgress.toString(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge
         )
 
         Text(
-            text = "Counter: ${viewModelState.counter}",
+            text = "Counter: ",
             style = MaterialTheme.typography.headlineLarge
         )
 
         ProgressButton(
-            isInProgress = viewModelState.actionInProgress,
+            isInProgress = viewModelState.isSignUpInProgress,
             text = "Increment",
-            onClick = increment
+            onClick = {}
         )
     }
 

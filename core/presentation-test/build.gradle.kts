@@ -7,6 +7,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    api(projects.core.presentation)
+    api(projects.core.essentials)
+
+    api(libs.androidx.appcompat)
     api(libs.junit)
+    api(libs.mockk)
+    api(libs.coroutines.test)
+    api(libs.flow.test)
 }
