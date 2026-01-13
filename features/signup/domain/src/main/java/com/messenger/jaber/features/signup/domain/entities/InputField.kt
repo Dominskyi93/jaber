@@ -56,7 +56,7 @@ sealed interface InputField<T> {
     )
 
     data object Password : Text(
-        fieldName = { lastNameField },
+        fieldName = { passwordField },
         minChars = 6,
         maxChars = 24
     )

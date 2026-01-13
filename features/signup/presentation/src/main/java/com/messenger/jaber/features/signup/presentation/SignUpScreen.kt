@@ -15,6 +15,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.elveum.container.Container
@@ -53,7 +56,7 @@ fun ScreenScope.signUpScreen() {
             onTryAgainAction = {}
         ) { state ->
             SignUpContent(
-                state = state,
+                signUpVMState = state,
                 onAction = viewModel::executeAction
             )
         }
@@ -62,7 +65,7 @@ fun ScreenScope.signUpScreen() {
 
 @Composable
 fun SignUpContent(
-    state: SignUpVM.State,
+    signUpVMState: SignUpVM.State,
     onAction: (SignUpAction) -> Unit = {}
 ) {
     Column(
@@ -70,8 +73,8 @@ fun SignUpContent(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
-            .padding(Dimens.MediumPadding)
             .verticalScroll(rememberScrollState())
+            .padding(Dimens.MediumPadding)
     ) {
 
         val loginState = rememberSaveable { mutableStateOf("") }
@@ -92,9 +95,13 @@ fun SignUpContent(
             )
         }
 
-        with(
-            SignUpUiState(state, accountProvider, onAction)
-        ) {
+        val originState = rememberUpdatedState(signUpVMState)
+        val accountProviderState = rememberUpdatedState(accountProvider)
+        val onActionState = rememberUpdatedState(onAction)
+        val uiState = remember { SignUpUiState(originState, accountProviderState, onActionState) }
+
+        with(uiState) {
+
             SignUpTextField(
                 valueState = loginState,
                 inputField = InputField.Login
@@ -103,6 +110,32 @@ fun SignUpContent(
             SignUpTextField(
                 valueState = firstNameState,
                 inputField = InputField.FirstName
+            )
+
+            SignUpTextField(
+                valueState = lastNameState,
+                inputField = InputField.LastName
+            )
+
+            SignUpTextField(
+                valueState = ageState,
+                inputField = InputField.Age,
+                keyboardType = KeyboardType.Number
+            )
+
+            SignUpTextField(
+                valueState = passwordState,
+                inputField = InputField.Password,
+                keyboardType = KeyboardType.Password,
+                visualTransformation = PasswordVisualTransformation()
+            )
+
+            SignUpTextField(
+                valueState = repeatPasswordState,
+                inputField = InputField.RepeatPassword,
+                keyboardType = KeyboardType.Password,
+                visualTransformation = PasswordVisualTransformation(),
+                imeAction = ImeAction.Done
             )
 
             ProgressButton(
@@ -114,8 +147,6 @@ fun SignUpContent(
                 }
             )
         }
-
-
     }
 }
 
