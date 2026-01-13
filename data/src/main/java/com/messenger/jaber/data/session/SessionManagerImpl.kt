@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class SessionManagerImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : SessionManager, AuthTokenProvider {
 
     override fun getToken(): Flow<AuthDataToken> {

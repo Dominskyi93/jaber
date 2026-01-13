@@ -1,6 +1,5 @@
 package com.messenger.jaber.data.firebaseAuth
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.messenger.jaber.data.FirebaseAuthDataRepository
 import com.messenger.jaber.data.accounts.entities.AuthDataCredentials
@@ -12,10 +11,12 @@ import javax.inject.Singleton
 class FirebaseAuthDataRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : FirebaseAuthDataRepository {
-    override suspend fun signIn(credentials: AuthDataCredentials): Result<Unit> {
+    override suspend fun signIn(credentials: AuthDataCredentials): Result<String> {
         return try {
-            auth.signInWithEmailAndPassword(credentials.login, credentials.password).await()
-            Result.success(Unit)
+            val authResult =
+                auth.signInWithEmailAndPassword(credentials.login, credentials.password).await()
+            val uid = authResult.user?.uid ?: ""
+            Result.success(uid)
         } catch (e: Exception) {
             Result.failure(e)
         }

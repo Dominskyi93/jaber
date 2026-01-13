@@ -4,9 +4,7 @@ import com.messenger.jaber.features.signup.domain.entities.NewAccount
 import com.messenger.jaber.features.signup.domain.entities.ValidationResult
 import com.messenger.jaber.features.signup.domain.entities.ValidationResult.Companion.combined
 import com.messenger.jaber.features.signup.domain.entities.toFieldValues
-import com.messenger.jaber.features.signup.domain.exceptions.LoginAlreadyExistException
 import com.messenger.jaber.features.signup.domain.exceptions.PasswordMismatchException
-import com.messenger.jaber.features.signup.domain.repositories.LoginAvailabilityRepository
 import javax.inject.Inject
 
 internal interface NewAccountValidator {
@@ -14,7 +12,6 @@ internal interface NewAccountValidator {
 }
 
 internal class NewAccountValidatorImpl @Inject constructor(
-    private val loginAvailabilityRepository: LoginAvailabilityRepository
 ) : NewAccountValidator {
     override suspend fun validate(account: NewAccount): ValidationResult {
         val fieldValues = account.toFieldValues()
@@ -26,10 +23,6 @@ internal class NewAccountValidatorImpl @Inject constructor(
             validationResults += PasswordMismatchException()
         }
 
-        if (!loginAvailabilityRepository.isLoginAvailable(account.login)) {
-            validationResults += LoginAlreadyExistException(account.login)
-        }
         return validationResults
     }
-
 }

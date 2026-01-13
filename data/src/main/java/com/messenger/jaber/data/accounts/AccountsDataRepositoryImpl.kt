@@ -4,11 +4,13 @@ import com.elveum.container.mapException
 import com.elveum.container.unwrap
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.jaber.core.data.network.containerOf
 import com.messenger.jaber.data.AccountsDataRepository
 import com.messenger.jaber.data.FirebaseAuthDataRepository
 import com.messenger.jaber.data.accounts.entities.AuthDataCredentials
+import com.messenger.jaber.data.session.entities.AuthDataToken
 import com.messenger.jaber.signin.domain.exceptions.InvalidCredentialsException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,11 +21,14 @@ internal class AccountsDataRepositoryImpl @Inject constructor(
 ) : AccountsDataRepository {
     override suspend fun signIn(
         credentials: AuthDataCredentials
-    ) {
+    ): AuthDataToken.Default {
         return containerOf {
             firebaseAuthRepository
                 .signIn(credentials)
                 .getOrThrow()
+                .let {
+                    AuthDataToken.Default(it)
+                }
         }.mapException(Exception::class) { e ->
             mapFirebaseException(e)
         }.unwrap()

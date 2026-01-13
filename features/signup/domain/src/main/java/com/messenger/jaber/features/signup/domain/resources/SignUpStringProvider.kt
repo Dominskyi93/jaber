@@ -11,9 +11,9 @@ interface SignUpStringProvider : StringProvider {
     val lastNameField: String
     val ageField: String
 
-    val loginAlreadyExistsError: String
     val passwordMismatchError: String
 
+    fun loginAlreadyExistsError(login: String): String
     fun emptyFieldError(field: InputField.Text): String
     fun invalidRangeError(field: InputField.Number): String
     fun tooLongValueError(field: InputField.Text): String

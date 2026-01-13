@@ -46,6 +46,7 @@ class InitViewModel @Inject constructor(
         val isAuthorized = isAuthorizedUseCase.invoke()
         if (isAuthorized) {
             //todo launch main screen
+            router.launchSignIn()
         } else {
             router.launchSignIn()
         }

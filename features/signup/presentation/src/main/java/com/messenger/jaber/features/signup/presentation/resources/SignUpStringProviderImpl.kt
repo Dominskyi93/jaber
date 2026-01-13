@@ -17,11 +17,12 @@ class SignUpStringProviderImpl @Inject constructor(
     override val lastNameField = context.getString(R.string.last_name)
     override val ageField = context.getString(R.string.age)
 
-    override val loginAlreadyExistsError =
-        context.getString(R.string.a_user_with_this_login_already_exists)
-
     override val passwordMismatchError =
         context.getString(R.string.passwords_do_not_match)
+
+    override fun loginAlreadyExistsError(email: String): String {
+        return context.getString(R.string.signup_an_account_with_the_email_already_exists, email)
+    }
 
     override fun emptyFieldError(field: InputField.Text): String {
         val fieldName = field.fieldName(this)

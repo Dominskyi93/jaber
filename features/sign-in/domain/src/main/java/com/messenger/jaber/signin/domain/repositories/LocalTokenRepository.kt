@@ -4,5 +4,4 @@ import com.messenger.jaber.signin.domain.entities.Token
 
 interface LocalTokenRepository {
     suspend fun saveToken(token: Token)
-
 }

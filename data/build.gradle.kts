@@ -13,6 +13,7 @@ dependencies {
     api(projects.core.essentials)
     implementation(projects.core.data)
     implementation(projects.features.signIn.domain)
+    implementation(projects.features.signup.domain)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

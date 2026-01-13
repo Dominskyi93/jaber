@@ -1,9 +1,7 @@
 package com.messenger.jaber.data.createAccount.di
 
 import com.messenger.jaber.data.CreateAccountDataRepository
-import com.messenger.jaber.data.LoginAvailabilityDataRepository
 import com.messenger.jaber.data.createAccount.CreateAccountDataRepositoryImpl
-import com.messenger.jaber.data.createAccount.LoginAvailabilityDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,8 +16,4 @@ interface CreateAccountModule {
         impl: CreateAccountDataRepositoryImpl
     ): CreateAccountDataRepository
 
-    @Binds
-    fun bindLoginAvailabilityDataRepository(
-        impl: LoginAvailabilityDataRepositoryImpl
-    ): LoginAvailabilityDataRepository
 }
