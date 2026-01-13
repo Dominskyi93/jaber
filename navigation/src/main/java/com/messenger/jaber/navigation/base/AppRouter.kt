@@ -9,4 +9,6 @@ interface AppRouter {
     fun restart(route: Route)
 
     fun goBack()
+
+    fun replace(route: Route)
 }

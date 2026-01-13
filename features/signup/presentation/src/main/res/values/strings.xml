@@ -15,4 +15,7 @@
     <string name="signup_sign_up_screen">Sign Up Screen</string>
     <string name="signup_create_account">Create account</string>
     <string name="signup_an_account_with_the_email_already_exists">An account with the email \"%1$s\" already exists.</string>
+    <string name="signup_congratulations">Congratulations! You`ve successfully created a new account!</string>
+    <string name="signup_go_to_login">Go to Login</string>
+    <string name="signup_congratulations_toolbar">Congratulations</string>
 </resources>

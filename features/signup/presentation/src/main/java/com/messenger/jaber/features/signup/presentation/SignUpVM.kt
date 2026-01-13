@@ -63,7 +63,7 @@ class SignUpVM @Inject constructor(
     private fun signUp(account: NewAccount) = launch(WithMviState.HideProgressPolicy.ON_ERROR) {
         try {
             signUpUseCase.invoke(account)
-            router.launchSignIn()
+            router.launchCongrats()
         } catch (e: AbstractValidationException) {
             currentCoroutineContext().ensureActive()
             renderValidationException(account, e)

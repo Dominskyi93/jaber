@@ -29,6 +29,12 @@ class NavComponentAppRouter @Inject constructor() : AppRouter {
         navController.navigateUp()
     }
 
+    override fun replace(route: Route) = execute { navController ->
+        navController.navigate(route) {
+            navController.currentBackStackEntry?.getRouteClass()
+        }
+    }
+
     fun setNavController(navController: NavController?) {
         this.navController = navController
         if (navController != null) {

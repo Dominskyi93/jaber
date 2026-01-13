@@ -52,13 +52,7 @@ class ExtendedNavStoreImpl(
     }
 
     private fun createScreen(navEntry: NavBackStackEntry): Screen {
-        val routeString = requireNotNull(navEntry.destination.route)
-        val className = if (routeString.contains("/")) {
-            routeString.substringBefore("/")
-        } else {
-            routeString.substringBefore("?")
-        }
-        val routeClass = Class.forName(className).kotlin
+        val routeClass = navEntry.getRouteClass()
         val route = navEntry.toRoute<Route>(routeClass)
         return createScreen(route)
     }

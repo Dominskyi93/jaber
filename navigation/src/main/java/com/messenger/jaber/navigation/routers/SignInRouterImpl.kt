@@ -29,6 +29,6 @@ class SignInRouterImpl @Inject constructor(
     }
 
     override fun launchSignUp() {
-        appRouter.restart(SignUpRoute)
+        appRouter.launch(SignUpRoute)
     }
 }

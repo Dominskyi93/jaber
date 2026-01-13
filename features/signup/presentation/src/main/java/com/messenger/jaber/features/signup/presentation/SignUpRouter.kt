@@ -4,4 +4,5 @@ interface SignUpRouter {
     fun navigateUp()
     fun launchMain()
     fun launchSignIn()
+    fun launchCongrats()
 }
