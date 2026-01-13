@@ -32,7 +32,8 @@ inline fun <T> containerOf(block: () -> T): Container.Completed<T> {
         errorContainer(InvalidBackendResponseException(e))
     } catch (e: IOException) {
         errorContainer(ConnectionException(e))
-    } catch (e: Exception) {
+    }
+    catch (e: Exception) {
         errorContainer(UnknownException(e))
     }
 }

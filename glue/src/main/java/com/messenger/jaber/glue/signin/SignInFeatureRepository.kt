@@ -10,7 +10,7 @@ internal class SignInFeatureRepository @Inject constructor(
     private val accountsDataRepository: AccountsDataRepository
 ) : SignInRepository {
 
-    override suspend fun signIn(credentials: Credentials): Result<Unit> {
+    override suspend fun signIn(credentials: Credentials) {
         return accountsDataRepository
             .signIn(MappedCredentials(credentials))
     }

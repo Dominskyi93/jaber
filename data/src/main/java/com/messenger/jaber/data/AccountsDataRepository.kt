@@ -10,5 +10,5 @@ interface AccountsDataRepository {
      */
     suspend fun signIn(
         credentials: AuthDataCredentials
-    ): Result<Unit>
+    )
 }

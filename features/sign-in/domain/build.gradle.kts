@@ -8,6 +8,8 @@ dependencies {
     //hilt
     implementation(libs.hilt.core)
     ksp(libs.hilt.compiler)
-
+    //test
     testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.mockk)
 }

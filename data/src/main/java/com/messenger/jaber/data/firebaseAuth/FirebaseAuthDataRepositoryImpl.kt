@@ -1,5 +1,6 @@
 package com.messenger.jaber.data.firebaseAuth
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.messenger.jaber.data.FirebaseAuthDataRepository
 import com.messenger.jaber.data.accounts.entities.AuthDataCredentials

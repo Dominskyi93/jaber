@@ -5,7 +5,6 @@ import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.signin.domain.SignInUseCase
 import com.messenger.jaber.signin.domain.entities.Credentials
 import com.messenger.jaber.signin.domain.entities.InputField
-import com.messenger.jaber.signin.domain.exceptions.EmptyFieldException
 import com.messenger.jaber.signin.domain.resources.SignInStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -27,19 +26,8 @@ class SignInVM @Inject constructor(
     fun onLaunchPrivacyPolicy() = router.launchPrivacyPolicy()
 
     fun signIn(credentials: Credentials) = launch {
-        val result = signInUseCase(credentials)
-        result.fold(
-            onSuccess = {
-                router.launchMain()
-            },
-            onFailure = { e ->
-                when (e) {
-                    is EmptyFieldException ->
-                        showEmptyFieldErrorMessage(e.inputField)
-
-                }
-            }
-        )
+        signInUseCase(credentials)
+        router.launchMain()
     }
 
     fun signUp() = launch {

@@ -15,8 +15,8 @@ class SignInStringProviderImpl @Inject constructor(
     override val invalidCredentialsError =
         context.getString(R.string.invalid_login_and_or_password)
 
-    override fun emptyFieldError(field: InputField): String {
-        val fieldName = field.fieldName(this)
+    override fun emptyFieldError(inputField: InputField): String {
+        val fieldName = inputField.fieldName(this)
         return context.getString(R.string.empty_field_error, fieldName)
     }
 }
