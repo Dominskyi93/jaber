@@ -26,7 +26,7 @@ internal class NewAccountValidatorImpl @Inject constructor(
             validationResults += PasswordMismatchException()
         }
 
-        if (loginAvailabilityRepository.isLoginAvailable(account.login)) {
+        if (!loginAvailabilityRepository.isLoginAvailable(account.login)) {
             validationResults += LoginAlreadyExistException(account.login)
         }
         return validationResults

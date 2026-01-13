@@ -9,7 +9,6 @@ class SignUpCreateAccountRepository @Inject constructor(
     private val createAccountRepository: CreateAccountDataRepository
 ) : CreateAccountRepository {
     override suspend fun createAccount(newAccount: NewAccount) {
-        //todo
-        createAccountRepository
+        createAccountRepository.createAccount(newAccount.login, newAccount.password)
     }
 }
