@@ -15,15 +15,17 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
@@ -64,8 +66,8 @@ fun SignInContent(
     onSignUpAction: () -> Unit,
     onClearErrorMessages: () -> Unit
 ) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
+    val email = rememberSaveable { mutableStateOf("") }
+    val password = rememberSaveable { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -84,52 +86,28 @@ fun SignInContent(
                 .fillMaxWidth(0.5f)
                 .aspectRatio(1f)
         )
-        OutlinedTextField(
-            value = email,
-            onValueChange = {
-                email = it
-                if (state.emptyFieldError?.inputField == InputField.LOGIN) {
-                    onClearErrorMessages()
-                }
-            },
-            isError = state.emptyFieldError?.inputField == InputField.LOGIN,
-            supportingText = {
-                if (state.emptyFieldError?.inputField == InputField.LOGIN) {
-                    Text(state.emptyFieldError.message)
-                }
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email
-            )
+
+        SignInTextField(
+            valueState = email,
+            inputField = InputField.LOGIN,
+            state = state,
+            onClearErrorMessages = onClearErrorMessages
         )
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = {
-                password = it
-                if (state.emptyFieldError?.inputField == InputField.PASSWORD) {
-                    onClearErrorMessages()
-                }
-            },
-            isError = state.emptyFieldError?.inputField == InputField.PASSWORD,
-            supportingText = {
-                if (state.emptyFieldError?.inputField == InputField.PASSWORD) {
-                    Text(state.emptyFieldError.message)
-                }
-            },
-            singleLine = true,
+        SignInTextField(
+            valueState = password,
+            inputField = InputField.PASSWORD,
+            state = state,
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            )
+            onClearErrorMessages = onClearErrorMessages,
+            imeAction = ImeAction.Done
         )
 
         ProgressButton(
             isInProgress = state.isLoginInProgress,
             text = "Sign in"
         ) {
-            onSignInAction(Credentials.Default(email, password))
+            onSignInAction(Credentials.Default(email.value, password.value))
         }
 
         TextButton(
@@ -148,4 +126,37 @@ fun SignInContent(
             )
         }
     }
+}
+
+@Composable
+fun SignInTextField(
+    valueState: MutableState<String>,
+    inputField: InputField,
+    state: SignInVM.State,
+    onClearErrorMessages: () -> Unit,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next
+) {
+    OutlinedTextField(
+        value = valueState.value,
+        onValueChange = {
+            valueState.value = it
+            if (state.emptyFieldError?.inputField == inputField) {
+                onClearErrorMessages()
+            }
+        },
+        isError = state.emptyFieldError?.inputField == InputField.PASSWORD,
+        supportingText = {
+            if (state.emptyFieldError?.inputField == InputField.PASSWORD) {
+                Text(state.emptyFieldError.message)
+            }
+        },
+        singleLine = true,
+        visualTransformation = visualTransformation,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        )
+    )
 }

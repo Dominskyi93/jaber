@@ -1,7 +1,7 @@
 package com.messenger.jaber.navigation.di
 
 import com.messenger.jaber.navigation.base.AppRouter
-import com.messenger.jaber.navigation.base.NavComponentAppRouter
+import com.messenger.jaber.navigation.base.impl.NavComponentAppRouter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

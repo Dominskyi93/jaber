@@ -1,4 +1,4 @@
-package com.messenger.jaber.navigation.base
+package com.messenger.jaber.navigation.base.impl
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -15,6 +15,7 @@ import com.messenger.jaber.core.navigation.dsl.ConfiguredScreen
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.Route
+import com.messenger.jaber.navigation.base.ExtendedNavStore
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlin.reflect.KClass

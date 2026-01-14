@@ -1,4 +1,4 @@
-package com.messenger.jaber.navigation.base
+package com.messenger.jaber.navigation.base.impl
 
 import androidx.navigation.NavBackStackEntry
 import kotlin.reflect.KClass

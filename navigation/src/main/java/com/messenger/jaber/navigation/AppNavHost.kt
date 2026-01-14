@@ -21,9 +21,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
-import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilderImpl
-import com.messenger.jaber.navigation.base.ExtendedNavStoreImpl
-import com.messenger.jaber.navigation.base.NavComponentAppRouter
+import com.messenger.jaber.navigation.base.impl.ExtendedNavGraphBuilderImpl
+import com.messenger.jaber.navigation.base.impl.ExtendedNavStoreImpl
+import com.messenger.jaber.navigation.base.impl.NavComponentAppRouter
 import kotlinx.coroutines.awaitCancellation
 
 @Composable

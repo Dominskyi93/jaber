@@ -1,10 +1,12 @@
-package com.messenger.jaber.navigation.base
+package com.messenger.jaber.navigation.base.impl
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.navigation.Route
+import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
+import com.messenger.jaber.navigation.base.ExtendedNavStore
 import kotlin.reflect.KClass
 
 class ExtendedNavGraphBuilderImpl(
