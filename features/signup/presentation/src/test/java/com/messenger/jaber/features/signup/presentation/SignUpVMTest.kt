@@ -78,7 +78,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
         viewModel.executeAction(SignUpAction.SignUp(account))
 
         verify(exactly = 1) {
-            router.launchSignIn()
+            router.goBackToSignIn()
         }
     }
 
@@ -88,7 +88,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
         coEvery { signUpUseCase.invoke(account) } throws IllegalStateException()
         viewModel.executeAction(SignUpAction.SignUp(account))
         verify(exactly = 0) {
-            router.launchSignIn()
+            router.goBackToSignIn()
         }
     }
 

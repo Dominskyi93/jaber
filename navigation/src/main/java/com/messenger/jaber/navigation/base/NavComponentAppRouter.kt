@@ -31,7 +31,13 @@ class NavComponentAppRouter @Inject constructor() : AppRouter {
 
     override fun replace(route: Route) = execute { navController ->
         navController.navigate(route) {
-            navController.currentBackStackEntry?.getRouteClass()
+            navController.currentBackStackEntry?.getRouteClass()?.let { currentRouteClass ->
+                navController.navigate(route) {
+                    popUpTo(currentRouteClass) {
+                        inclusive = true
+                    }
+                }
+            }
         }
     }
 

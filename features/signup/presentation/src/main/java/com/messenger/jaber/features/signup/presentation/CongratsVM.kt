@@ -10,6 +10,6 @@ class CongratsVM @Inject constructor(
 ) : AbstractViewModel() {
 
     fun goBackToSignIn() {
-        router.launchSignIn()
+        router.goBackToSignIn()
     }
 }
