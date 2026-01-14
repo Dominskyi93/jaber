@@ -22,9 +22,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
+import com.elveum.container.errorContainer
+import com.elveum.container.successContainer
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.entities.ImageSource
 import com.messenger.core.essentials.exceptions.ConnectionException
@@ -41,9 +42,11 @@ import com.messenger.jaber.domain.entities.KeyFeature
 import kotlinx.coroutines.delay
 
 fun ScreenScope.initScreen() {
+
     toolbar = ScreenToolbar.Hidden
+    val viewModel: InitViewModel = viewmodel(InitViewModel::class)
+
     content {
-        val viewModel: InitViewModel = hiltViewModel()
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()
 
         ContainerView(
@@ -198,7 +201,7 @@ fun InitContentPreview() = PreviewScreenContent {
 @Composable
 private fun SuccessContainerView() {
     ContainerView(
-        container = com.elveum.container.Container.Success("twest test test"),
+        container = successContainer("test test test"),
         onTryAgainAction = {}
     ) { value ->
         Text(
@@ -223,7 +226,7 @@ private fun PendingContainerView() {
 @Composable
 private fun ErrorContainerView() {
     ContainerView<String>(
-        container = Container.Error(ConnectionException()),
+        container = errorContainer(ConnectionException()),
         onTryAgainAction = {}) { value ->
         Text(
             text = value

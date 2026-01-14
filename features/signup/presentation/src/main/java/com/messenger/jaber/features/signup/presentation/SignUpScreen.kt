@@ -26,7 +26,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.elveum.container.Container
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.ContainerView
@@ -44,11 +43,13 @@ import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 
 fun ScreenScope.signUpScreen() {
+
     toolbar = ScreenToolbar.Default(
         context.getString(R.string.signup_sign_up_screen)
     )
+    val viewModel: SignUpVM = viewmodel(SignUpVM::class)
+
     content {
-        val viewModel: SignUpVM = hiltViewModel()
         val container: Container<SignUpVM.State> by viewModel.stateFlow.collectAsState()
 
         ContainerView(

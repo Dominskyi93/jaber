@@ -11,8 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.core.theme.previews.ScreenPreview
@@ -22,10 +20,9 @@ import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 fun ScreenScope.congratsScreen() {
 
     toolbar = ScreenToolbar.Default(context.getString(R.string.signup_congratulations_toolbar))
+    val viewModel = viewmodel(CongratsVM::class)
 
     content {
-        val viewModel = hiltViewModel<CongratsVM>()
-
         CongratsContent(
             onGoToSignIn = viewModel::goBackToSignIn
         )
@@ -57,12 +54,11 @@ private fun CongratsContent(onGoToSignIn: () -> Unit) {
             text = stringResource(R.string.signup_go_to_login),
             onClick = onGoToSignIn
         )
-
     }
 }
 
 @ScreenPreview
 @Composable
 private fun CongratsPreview() {
-    CongratsContent {  }
+    CongratsContent { }
 }

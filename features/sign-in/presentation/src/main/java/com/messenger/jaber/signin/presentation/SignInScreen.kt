@@ -25,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.messenger.core.theme.Dimens
@@ -37,9 +36,11 @@ import com.messenger.jaber.signin.domain.entities.Credentials
 import com.messenger.jaber.signin.domain.entities.InputField
 
 fun ScreenScope.signInScreen() {
+
     toolbar = ScreenToolbar.Default(context.getString(R.string.signinscreen))
+    val viewModel: SignInVM = viewmodel(SignInVM::class)
+
     content {
-        val viewModel: SignInVM = hiltViewModel()
         val container: Container<SignInVM.State> by viewModel.stateFlow.collectAsStateWithLifecycle()
 
         ContainerView(

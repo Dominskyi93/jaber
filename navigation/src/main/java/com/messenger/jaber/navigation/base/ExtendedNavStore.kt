@@ -19,5 +19,5 @@ interface ExtendedNavStore {
     )
 
     @Composable
-    fun <T : Route> Content(route: T, id: String)
+    fun <T : Route> Content(route: T, navEntry: NavBackStackEntry)
 }
