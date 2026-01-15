@@ -2,6 +2,8 @@ package com.messenger.common.android.di
 
 import com.messenger.common.android.AndroidLogger
 import com.messenger.common.android.CoreStringProviderImpl
+import com.messenger.common.android.DateTimeProviderImpl
+import com.messenger.core.essentials.datetime.DateTimeProvider
 import com.messenger.core.essentials.exceptions.mapper.DefaultExceptionMessageMapper
 import com.messenger.core.essentials.exceptions.mapper.ExceptionToMessageMapper
 import com.messenger.core.essentials.logger.Logger
@@ -16,7 +18,12 @@ import dagger.multibindings.IntoMap
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface CommonAndroidModule {
+internal interface CommonAndroidModule {
+
+    @Binds
+    fun bindDateTimeProvider(
+        impl: DateTimeProviderImpl
+    ): DateTimeProvider
 
     @Binds
     fun bindLogger(logger: AndroidLogger): Logger

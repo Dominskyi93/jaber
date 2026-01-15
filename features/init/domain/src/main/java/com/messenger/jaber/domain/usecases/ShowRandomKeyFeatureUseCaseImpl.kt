@@ -1,9 +1,9 @@
 package com.messenger.jaber.domain.usecases
 
+import com.messenger.core.essentials.datetime.DateTimeProvider
 import com.messenger.jaber.domain.ShowRandomKeyFeatureUseCase
 import com.messenger.jaber.domain.entities.KeyFeature
 import com.messenger.jaber.domain.entities.ShowKeyFeatureResult
-import com.messenger.jaber.domain.repositories.DateTimeRepository
 import com.messenger.jaber.domain.repositories.KeyFeaturesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class ShowRandomKeyFeatureUseCaseImpl @Inject constructor(
     private val keyFeaturesRepository: KeyFeaturesRepository,
-    private val dateTimeRepository: DateTimeRepository
+    private val dateTimeProvider: DateTimeProvider
 ) : ShowRandomKeyFeatureUseCase {
     override fun invoke(): Flow<ShowKeyFeatureResult> = flow {
         if (shouldShowKeyFeature()) {
@@ -28,7 +28,7 @@ class ShowRandomKeyFeatureUseCaseImpl @Inject constructor(
         val lastDisplayTime = keyFeaturesRepository.getKeyFeatures().maxOf {
             it.lastDisplayTime
         }
-        val now = dateTimeRepository.now()
+        val now = dateTimeProvider.now()
         return lastDisplayTime.plus(period) < now
     }
 
@@ -40,7 +40,7 @@ class ShowRandomKeyFeatureUseCaseImpl @Inject constructor(
     }
 
     private suspend fun saveDisplayTime(keyFeature: KeyFeature) {
-        val now = dateTimeRepository.now()
+        val now = dateTimeProvider.now()
         keyFeaturesRepository.saveDisplayTime(keyFeature, now)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.messenger.core.essentials.datetime.DateTimeProvider
 import com.messenger.jaber.navigation.Route
 import com.messenger.jaber.navigation.base.AppRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,10 +12,13 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class NavComponentAppRouter @Inject constructor() : AppRouter {
+class NavComponentAppRouter @Inject constructor(
+    private val dateTimeProvider: DateTimeProvider
+) : AppRouter {
 
     private var navController: NavController? = null
     private val commands = mutableListOf<(NavController) -> Unit>()
+    private var lastActionTimestampMillis = 0L
 
     override fun launch(route: Route) = execute { navController ->
         navController.navigate(route)
@@ -53,12 +57,14 @@ class NavComponentAppRouter @Inject constructor() : AppRouter {
     }
 
     private fun execute(command: (NavController) -> Unit) {
-        val navController = this.navController
-        if (navController != null) {
-            command.invoke(navController)
-        } else {
-            commands.add(command)
-        }
+        val now = dateTimeProvider.currentTimeMillis()
+        if (now - lastActionTimestampMillis <= DEBOUNCE_PERIOD_MILLIS) return
+
+        lastActionTimestampMillis = now
+
+        navController?.let {
+            command(it)
+        } ?: commands.add(command)
     }
 
     @HiltViewModel
@@ -73,3 +79,5 @@ class NavComponentAppRouter @Inject constructor() : AppRouter {
         }
     }
 }
+
+private const val DEBOUNCE_PERIOD_MILLIS = 500

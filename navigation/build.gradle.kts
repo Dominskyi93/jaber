@@ -16,6 +16,7 @@ android {
 
 dependencies {
     implementation(projects.core.navigationDsl)
+    implementation(projects.core.essentials)
     implementation(projects.features.init.presentation)
     implementation(projects.features.signIn.presentation)
     implementation(projects.features.signup.presentation)
