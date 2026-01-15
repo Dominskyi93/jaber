@@ -16,7 +16,13 @@ abstract class AbstractApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
+        val debugTree = Timber.DebugTree()
+            .addIgnoredClass(
+                AndroidLogger::class,
+                Logger.Companion::class
+            )
+        Timber.plant(debugTree)
+
         Logger.set(logger)
         ExceptionToMessageMapper.set(exceptionToMessageMapper)
     }
