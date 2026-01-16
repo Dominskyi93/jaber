@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.features.signIn.domain)
     implementation(projects.features.signup.domain)
+    implementation(projects.features.chats.domain)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

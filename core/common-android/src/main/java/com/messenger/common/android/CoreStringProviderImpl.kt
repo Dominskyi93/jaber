@@ -14,6 +14,8 @@ class CoreStringProviderImpl @Inject constructor(
     override val unknownErrorMessage: String = context.getString(R.string.unknown_error_message)
     override val invalidBackendResponseErrorMessage: String =
         context.getString(R.string.invalid_response_from_the_remote_server)
+    override val delete: String = context.getString(R.string.delete)
+    override val cancel: String = context.getString(R.string.cancel)
 
     override fun backendErrorMessage(
         code: Int,

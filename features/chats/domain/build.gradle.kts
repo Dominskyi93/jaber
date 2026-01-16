@@ -5,6 +5,9 @@ plugins {
 
 dependencies {
     implementation(projects.core.essentials)
+    //container
+    implementation(libs.container)
+
     implementation(libs.javax.inject)
     implementation(libs.hilt.core)
     ksp(libs.hilt.compiler)

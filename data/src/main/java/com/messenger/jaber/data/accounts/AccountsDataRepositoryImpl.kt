@@ -4,7 +4,6 @@ import com.elveum.container.mapException
 import com.elveum.container.unwrap
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.jaber.core.data.network.containerOf
 import com.messenger.jaber.data.AccountsDataRepository

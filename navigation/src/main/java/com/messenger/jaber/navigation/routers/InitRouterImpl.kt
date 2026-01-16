@@ -1,6 +1,7 @@
 package com.messenger.jaber.navigation.routers
 
 import com.messenger.jaber.feature.presentation.InitRouter
+import com.messenger.jaber.navigation.ChatsRoute
 import com.messenger.jaber.navigation.MainRoute
 import com.messenger.jaber.navigation.SignInRoute
 import com.messenger.jaber.navigation.base.AppRouter
@@ -15,6 +16,10 @@ class InitRouterImpl @Inject constructor(
 
     override fun launchMain() {
         appRouter.restart(MainRoute)
+    }
+
+    override fun launchChats() {
+        appRouter.restart(ChatsRoute)
     }
 
     override fun navigateUp() {

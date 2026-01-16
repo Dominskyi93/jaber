@@ -13,10 +13,12 @@ dependencies {
     implementation(projects.features.init.presentation)
     implementation(projects.features.signIn.presentation)
     implementation(projects.features.signup.presentation)
+    implementation(projects.features.chats.presentation)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.container)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

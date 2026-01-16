@@ -1,5 +1,6 @@
 package com.messenger.jaber.navigation
 
+import com.messenger.jaber.feature.chats.presentation.chatsScreen
 import com.messenger.jaber.feature.presentation.initScreen
 import com.messenger.jaber.features.signup.presentation.congratsScreen
 import com.messenger.jaber.features.signup.presentation.signUpScreen
@@ -20,5 +21,9 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
 
     composable<CongratsRoute> {
         congratsScreen()
+    }
+
+    composable<ChatsRoute> {
+        chatsScreen()
     }
 }
