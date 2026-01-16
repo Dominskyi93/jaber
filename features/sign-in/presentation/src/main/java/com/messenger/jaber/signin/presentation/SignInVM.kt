@@ -5,6 +5,7 @@ import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.signin.domain.SignInUseCase
 import com.messenger.jaber.signin.domain.entities.Credentials
 import com.messenger.jaber.signin.domain.entities.InputField
+import com.messenger.jaber.signin.domain.exceptions.EmptyFieldException
 import com.messenger.jaber.signin.domain.resources.SignInStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,17 +18,18 @@ class SignInVM @Inject constructor(
 ) : AbstractViewModel(), WithMviState<SignInVM.State> {
 
     private val reducer = createReducer(
-        initialState = ::State,
+        initialState = State(),
         nextState = State::copy
     )
     val stateFlow = reducer.stateFlow
 
-    fun onLaunchTermAndConditions() = router.launchTermsAndConditions()
-    fun onLaunchPrivacyPolicy() = router.launchPrivacyPolicy()
-
     fun signIn(credentials: Credentials) = launch {
-        signInUseCase(credentials)
-        router.launchMain()
+        try {
+            signInUseCase(credentials)
+            router.launchMain()
+        } catch (e: EmptyFieldException) {
+            showEmptyFieldErrorMessage(e.inputField)
+        }
     }
 
     fun signUp() = launch {
@@ -35,13 +37,13 @@ class SignInVM @Inject constructor(
     }
 
     fun clearErrorMessages() {
-        reducer.updateState { it.copy(emptyFieldError = null) }
+        reducer.update { it.copy(emptyFieldError = null) }
     }
 
     private fun showEmptyFieldErrorMessage(field: InputField) {
         val emptyErrorMessage = signInStringProvider.emptyFieldError(field)
         val emptyFieldError = EmptyFieldError(field, emptyErrorMessage)
-        reducer.updateState { it.copy(emptyFieldError = emptyFieldError) }
+        reducer.update { it.copy(emptyFieldError = emptyFieldError) }
     }
 
     data class State(

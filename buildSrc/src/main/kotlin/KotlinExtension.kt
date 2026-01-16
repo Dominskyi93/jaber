@@ -9,5 +9,6 @@ fun Project.setupKotlin(jvmTarget: JvmTarget = JvmTarget.JVM_11) {
         ?: extensions.findByType<KotlinJvmProjectExtension>()
     ext?.compilerOptions {
         this.jvmTarget.set(jvmTarget)
+        freeCompilerArgs.add("-Xcontext-parameters")
     }
 }

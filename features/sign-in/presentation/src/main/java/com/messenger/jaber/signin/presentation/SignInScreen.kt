@@ -28,9 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.elveum.container.Container
 import com.messenger.core.theme.Dimens
-import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
@@ -43,19 +41,14 @@ fun ScreenScope.signInScreen() {
     val viewModel: SignInVM = viewmodel(SignInVM::class)
 
     content {
-        val container: Container<SignInVM.State> by viewModel.stateFlow.collectAsStateWithLifecycle()
+        val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-        ContainerView(
-            container = container,
-            onTryAgainAction = {}
-        ) { state ->
-            SignInContent(
-                state = state,
-                onSignInAction = viewModel::signIn,
-                onSignUpAction = viewModel::signUp,
-                onClearErrorMessages = viewModel::clearErrorMessages
-            )
-        }
+        SignInContent(
+            state = state,
+            onSignInAction = viewModel::signIn,
+            onSignUpAction = viewModel::signUp,
+            onClearErrorMessages = viewModel::clearErrorMessages
+        )
     }
 }
 

@@ -1,8 +1,6 @@
-@file:OptIn(FlowPreview::class)
-
 package com.messenger.jaber.features.signup.presentation
 
-import com.elveum.container.Container
+import com.messenger.core.essentials.flows.throttle
 import com.messenger.jaber.core.presentation.WithInitCallback
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
@@ -18,13 +16,11 @@ import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableMap
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,11 +32,11 @@ class SignUpVM @Inject constructor(
 ) : AbstractViewModel(), WithInitCallback, WithMviState<SignUpVM.StateImpl> {
 
     private val reducer = createReducer(
-        initialState = { StateImpl(it, stringProvider) },
+        initialState = StateImpl(stringProvider = stringProvider),
         nextState = StateImpl::copy
     )
 
-    val stateFlow: StateFlow<Container<State>> = reducer.stateFlow
+    val stateFlow: StateFlow<State> = reducer.stateFlow
 
     private val validateRequestsFlow = MutableSharedFlow<NewAccount>(
         extraBufferCapacity = 1,
@@ -49,7 +45,7 @@ class SignUpVM @Inject constructor(
 
     override suspend fun onInitialized() {
         validateRequestsFlow
-            .debounce(VALIDATION_PERIOD_MILLIS)
+            .throttle(VALIDATION_PERIOD_MILLIS)
             .collect(::validate)
     }
 
@@ -75,19 +71,19 @@ class SignUpVM @Inject constructor(
 
     private suspend fun validate(account: NewAccount) = launchSync {
         val validationResult = validateAccountUseCase(account)
-        reducer.updateState { oldState ->
+        reducer.update { oldState ->
             oldState.withNewValidationResult(validationResult)
         }
     }
 
     private fun clearError(field: InputField<*>) {
-        reducer.updateState { oldState ->
+        reducer.update { oldState ->
             oldState.clearError(field)
         }
     }
 
     private fun enableErrorMessages(field: InputField<*>) {
-        reducer.updateState { oldState ->
+        reducer.update { oldState ->
             oldState.enableErrorMessages(field)
         }
     }
@@ -101,7 +97,7 @@ class SignUpVM @Inject constructor(
     )
 
     private fun renderValidationException(account: NewAccount, e: AbstractValidationException) {
-        reducer.updateState { oldState ->
+        reducer.update { oldState ->
             oldState.withValidationException(account, e)
         }
     }

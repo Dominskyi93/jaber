@@ -26,9 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.elveum.container.Container
 import com.messenger.core.theme.Dimens
-import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.core.theme.modifiers.onFocusLost
 import com.messenger.core.theme.previews.PreviewScreenContent
@@ -50,17 +48,12 @@ fun ScreenScope.signUpScreen() {
     val viewModel: SignUpVM = viewmodel(SignUpVM::class)
 
     content {
-        val container: Container<SignUpVM.State> by viewModel.stateFlow.collectAsState()
+        val state by viewModel.stateFlow.collectAsState()
 
-        ContainerView(
-            container = container,
-            onTryAgainAction = {}
-        ) { state ->
-            SignUpContent(
-                signUpVMState = state,
-                onAction = viewModel::executeAction
-            )
-        }
+        SignUpContent(
+            signUpVMState = state,
+            onAction = viewModel::executeAction
+        )
     }
 }
 
