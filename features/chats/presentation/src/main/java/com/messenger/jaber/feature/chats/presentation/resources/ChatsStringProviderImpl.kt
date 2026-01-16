@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ChatsStringProviderImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : ChatsStringProvider {
     override val confirmDeleteDialogTitle: String = context.getString(R.string.chat_removal)
 

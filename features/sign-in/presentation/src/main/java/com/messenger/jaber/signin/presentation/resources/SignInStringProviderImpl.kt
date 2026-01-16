@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class SignInStringProviderImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : SignInStringProvider {
     override val loginFieldName = context.getString(R.string.login)
     override val passwordFieldName = context.getString(R.string.password)

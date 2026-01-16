@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package com.messenger.jaber.features.signup.presentation
 
 import com.elveum.container.Container
@@ -16,6 +18,7 @@ import com.messenger.jaber.features.signup.domain.resources.SignUpStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableMap
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -23,7 +26,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class SignUpVM @Inject constructor(
@@ -131,7 +133,7 @@ class SignUpVM @Inject constructor(
         try {
             action()
         } catch (e: Exception) {
-            coroutineContext.ensureActive()
+            currentCoroutineContext().ensureActive()
             logger.e(e)
         }
     }
