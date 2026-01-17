@@ -1,5 +1,6 @@
 package com.messenger.jaber.signin.presentation
 
+import androidx.lifecycle.viewModelScope
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.signin.domain.SignInUseCase
@@ -24,6 +25,7 @@ class SignInVM @Inject constructor(
     val stateFlow = reducer.stateFlow
 
     fun signIn(credentials: Credentials) = launch {
+        viewModelScope
         try {
             signInUseCase(credentials)
             router.launchMain()

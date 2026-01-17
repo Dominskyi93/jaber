@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class SignUpStringProviderImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : SignUpStringProvider {
     override val loginField = context.getString(R.string.login)
     override val passwordField = context.getString(R.string.password)
@@ -20,8 +20,8 @@ class SignUpStringProviderImpl @Inject constructor(
     override val passwordMismatchError =
         context.getString(R.string.passwords_do_not_match)
 
-    override fun loginAlreadyExistsError(email: String): String {
-        return context.getString(R.string.signup_an_account_with_the_email_already_exists, email)
+    override fun loginAlreadyExistsError(login: String): String {
+        return context.getString(R.string.signup_an_account_with_the_email_already_exists, login)
     }
 
     override fun emptyFieldError(field: InputField.Text): String {

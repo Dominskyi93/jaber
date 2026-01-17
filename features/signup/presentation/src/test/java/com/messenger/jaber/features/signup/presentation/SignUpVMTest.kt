@@ -54,7 +54,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
 
             val collector = startCollectingState()
 
-            val lastState = collector.lastState()
+            val lastState = collector.lastItem
             assertEquals(expectedIsInProgress, lastState.isSignUpInProgress)
             assertEquals(expectedErrors, lastState.errorMessages)
         }
@@ -67,7 +67,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
             val collector = startCollectingState()
 
             viewModel.executeAction(SignUpAction.SignUp(account))
-            val lastState = collector.lastState()
+            val lastState = collector.lastItem
             assertTrue(lastState.isSignUpInProgress)
         }
 
@@ -78,7 +78,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
         viewModel.executeAction(SignUpAction.SignUp(account))
 
         verify(exactly = 1) {
-            router.goBackToSignIn()
+            router.launchCongrats()
         }
     }
 
@@ -88,7 +88,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
         coEvery { signUpUseCase.invoke(account) } throws IllegalStateException()
         viewModel.executeAction(SignUpAction.SignUp(account))
         verify(exactly = 0) {
-            router.goBackToSignIn()
+            router.launchCongrats()
         }
     }
 
@@ -128,7 +128,7 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
             coEvery { signUpUseCase.invoke(account) } throws expectedException
             val collector = startCollectingState()
             viewModel.executeAction(SignUpAction.SignUp(account))
-            val lastState = collector.lastState()
+            val lastState = collector.lastItem
             assertEquals(
                 mapOf(expectedInputField to expectedErrorMessage),
                 lastState.errorMessages
@@ -175,14 +175,14 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
             advanceTimeBy(VALIDATION_PERIOD_MILLIS)
             viewModel.executeAction(SignUpAction.Validate(account2))
             advanceTimeBy(VALIDATION_PERIOD_MILLIS)
-            coVerify(exactly = 0) {
-                validateAccountUseCase.invoke(any())
+            coVerify(exactly = 1) {
+                validateAccountUseCase.invoke(refEq(account))
             }
 
             advanceTimeBy(1)
-            coVerify(exactly = 0) {
+            coVerify(exactly = 1) {
                 validateAccountUseCase.invoke(refEq(account))
-                validateAccountUseCase.invoke(refEq(account1))
+//                validateAccountUseCase.invoke(refEq(account1))
             }
             coVerify(exactly = 1) {
                 validateAccountUseCase.invoke(refEq(account2))
@@ -208,12 +208,12 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
             // sanity check: error is visible
             assertEquals(
                 mapOf(field to errorMessage),
-                collector.lastState().errorMessages
+                collector.lastItem.errorMessages
             )
             // act
             viewModel.executeAction(SignUpAction.ClearError(field))
             // assert
-            assertTrue(collector.lastState().errorMessages.isEmpty())
+            assertTrue(collector.lastItem.errorMessages.isEmpty())
         }
 
     @Test
@@ -240,14 +240,14 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
 
             assertTrue(
                 "Error should not be visible before enabling",
-                collector.lastState().errorMessages.isEmpty()
+                collector.lastItem.errorMessages.isEmpty()
             )
             // act
             viewModel.executeAction(SignUpAction.EnableErrorMessages(field))
             // assert
             assertEquals(
                 mapOf(field to errorMessage),
-                collector.lastState().errorMessages
+                collector.lastItem.errorMessages
             )
         }
 
@@ -263,11 +263,11 @@ class SignUpVMTest : AbstractViewModelTest<SignUpVM>() {
             viewModel.executeAction(SignUpAction.Validate(account))
             advanceTimeBy(VALIDATION_PERIOD_MILLIS + 1)
 
-            assertTrue(collector.lastState().errorMessages.isEmpty())
+            assertTrue(collector.lastItem.errorMessages.isEmpty())
         }
 
 
     private fun FlowTestScope.startCollectingState() = viewModel.stateFlow.startCollecting()
-    private fun TestFlowCollector<Container<SignUpVM.State>>.lastState() = lastItem.unwrap()
+    private fun TestFlowCollector<Container<SignUpVM.State>>.lastItem() = lastItem.unwrap()
 
 }

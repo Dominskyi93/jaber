@@ -2,4 +2,6 @@
 <resources>
     <string name="chat_removal">Chat Removal</string>
     <string name="are_you_sure_you_want_to_delete_chat">Are you sure you want to delete chat %1$s</string>
+    <string name="empty_chats_message">You don`t have existing chats yet. Would you like to create a new one?</string>
+    <string name="empty_chats">Empty chats</string>
 </resources>

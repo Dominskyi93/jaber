@@ -93,7 +93,7 @@ fun InitPortraitContent(
 
         ImageView(
             imageSource = keyFeature.image,
-            modifier = Modifier.size(Dimens.LargeImageSize)
+            modifier = Modifier.size(Dimens.ExtraLargeImageSize)
         )
 
         MediumVerticalSpace()
@@ -175,7 +175,7 @@ fun InitLandscapeContent(
             imageSource = keyFeature.image,
             modifier = Modifier
                 .wrapContentSize()
-                .size(Dimens.LargeImageSize)
+                .size(Dimens.ExtraLargeImageSize)
                 .weight(1f)
         )
     }
