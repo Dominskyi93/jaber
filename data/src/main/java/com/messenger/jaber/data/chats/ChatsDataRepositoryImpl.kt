@@ -62,7 +62,7 @@ var chats = listOf(
         id = Id("5"),
         title = "Work",
         imageSource = ImageSource.Empty,
-        lastMessage = "Deadline is today",
+        lastMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata",
         unreadMessageCount = 1
     )
 )

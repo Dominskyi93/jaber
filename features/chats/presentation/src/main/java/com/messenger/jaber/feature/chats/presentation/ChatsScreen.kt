@@ -1,17 +1,23 @@
 package com.messenger.jaber.feature.chats.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
@@ -22,21 +28,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.elveum.container.errorContainer
 import com.elveum.container.successContainer
+import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.ContainerView
+import com.messenger.core.theme.components.ImageView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.feature.chats.domain.entities.Chat
+import com.messenger.jaber.feature.chats.domain.entities.hasUnreadMessages
 import kotlinx.collections.immutable.ImmutableList
 
 fun ScreenScope.chatsScreen() {
@@ -82,8 +97,14 @@ fun ChatsList(chats: ImmutableList<Chat>, modifier: Modifier = Modifier) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(count = 5) { index ->
-                ChatItem(chats[index])
+            items(
+                items = chats,
+                key = { it.id.value }
+            ) { chat ->
+                ChatItem(
+                    chat = chat,
+                    modifier = Modifier.animateItem()
+                )
             }
         }
     }
@@ -92,16 +113,22 @@ fun ChatsList(chats: ImmutableList<Chat>, modifier: Modifier = Modifier) {
 @Composable
 fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.align(Alignment.Center)
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding),
+        modifier = modifier
+            .align(Alignment.Center)
+            .padding(Dimens.MediumPadding)
     ) {
         Icon(
             imageVector = Icons.Default.Mail,
             contentDescription = stringResource(R.string.empty_chats),
+            tint = MaterialTheme.colorScheme.outline,
             modifier = Modifier.size(Dimens.MediumImageSize)
         )
 
         Text(
-            text = stringResource(R.string.empty_chats_message)
+            text = stringResource(R.string.empty_chats_message),
+            textAlign = TextAlign.Center
         )
 
         ProgressButton(
@@ -113,39 +140,88 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
 
 @Composable
 fun ChatItem(
-    chat: Chat
+    chat: Chat,
+    modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = Modifier
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding),
+        modifier = modifier
             .fillMaxWidth()
+            .height(80.dp)
+            .unreadMessagesBackground(
+                chat.hasUnreadMessages,
+                MaterialTheme.colorScheme.secondaryContainer
+            )
             .border(1.dp, Black, RoundedCornerShape(4.dp))
-            .padding(16.dp)
+            .clickable {
+
+            }
+            .padding(
+                vertical = Dimens.ExtraSmallPadding,
+                horizontal = Dimens.SmallPadding
+            )
     ) {
-        Text(
-            text = chat.title,
-            style = MaterialTheme.typography.titleMedium
+
+        ImageView(
+            imageSource = chat.imageSource,
+            contentDescription = stringResource(R.string.user_image),
+            modifier = Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f)
         )
 
-        chat.lastMessage?.let {
-            Spacer(Modifier.height(4.dp))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(Dimens.TinySpace),
+            modifier = Modifier
+                .weight(1f)
+                .align(Alignment.Top)
+        ) {
             Text(
-                text = it,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = chat.title,
+                maxLines = 1,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold
             )
+
+            chat.lastMessage?.let {
+                Text(
+                    text = it,
+                    maxLines = 1,
+                    fontSize = 10.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
 
-        if (chat.unreadMessageCount > 0) {
-            Spacer(Modifier.height(6.dp))
-            Text(
-                text = "Unread: ${chat.unreadMessageCount}",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary
-            )
+        if (chat.hasUnreadMessages) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(16.dp)
+                    .clip(CircleShape)
+                    .background(Color.Red)
+
+            ) {
+                Text(
+                    text = "${chat.unreadMessageCount}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }
 
+private fun Modifier.unreadMessagesBackground(hasUnreadMessages: Boolean, color: Color): Modifier {
+    return if (hasUnreadMessages) {
+        background(color)
+    } else {
+        this
+    }
+}
 
 //@ScreenPreview
 //@Composable
@@ -164,6 +240,19 @@ private fun SuccessContainerView() {
             text = value
         )
     }
+}
+
+@Preview
+@Composable
+private fun ChatItemPreview(
+    chat: Chat = Chat.Default(
+        id = Id("1"),
+        title = "Violeta",
+        lastMessage = "Pryvit, yak spravy?",
+        unreadMessageCount = 2
+    )
+) {
+    ChatItem(chat)
 }
 
 @Preview
