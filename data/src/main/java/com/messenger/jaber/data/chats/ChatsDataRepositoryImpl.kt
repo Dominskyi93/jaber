@@ -16,11 +16,11 @@ class ChatsDataRepositoryImpl @Inject constructor() : ChatsDataRepository {
     }
 
     override suspend fun deleteChat(chatId: Id) {
-        chats = chats.filter { it.id != chatId }
+        chats = chats.filter { it.id != chatId } //Todo
     }
 
     override suspend fun getChatById(chatId: Id): Chat {
-        return chats.first { it.id == chatId }
+        return chats.first { it.id == chatId } //Todo
     }
 }
 
@@ -35,7 +35,7 @@ var chats = listOf(
         title = "Support",
         imageSource = ImageSource.Empty,
         lastMessage = "How can we help you?",
-        unreadMessageCount = 2
+        unreadMessageCount = 12
     ),
     Chat.Default(
         id = Id("2"),

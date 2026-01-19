@@ -21,14 +21,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.res.stringResource
@@ -37,7 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.elveum.container.errorContainer
@@ -45,8 +50,8 @@ import com.elveum.container.successContainer
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
+import com.messenger.core.theme.components.AvatarImageView
 import com.messenger.core.theme.components.ContainerView
-import com.messenger.core.theme.components.ImageView
 import com.messenger.core.theme.components.ProgressButton
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
@@ -63,12 +68,14 @@ fun ScreenScope.chatsScreen() {
 
         ContainerView(
             container = container,
+            enablePullToRefresh = true,
             modifier = Modifier.fillMaxSize(),
             onTryAgainAction = {}
         ) { state ->
             Box(Modifier.fillMaxSize()) {
                 ChatsContent(
-                    state = state
+                    state = state,
+                    onAction = viewModel::executeAction
                 )
             }
         }
@@ -77,19 +84,27 @@ fun ScreenScope.chatsScreen() {
 
 @Composable
 fun BoxScope.ChatsContent(
-    state: ChatsViewModel.State
+    state: ChatsViewModel.State,
+    onAction: (ChatsAction) -> Unit = {}
 ) {
     val chats = state.chats
 
     if (chats.isNotEmpty()) {
-        ChatsList(chats)
+        ChatsList(
+            chats = chats,
+            onDeleteChat = { onAction(ChatsAction.DeleteChat(it)) }
+        )
     } else {
         EmptyChats()
     }
 }
 
 @Composable
-fun ChatsList(chats: ImmutableList<Chat>, modifier: Modifier = Modifier) {
+fun ChatsList(
+    chats: ImmutableList<Chat>,
+    onDeleteChat: (chatId: Id) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()
@@ -103,6 +118,7 @@ fun ChatsList(chats: ImmutableList<Chat>, modifier: Modifier = Modifier) {
             ) { chat ->
                 ChatItem(
                     chat = chat,
+                    onDeleteChat = { onDeleteChat(chat.id) },
                     modifier = Modifier.animateItem()
                 )
             }
@@ -141,6 +157,7 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
 @Composable
 fun ChatItem(
     chat: Chat,
+    onDeleteChat: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -163,9 +180,9 @@ fun ChatItem(
             )
     ) {
 
-        ImageView(
+        AvatarImageView(
+            name = chat.title,
             imageSource = chat.imageSource,
-            contentDescription = stringResource(R.string.user_image),
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
@@ -188,7 +205,7 @@ fun ChatItem(
                 Text(
                     text = it,
                     maxLines = 1,
-                    fontSize = 10.sp,
+                    fontSize = Dimens.BadgeTinyTextSize,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -197,21 +214,51 @@ fun ChatItem(
         }
 
         if (chat.hasUnreadMessages) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(16.dp)
-                    .clip(CircleShape)
-                    .background(Color.Red)
+            val countMessages =
+                if (chat.unreadMessageCount <= 9) "${chat.unreadMessageCount}" else "9+"
 
+            Text(
+                text = countMessages,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .size(Dimens.BadgeMediumSize)
+                    .background(
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        shape = CircleShape
+                    )
+            )
+        }
+
+        Box {
+            var expanded by remember { mutableStateOf(false) }
+
+            IconButton(
+                onClick = {
+                    expanded = true
+                }
             ) {
-                Text(
-                    text = "${chat.unreadMessageCount}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "Actions for ${chat.title}",
+                    tint = MaterialTheme.colorScheme.outline
+                )
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Delete Chat") },
+                    onClick = {
+                        onDeleteChat()
+                        expanded = false
+                    }
                 )
             }
         }
+
     }
 }
 
@@ -252,7 +299,9 @@ private fun ChatItemPreview(
         unreadMessageCount = 2
     )
 ) {
-    ChatItem(chat)
+    ChatItem(
+        chat = chat
+    )
 }
 
 @Preview

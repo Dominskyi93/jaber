@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import com.messenger.core.theme.R
 fun <T> ContainerView(
     container: Container<T>,
     modifier: Modifier = Modifier,
+    enablePullToRefresh: Boolean = false,
     onTryAgainAction: () -> Unit,
     exceptionToMessageMapper: ExceptionToMessageMapper = ExceptionToMessageMapper,
     content: @Composable (T) -> Unit
@@ -43,7 +45,17 @@ fun <T> ContainerView(
             }
 
             is Container.Success -> {
-                content(container.value)
+                if (enablePullToRefresh) {
+                    PullToRefreshBox(
+                        isRefreshing = container.isLoadingInBackground,
+                        onRefresh = { onTryAgainAction() },
+                        modifier = modifier.fillMaxSize()
+                    ) {
+                        content(container.value)
+                    }
+                } else {
+                    content(container.value)
+                }
             }
         }
     }
