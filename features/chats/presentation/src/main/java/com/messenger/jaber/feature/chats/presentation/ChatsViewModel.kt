@@ -39,7 +39,6 @@ class ChatsViewModel @Inject constructor(
         try {
             disableChat(chatId)
             deleteChatUseCase(chatId = chatId)
-//            removeChatFromState(chatId = chatId)
         } finally {
             enableChat(chatId)
         }
@@ -51,12 +50,6 @@ class ChatsViewModel @Inject constructor(
 
     private fun disableChat(chatId: Id) = reducer.updateState { oldState ->
         oldState.copy(disabledChatIds = oldState.disabledChatIds + chatId)
-    }
-
-    private fun removeChatFromState(chatId: Id) = reducer.updateState { oldState ->
-        oldState.copy(
-            originChats = oldState.chats.filter { it.id != chatId }
-        )
     }
 
     interface State {
