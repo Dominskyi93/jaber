@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.res.stringResource
@@ -70,7 +71,9 @@ fun ScreenScope.chatsScreen() {
             container = container,
             enablePullToRefresh = true,
             modifier = Modifier.fillMaxSize(),
-            onTryAgainAction = {}
+            onTryAgainAction = {
+
+            }
         ) { state ->
             Box(Modifier.fillMaxSize()) {
                 ChatsContent(
@@ -101,7 +104,7 @@ fun BoxScope.ChatsContent(
 
 @Composable
 fun ChatsList(
-    chats: ImmutableList<Chat>,
+    chats: ImmutableList<UiChat>,
     onDeleteChat: (chatId: Id) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -156,7 +159,7 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
 
 @Composable
 fun ChatItem(
-    chat: Chat,
+    chat: UiChat,
     onDeleteChat: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -166,6 +169,7 @@ fun ChatItem(
         modifier = modifier
             .fillMaxWidth()
             .height(80.dp)
+            .alpha(if (chat.isEnabled) 1f else 0.5f)
             .unreadMessagesBackground(
                 chat.hasUnreadMessages,
                 MaterialTheme.colorScheme.secondaryContainer
@@ -220,7 +224,8 @@ fun ChatItem(
             Text(
                 text = countMessages,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                fontSize = Dimens.BadgeMediumTextSize,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .size(Dimens.BadgeMediumSize)
@@ -235,9 +240,8 @@ fun ChatItem(
             var expanded by remember { mutableStateOf(false) }
 
             IconButton(
-                onClick = {
-                    expanded = true
-                }
+                onClick = { expanded = true },
+                enabled = chat.isEnabled
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
@@ -300,7 +304,7 @@ private fun ChatItemPreview(
     )
 ) {
     ChatItem(
-        chat = chat
+        chat = chat as UiChat
     )
 }
 

@@ -2,6 +2,7 @@ package com.messenger.jaber.feature.chats.presentation
 
 import com.elveum.container.Container
 import com.elveum.container.containerMap
+import com.elveum.container.reducer.containerToReducer
 import com.messenger.core.essentials.entities.Id
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
@@ -20,13 +21,13 @@ class ChatsViewModel @Inject constructor(
     private val deleteChatUseCase: DeleteChatUseCase
 ) : AbstractViewModel(), WithMviState<ChatsViewModel.State> {
 
-
     val reducer = getChatsUseCase()
         .containerMap { it.toImmutableList() }
         .containerToReducer(
-            initialState = ::State,
-            nextState = State::copy
+            initialState = ::StateImpl,
+            nextState = StateImpl::copy
         )
+
     val stateFlow: StateFlow<Container<State>> = reducer.stateFlow
 
     fun executeAction(action: ChatsAction) = when (action) {
@@ -35,11 +36,43 @@ class ChatsViewModel @Inject constructor(
     }
 
     private fun deleteChat(chatId: Id) = launch {
-        deleteChatUseCase(chatId = chatId)
+        try {
+            disableChat(chatId)
+            deleteChatUseCase(chatId = chatId)
+//            removeChatFromState(chatId = chatId)
+        } finally {
+            enableChat(chatId)
+        }
     }
 
-    data class State(
-        val chats: ImmutableList<Chat>,
-        val isLoadingInProgress: Boolean = false
-    )
+    private fun enableChat(chatId: Id) = reducer.updateState { oldState ->
+        oldState.copy(disabledChatIds = oldState.disabledChatIds - chatId)
+    }
+
+    private fun disableChat(chatId: Id) = reducer.updateState { oldState ->
+        oldState.copy(disabledChatIds = oldState.disabledChatIds + chatId)
+    }
+
+    private fun removeChatFromState(chatId: Id) = reducer.updateState { oldState ->
+        oldState.copy(
+            originChats = oldState.chats.filter { it.id != chatId }
+        )
+    }
+
+    interface State {
+        val chats: ImmutableList<UiChat>
+    }
+
+    data class StateImpl(
+        val originChats: List<Chat>,
+        val disabledChatIds: Set<Id> = emptySet()
+    ) : State {
+        override val chats: ImmutableList<UiChat> = originChats
+            .map { originChat ->
+                UiChat(
+                    origin = originChat,
+                    isEnabled = !disabledChatIds.contains(originChat.id)
+                )
+            }.toImmutableList()
+    }
 }

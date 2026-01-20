@@ -18,12 +18,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.messenger.common.android.AndroidExceptionHandler
-import com.messenger.core.essentials.logger.Logger
 import com.messenger.core.theme.material.JaberTheme
 import com.messenger.jaber.navigation.AppNavHost
+import com.messenger.jaber.navigation.base.impl.ComposeDialogs
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,26 +29,25 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var logger: Logger
+    lateinit var exceptionHandler: AndroidExceptionHandler
 
     @Inject
-    lateinit var exceptionHandler: AndroidExceptionHandler
+    lateinit var dialogs: ComposeDialogs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logger.d("MainActivity:onCreate")
         setContent {
             JaberTheme {
-                JaberApp()
+                JaberApp(dialogs)
                 exceptionHandler.ErrorDialog()
             }
         }
     }
 }
 
-@PreviewScreenSizes
+//@PreviewScreenSizes
 @Composable
-fun JaberApp() {
+fun JaberApp(dialogs: ComposeDialogs) {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     NavigationSuiteScaffold(
@@ -70,7 +67,7 @@ fun JaberApp() {
             }
         }
     ) {
-        AppNavHost(modifier = Modifier.fillMaxSize())
+        AppNavHost(dialogs = dialogs, modifier = Modifier.fillMaxSize())
     }
 }
 
@@ -81,20 +78,4 @@ enum class AppDestinations(
     HOME("Home", Icons.Default.Home),
     FAVORITES("Favorites", Icons.Default.Favorite),
     PROFILE("Profile", Icons.Default.AccountBox),
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    JaberTheme {
-        Greeting("Android")
-    }
 }

@@ -1,22 +1,27 @@
 package com.messenger.jaber.navigation.base.impl
 
+import android.util.Log
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.Modifier
 import com.messenger.core.essentials.dialogs.Dialogs
 import com.messenger.core.essentials.dialogs.DialogsConfig
+import com.messenger.core.essentials.logger.DefaultLogger
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 
-class DialogsImpl @Inject constructor() : Dialogs {
+@Singleton
+class ComposeDialogs @Inject constructor() : Dialogs {
     private val dialogState = SnapshotStateList<DialogRecord>()
     private var idSeq = 0L
 
     override suspend fun showAlertDialog(config: DialogsConfig): Boolean {
+        DefaultLogger.d("showAlertDialog")
+
         return suspendCancellableCoroutine { continuation ->
             val currentId = ++idSeq
             val onDismissDialog = {
@@ -44,7 +49,8 @@ class DialogsImpl @Inject constructor() : Dialogs {
     }
 
     @Composable
-    fun Renderer(modifier: Modifier = Modifier) {
+    fun Renderer() {
+        Log.d("myTag", "Renderer:")
         dialogState.forEach { it.Renderer() }
     }
 

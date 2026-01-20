@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
+import com.messenger.jaber.navigation.base.impl.ComposeDialogs
 import com.messenger.jaber.navigation.base.impl.ExtendedNavGraphBuilderImpl
 import com.messenger.jaber.navigation.base.impl.ExtendedNavStoreImpl
 import com.messenger.jaber.navigation.base.impl.NavComponentAppRouter
@@ -28,10 +29,12 @@ import kotlinx.coroutines.awaitCancellation
 
 @Composable
 fun AppNavHost(
+    dialogs: ComposeDialogs,
     modifier: Modifier = Modifier,
     startDestination: Route = InitRoute,
     nanGraphBuilder: ExtendedNavGraphBuilder.() -> Unit = {}
 ) {
+
     val navController = rememberNavController()
     val context = LocalContext.current
     val navStore = remember { ExtendedNavStoreImpl(context) }
@@ -90,5 +93,6 @@ fun AppNavHost(
             navController = navController,
             graph = navGraph
         )
+        dialogs.Renderer()
     }
 }

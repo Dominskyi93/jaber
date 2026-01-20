@@ -13,6 +13,7 @@ object Dimens {
 
     val BadgeMediumSize = 24.dp
     val BadgeTinyTextSize = 10.sp
+    val BadgeMediumTextSize = 18.sp
 
     val MediumImageSize = 48.dp
     val ExtraLargeImageSize = 200.dp

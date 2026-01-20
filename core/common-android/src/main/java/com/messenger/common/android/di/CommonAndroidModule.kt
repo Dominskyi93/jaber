@@ -31,13 +31,17 @@ internal interface CommonAndroidModule {
     @Binds
     @IntoMap
     @ClassKey(CoreStringProvider::class)
-    fun bindCoreStringProvider(
+    fun bindCoreStringProviderIntoMap(
         impl: CoreStringProviderImpl
     ): StringProvider
+
+    @Binds
+    fun bindCoreStringProvider(
+        impl: CoreStringProviderImpl
+    ): CoreStringProvider
 
     @Binds
     fun bindExceptionToMessageMapper(
         impl: DefaultExceptionMessageMapper
     ): ExceptionToMessageMapper
-
 }

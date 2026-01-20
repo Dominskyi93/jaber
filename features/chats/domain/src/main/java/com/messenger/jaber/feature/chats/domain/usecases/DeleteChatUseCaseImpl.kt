@@ -1,6 +1,7 @@
 package com.messenger.jaber.feature.chats.domain.usecases
 
 import com.messenger.core.essentials.entities.Id
+import com.messenger.core.essentials.logger.Logger
 import com.messenger.jaber.feature.chats.domain.DeleteChatUseCase
 import com.messenger.jaber.feature.chats.domain.effects.ChatsUserChoices
 import com.messenger.jaber.feature.chats.domain.repositories.ChatsRepository
@@ -13,6 +14,7 @@ internal class DeleteChatUseCaseImpl @Inject constructor(
     override suspend fun invoke(chatId: Id) {
         val chat = chatsRepository.getChatById(chatId)
         val isConfirmed = userChoices.confirmChatRemoval(chat)
+        Logger.d("isConfirmed = $isConfirmed")
         if (isConfirmed) {
             chatsRepository.deleteChat(chatId)
         }

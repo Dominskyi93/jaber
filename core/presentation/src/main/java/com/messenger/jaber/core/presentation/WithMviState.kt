@@ -58,10 +58,10 @@ interface WithMviState<State> : ViewModelMixin, WithCommonDependencies, ReducerO
         }
     }
 
-    fun <T> Flow<Container<T>>.containerToReducer(
-        initialState: suspend (T, Boolean) -> State,
-        nextState: suspend (State, T, Boolean) -> State
-    ): ContainerReducer<State> {
+    fun <T, S : State> Flow<Container<T>>.containerToReducer(
+        initialState: suspend (T, Boolean) -> S,
+        nextState: suspend (S, T, Boolean) -> S
+    ): ContainerReducer<S> {
         return combineContainersToReducer(
             this,
             progressStateFlow.map(::successContainer),

@@ -29,35 +29,32 @@ fun <T> ContainerView(
     content: @Composable (T) -> Unit
 ) {
     Box(modifier.fillMaxSize()) {
-        when (container) {
-
-            is Container.Pending -> {
+        container.fold(
+            onPending = {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
-            }
-
-            is Container.Error -> {
-                val message = exceptionToMessageMapper.getLocalizedMessage(container.exception)
+            },
+            onError = { exception ->
+                val message = exceptionToMessageMapper.getLocalizedMessage(exception)
                 ErrorContainerView(message) {
                     onTryAgainAction()
                 }
-            }
-
-            is Container.Success -> {
+            },
+            onSuccess = { value ->
                 if (enablePullToRefresh) {
                     PullToRefreshBox(
-                        isRefreshing = container.isLoadingInBackground,
-                        onRefresh = { onTryAgainAction() },
+                        isRefreshing = isLoadingInBackground,
+                        onRefresh = { reload(silently = true) },
                         modifier = modifier.fillMaxSize()
                     ) {
-                        content(container.value)
+                        content(value)
                     }
                 } else {
-                    content(container.value)
+                    content(value)
                 }
             }
-        }
+        )
     }
 }
 
