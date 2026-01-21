@@ -16,7 +16,7 @@ composeBom = "2026.01.00"
 appcompat = "1.7.1"
 material = "1.13.0"
 timber = "5.0.1"
-hilt = "2.57.2"
+hilt = "2.58"
 ksp = "2.3.0"
 navigation = "2.9.6"
 hiltNavigation = "1.3.0"
@@ -58,7 +58,6 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
-kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }

@@ -29,7 +29,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    ksp(libs.kotlin.metadata.jvm)
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
