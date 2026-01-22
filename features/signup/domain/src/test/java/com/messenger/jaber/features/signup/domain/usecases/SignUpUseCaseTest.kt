@@ -12,7 +12,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -42,7 +41,7 @@ class SignUpUseCaseTest {
         useCase.invoke(account)
 
         coVerify(exactly = 1) {
-            repository.createAccount(account)
+            repository.createFirebaseAccount(account)
         }
     }
 
@@ -60,7 +59,7 @@ class SignUpUseCaseTest {
         useCase.invoke(account)
 
         coVerify(exactly = 0) {
-            repository.createAccount(any())
+            repository.createFirebaseAccount(any())
         }
     }
 }

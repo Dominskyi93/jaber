@@ -13,11 +13,12 @@ import javax.inject.Inject
 class CreateAccountDataRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : CreateAccountDataRepository {
-    override suspend fun createAccount(email: String, password: String) {
-        containerOf {
-            auth
+    override suspend fun createAccount(email: String, password: String): String {
+        return containerOf {
+            val result = auth
                 .createUserWithEmailAndPassword(email, password)
                 .await()
+            result.user!!.uid
         }.mapException(Exception::class) { e ->
             val cause = e.cause
             if (cause is FirebaseAuthUserCollisionException) {

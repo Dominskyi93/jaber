@@ -4,5 +4,4 @@ import com.messenger.common.android.AbstractApplication
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class App() : AbstractApplication() {
-}
+class App() : AbstractApplication()

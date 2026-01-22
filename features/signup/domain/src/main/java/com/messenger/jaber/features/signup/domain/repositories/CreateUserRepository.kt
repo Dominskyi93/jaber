@@ -2,6 +2,6 @@ package com.messenger.jaber.features.signup.domain.repositories
 
 import com.messenger.jaber.features.signup.domain.entities.NewAccount
 
-interface CreateAccountRepository {
-    suspend fun createFirebaseAccount(newAccount: NewAccount): String
+interface CreateUserRepository {
+    suspend fun createUserData(account: NewAccount, uid: String)
 }

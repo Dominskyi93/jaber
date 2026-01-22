@@ -8,7 +8,7 @@ import javax.inject.Inject
 class SignUpCreateAccountRepository @Inject constructor(
     private val createAccountRepository: CreateAccountDataRepository
 ) : CreateAccountRepository {
-    override suspend fun createAccount(newAccount: NewAccount) {
-        createAccountRepository.createAccount(newAccount.login, newAccount.password)
+    override suspend fun createFirebaseAccount(newAccount: NewAccount): String {
+        return createAccountRepository.createAccount(newAccount.login, newAccount.password)
     }
 }
