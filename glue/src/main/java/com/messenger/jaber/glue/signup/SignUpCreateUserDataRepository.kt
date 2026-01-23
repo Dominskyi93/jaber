@@ -10,6 +10,7 @@ class SignUpCreateUserDataRepository @Inject constructor(
     private val createUserDataRepository: CreateUserDataRepository
 ) : CreateUserRepository {
     override suspend fun createUserData(account: NewAccount, uid: String) {
-        createUserDataRepository.createUser(MappedUserData().mapAccountToUserData(account), uid)
+        val userData = MappedUserData().mapAccountToUserData(account).copy(uid = uid)
+        createUserDataRepository.createUser(userData)
     }
 }

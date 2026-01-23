@@ -24,6 +24,8 @@ dependencies {
     ksp(libs.hilt.compiler)
     //container
     implementation(libs.container)
+
+    implementation(libs.firebase.firestore)
     //compose
     implementation(libs.collections.immutable)
     implementation(platform(libs.androidx.compose.bom))

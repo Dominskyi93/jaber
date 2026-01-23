@@ -1,6 +1,5 @@
 package com.messenger.jaber.data.firestore.userData
 
-import android.util.Log
 import com.elveum.container.unwrap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.messenger.jaber.core.data.network.containerOf
@@ -13,12 +12,11 @@ import javax.inject.Singleton
 class CreateUserDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : CreateUserDataRepository {
-    override suspend fun createUser(userData: UserData.Default, uid: String) {
+    override suspend fun createUser(userData: UserData.Default) {
         containerOf {
-            Log.d("myTag", "uid = $uid")
-            firestore.collection("users")
-                .document()
-                .set(userData)
+            firestore
+                .collection("users")
+                .add(userData)
         }.unwrap()
 
     }
