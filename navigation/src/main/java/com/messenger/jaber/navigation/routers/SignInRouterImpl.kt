@@ -1,7 +1,7 @@
 package com.messenger.jaber.navigation.routers
 
 import android.content.Context
-import android.widget.Toast
+import com.messenger.jaber.navigation.ChatsRoute
 import com.messenger.jaber.navigation.SignUpRoute
 import com.messenger.jaber.navigation.base.AppRouter
 import com.messenger.jaber.signin.presentation.SignInRouter
@@ -12,20 +12,13 @@ class SignInRouterImpl @Inject constructor(
     private val appRouter: AppRouter,
     @ApplicationContext private val context: Context
 ) : SignInRouter {
-    override fun launchTermsAndConditions() {
-        Toast.makeText(context, "launchTermsAndConditions", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun launchPrivacyPolicy() {
-        Toast.makeText(context, "launchPrivacyPolicy", Toast.LENGTH_SHORT).show()
-    }
 
     override fun navigateUp() {
         appRouter.goBack()
     }
 
-    override fun launchMain() {
-        Toast.makeText(context, "launchMain", Toast.LENGTH_SHORT).show()
+    override fun launchChats() {
+        appRouter.launch(ChatsRoute)
     }
 
     override fun launchSignUp() {

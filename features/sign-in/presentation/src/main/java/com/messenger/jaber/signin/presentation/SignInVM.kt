@@ -28,7 +28,7 @@ class SignInVM @Inject constructor(
         viewModelScope
         try {
             signInUseCase(credentials)
-            router.launchMain()
+            router.launchChats()
         } catch (e: EmptyFieldException) {
             showEmptyFieldErrorMessage(e.inputField)
         }
