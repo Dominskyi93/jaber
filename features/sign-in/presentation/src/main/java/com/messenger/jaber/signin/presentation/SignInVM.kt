@@ -1,6 +1,5 @@
 package com.messenger.jaber.signin.presentation
 
-import androidx.lifecycle.viewModelScope
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.signin.domain.SignInUseCase
@@ -24,12 +23,12 @@ class SignInVM @Inject constructor(
     )
     val stateFlow = reducer.stateFlow
 
-    fun signIn(credentials: Credentials) = launch {
-        viewModelScope
+    fun signIn(credentials: Credentials) = launch(WithMviState.HideProgressPolicy.ON_ERROR) {
         try {
             signInUseCase(credentials)
-            router.launchChats()
+            router.launchMain()
         } catch (e: EmptyFieldException) {
+            updateProgress(false)
             showEmptyFieldErrorMessage(e.inputField)
         }
     }

@@ -45,9 +45,9 @@ class InitViewModel @Inject constructor(
     private suspend fun authorize() {
         val isAuthorized = isAuthorizedUseCase.invoke()
         if (isAuthorized) {
-            router.launchChats()
+            router.launchMainFlow()
         } else {
-            router.launchSignIn()
+            router.launchAuthFlow()
         }
     }
 

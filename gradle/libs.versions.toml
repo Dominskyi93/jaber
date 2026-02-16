@@ -30,6 +30,7 @@ kotlinSerialization = "1.9.0"
 mockk = "1.14.9"
 flowTest = "1.1.0"
 collections-immutable = "0.4.0"
+runtime = "1.10.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -84,6 +85,7 @@ plugin-kotlin-jvm = { module = "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jv
 plugin-hilt-android = { module = "com.google.dagger.hilt.android:com.google.dagger.hilt.android.gradle.plugin", version.ref = "hilt" }
 plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin", version.ref = "serialization" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 custom-android-application = { id = "custom-android-application" }

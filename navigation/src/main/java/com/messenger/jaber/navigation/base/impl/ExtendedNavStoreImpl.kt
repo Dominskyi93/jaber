@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import com.messenger.jaber.core.navigation.dsl.ConfiguredScreen
+import com.messenger.jaber.core.navigation.dsl.ScreenNavigationBar
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.Route
@@ -77,6 +78,8 @@ class ExtendedNavStoreImpl(
         private val navEntry: NavBackStackEntry
     ) : ScreenScope {
         override var toolbar: ScreenToolbar by mutableStateOf(ScreenToolbar.Hidden)
+        override var navigationBar: ScreenNavigationBar by mutableStateOf(ScreenNavigationBar.Hidden)
+
         private var content: @Composable () -> Unit by mutableStateOf({})
         override val coroutineScope: CoroutineScope get() = navEntry.lifecycleScope
 
@@ -94,7 +97,6 @@ class ExtendedNavStoreImpl(
         ): T {
             return getViewmodel(vmClass, callback)
         }
-
 
         @Composable
         fun ScreenContent() {

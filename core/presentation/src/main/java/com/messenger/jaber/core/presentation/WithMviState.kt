@@ -92,11 +92,11 @@ interface WithMviState<State> : ViewModelMixin, WithCommonDependencies, ReducerO
         )
     }
 
-    private fun getMixinState() = getMixinState(::MixinState)
-
-    private fun updateProgress(value: Boolean) = with(getMixinState()) {
+    fun updateProgress(value: Boolean) = with(getMixinState()) {
         progressStateFlow.value = value
     }
+
+    private fun getMixinState() = getMixinState(::MixinState)
 
     private class MixinState(
         val progressStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)

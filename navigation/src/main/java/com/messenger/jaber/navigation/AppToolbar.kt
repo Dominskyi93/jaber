@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 @Composable
-fun AppToolBar(
+fun AppToolbar(
     title: String,
     showBackButton: Boolean,
     onBackPressed: () -> Unit

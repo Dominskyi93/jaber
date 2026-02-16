@@ -12,6 +12,8 @@ interface ScreenScope : ConfiguredScreen {
 
     override var toolbar: ScreenToolbar
 
+    override var navigationBar: ScreenNavigationBar
+
     fun content(block: @Composable () -> Unit)
 
     fun <T : ViewModel> viewmodel(vmClass: KClass<T>): T
