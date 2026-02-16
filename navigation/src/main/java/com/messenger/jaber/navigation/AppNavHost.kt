@@ -19,6 +19,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
+import com.messenger.jaber.core.navigation.dsl.ScreenNavigationBar
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
 import com.messenger.jaber.navigation.base.impl.ComposeDialogs
@@ -80,6 +81,14 @@ fun AppNavHost(
                     title = toolbar.title,
                     showBackButton = showBackButton,
                     onBackPressed = { navController.navigateUp() },
+                )
+            }
+        },
+        bottomBar = {
+            val navigationBar = navStore.screen.navigationBar
+            if (navigationBar is ScreenNavigationBar.Default) {
+                AppNavigationBar(
+                    navigationBar = navigationBar
                 )
             }
         },

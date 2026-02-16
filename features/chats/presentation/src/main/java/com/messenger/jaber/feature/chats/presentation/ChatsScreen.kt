@@ -1,7 +1,6 @@
 package com.messenger.jaber.feature.chats.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,16 +17,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -138,9 +135,7 @@ fun ChatsList(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
+        LazyColumn {
             items(
                 items = chats,
                 key = { it.id.value }
@@ -189,106 +184,107 @@ fun ChatItem(
     onDeleteChat: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding),
-        modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .alpha(if (chat.isEnabled) 1f else 0.5f)
-            .unreadMessagesBackground(
-                chat.hasUnreadMessages,
-                MaterialTheme.colorScheme.secondaryContainer
-            )
-            .border(1.dp, Black, RoundedCornerShape(4.dp))
-            .clickable {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .alpha(if (chat.isEnabled) 1f else 0.5f)
+                .unreadMessagesBackground(
+                    chat.hasUnreadMessages,
+                    MaterialTheme.colorScheme.secondaryContainer
+                )
+                .clickable {
 
-            }
-            .padding(
-                vertical = Dimens.ExtraSmallPadding,
-                horizontal = Dimens.SmallPadding
-            )
-    ) {
-
-        AvatarImageView(
-            name = chat.title,
-            imageSource = chat.imageSource,
-            modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f)
-        )
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(Dimens.TinySpace),
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.Top)
+                }
+                .padding(
+                    vertical = Dimens.ExtraSmallPadding,
+                    horizontal = Dimens.SmallPadding
+                )
         ) {
-            Text(
-                text = chat.title,
-                maxLines = 1,
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold
-            )
 
-            chat.lastMessage?.let {
-                Text(
-                    text = it,
-                    maxLines = 1,
-                    fontSize = Dimens.BadgeTinyTextSize,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-
-        if (chat.hasUnreadMessages) {
-            val countMessages =
-                if (chat.unreadMessageCount <= 9) "${chat.unreadMessageCount}" else "9+"
-
-            Text(
-                text = countMessages,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-                fontSize = Dimens.BadgeMediumTextSize,
-                fontWeight = FontWeight.Bold,
+            AvatarImageView(
+                name = chat.title,
+                imageSource = chat.imageSource,
                 modifier = Modifier
-                    .size(Dimens.BadgeMediumSize)
-                    .background(
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = CircleShape
-                    )
+                    .fillMaxHeight()
+                    .aspectRatio(1f)
             )
-        }
 
-        Box {
-            var expanded by remember { mutableStateOf(false) }
-
-            IconButton(
-                onClick = { expanded = true },
-                enabled = chat.isEnabled
+            Column(
+                verticalArrangement = Arrangement.spacedBy(Dimens.TinySpace),
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.Top)
             ) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "Actions for ${chat.title}",
-                    tint = MaterialTheme.colorScheme.outline
+                Text(
+                    text = chat.title,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                chat.lastMessage?.let {
+                    Text(
+                        text = it,
+                        maxLines = 1,
+                        fontSize = Dimens.BadgeTinyTextSize,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (chat.hasUnreadMessages) {
+                val countMessages =
+                    if (chat.unreadMessageCount <= 9) "${chat.unreadMessageCount}" else "9+"
+
+                Text(
+                    text = countMessages,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    fontSize = Dimens.BadgeMediumTextSize,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .size(Dimens.BadgeMediumSize)
+                        .background(
+                            color = MaterialTheme.colorScheme.tertiaryContainer,
+                            shape = CircleShape
+                        )
                 )
             }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Delete Chat") },
-                    onClick = {
-                        onDeleteChat()
-                        expanded = false
-                    }
-                )
+
+            Box {
+                var expanded by remember { mutableStateOf(false) }
+
+                IconButton(
+                    onClick = { expanded = true },
+                    enabled = chat.isEnabled
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "Actions for ${chat.title}",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Delete Chat") },
+                        onClick = {
+                            onDeleteChat()
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
-
+        HorizontalDivider()
     }
 }
 
