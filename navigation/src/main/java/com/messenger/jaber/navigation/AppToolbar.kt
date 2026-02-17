@@ -22,7 +22,10 @@ fun AppToolbar(
 ) {
     TopAppBar(
         title = {
-            Text(title)
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         },
         navigationIcon = {
             if (showBackButton) {
@@ -31,13 +34,14 @@ fun AppToolbar(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                        contentDescription = stringResource(R.string.navigate_up)
+                        contentDescription = stringResource(R.string.navigate_up),
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.primary
         )
     )
 }

@@ -6,19 +6,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.hilt.lifecycle.viewmodel.HiltViewModelFactory
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import com.messenger.jaber.core.navigation.dsl.ConfiguredScreen
+import com.messenger.jaber.core.navigation.dsl.ScreenBackHandler
 import com.messenger.jaber.core.navigation.dsl.ScreenNavigationBar
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.Route
 import com.messenger.jaber.navigation.base.ExtendedNavStore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class ExtendedNavStoreImpl(
@@ -77,25 +81,32 @@ class ExtendedNavStoreImpl(
         override val context: Context,
         private val navEntry: NavBackStackEntry
     ) : ScreenScope {
+        override val savedStateHandle: SavedStateHandle
+            get() = viewModel(SavedStateHandleViewModel::class).savedStateHandle
+
         override var toolbar: ScreenToolbar by mutableStateOf(ScreenToolbar.Hidden)
+
         override var navigationBar: ScreenNavigationBar by mutableStateOf(ScreenNavigationBar.Hidden)
 
+        override var backHandler: ScreenBackHandler by mutableStateOf(ScreenBackHandler.Default)
+
         private var content: @Composable () -> Unit by mutableStateOf({})
+
         override val coroutineScope: CoroutineScope get() = navEntry.lifecycleScope
 
         override fun content(block: @Composable (() -> Unit)) {
             this.content = block
         }
 
-        override fun <T : ViewModel> viewmodel(vmClass: KClass<T>): T {
-            return getViewmodel<T, Nothing>(vmClass)
+        override fun <T : ViewModel> viewModel(vmClass: KClass<T>): T {
+            return getViewModel<T, Nothing>(vmClass)
         }
 
-        override fun <T : ViewModel, F> viewmodel(
+        override fun <T : ViewModel, F> viewModel(
             vmClass: KClass<T>,
             callback: F.() -> T
         ): T {
-            return getViewmodel(vmClass, callback)
+            return getViewModel(vmClass, callback)
         }
 
         @Composable
@@ -103,7 +114,7 @@ class ExtendedNavStoreImpl(
             content()
         }
 
-        private fun <T : ViewModel, F> getViewmodel(
+        private fun <T : ViewModel, F> getViewModel(
             vmClass: KClass<T>,
             callback: (F.() -> T)? = null
         ): T {
@@ -117,5 +128,11 @@ class ExtendedNavStoreImpl(
             val provider = ViewModelProvider(navEntry.viewModelStore, factory, finalExtras)
             return provider[vmClass]
         }
+
     }
+
+    @HiltViewModel
+    internal class SavedStateHandleViewModel @Inject constructor(
+        val savedStateHandle: SavedStateHandle
+    ) : ViewModel()
 }

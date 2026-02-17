@@ -37,8 +37,8 @@ import com.messenger.jaber.signin.domain.entities.InputField
 
 fun ScreenScope.signInScreen() {
 
-    toolbar = ScreenToolbar.Default(context.getString(R.string.signinscreen))
-    val viewModel: SignInVM = viewmodel(SignInVM::class)
+    toolbar = ScreenToolbar.Default(context.getString(R.string.sign_in))
+    val viewModel: SignInVM = viewModel(SignInVM::class)
 
     content {
         val state by viewModel.stateFlow.collectAsStateWithLifecycle()

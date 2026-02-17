@@ -20,7 +20,7 @@ import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 fun ScreenScope.congratsScreen() {
 
     toolbar = ScreenToolbar.Default(context.getString(R.string.signup_congratulations_toolbar))
-    val viewModel = viewmodel(CongratsVM::class)
+    val viewModel = viewModel(CongratsVM::class)
 
     content {
         CongratsContent(

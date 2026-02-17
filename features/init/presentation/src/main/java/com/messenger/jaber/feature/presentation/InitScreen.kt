@@ -44,7 +44,7 @@ import kotlinx.coroutines.delay
 fun ScreenScope.initScreen() {
 
     toolbar = ScreenToolbar.Hidden
-    val viewModel: InitViewModel = viewmodel(InitViewModel::class)
+    val viewModel: InitViewModel = viewModel(InitViewModel::class)
 
     content {
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()

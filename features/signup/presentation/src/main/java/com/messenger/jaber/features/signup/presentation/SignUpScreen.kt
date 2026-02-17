@@ -45,7 +45,7 @@ fun ScreenScope.signUpScreen() {
     toolbar = ScreenToolbar.Default(
         context.getString(R.string.signup_sign_up_screen)
     )
-    val viewModel: SignUpVM = viewmodel(SignUpVM::class)
+    val viewModel: SignUpVM = viewModel(SignUpVM::class)
 
     content {
         val state by viewModel.stateFlow.collectAsState()

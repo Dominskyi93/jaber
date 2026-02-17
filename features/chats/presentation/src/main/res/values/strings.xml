@@ -5,4 +5,5 @@
     <string name="empty_chats_message">You don`t have existing chats yet. Would you like to create a new one?</string>
     <string name="empty_chats">Empty chats</string>
     <string name="user_image">User image</string>
+    <string name="chats_title">Chats</string>
 </resources>

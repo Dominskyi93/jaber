@@ -18,11 +18,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Message
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -55,41 +52,18 @@ import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.AvatarImageView
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
-import com.messenger.jaber.core.navigation.dsl.NavigationButton
-import com.messenger.jaber.core.navigation.dsl.ScreenNavigationBar
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.feature.chats.domain.entities.Chat
 import com.messenger.jaber.feature.chats.domain.entities.hasUnreadMessages
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 fun ScreenScope.chatsScreen() {
-    val viewModel = viewmodel(ChatsViewModel::class)
-    toolbar = ScreenToolbar.Default("Chats screen")
-    navigationBar = ScreenNavigationBar.Default(
-        buttons = persistentListOf(
-            NavigationButton(
-                icon = Icons.Default.AccountBox,
-                label = "Profile",
-                onClick = {}
-            ),
-            NavigationButton(
-                icon = Icons.AutoMirrored.Default.Message,
-                label = "Chats",
-                onClick = {},
-                isSelected = true
-            ),
-            NavigationButton(
-                icon = Icons.Default.Settings,
-                label = "Settings",
-                onClick = {}
-            ),
-        )
-    )
+    val viewModel = viewModel(ChatsViewModel::class)
+    toolbar = ScreenToolbar.Default(context.getString(R.string.chats_title))
+
     content {
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()
-
         ContainerView(
             container = container,
             enablePullToRefresh = true,
@@ -181,8 +155,8 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
 @Composable
 fun ChatItem(
     chat: UiChat,
-    onDeleteChat: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDeleteChat: () -> Unit = {}
 ) {
     Column {
         Row(
@@ -295,12 +269,6 @@ private fun Modifier.unreadMessagesBackground(hasUnreadMessages: Boolean, color:
         this
     }
 }
-
-//@ScreenPreview
-//@Composable
-//fun ChatsContentPreview() = PreviewScreenContent {
-//    ChatsContent(emptyList<Chat>())
-//}
 
 @Preview
 @Composable

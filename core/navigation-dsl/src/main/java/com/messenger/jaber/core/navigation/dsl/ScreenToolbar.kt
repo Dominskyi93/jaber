@@ -7,6 +7,4 @@ sealed class ScreenToolbar {
     data class Default(
         val title: String
     ) : ScreenToolbar()
-
-
 }

@@ -1,5 +1,6 @@
 package com.messenger.jaber.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
+import com.messenger.jaber.core.navigation.dsl.ScreenBackHandler
 import com.messenger.jaber.core.navigation.dsl.ScreenNavigationBar
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
@@ -73,14 +75,29 @@ fun AppNavHost(
         }
     }
 
+    val onBackPressed: () -> Unit =
+        when (val backHandler = navStore.screen.backHandler) {
+            is ScreenBackHandler.Custom -> backHandler.onBackPressed
+            ScreenBackHandler.Default -> {
+                { navController.navigateUp() }
+            }
+        }
+    BackHandler(
+        enabled = navStore.screen.backHandler is ScreenBackHandler.Custom
+    ) {
+        onBackPressed()
+    }
+
     Scaffold(
         topBar = {
             val toolbar = navStore.screen.toolbar
+
+
             if (toolbar is ScreenToolbar.Default) {
                 AppToolbar(
                     title = toolbar.title,
                     showBackButton = showBackButton,
-                    onBackPressed = { navController.navigateUp() },
+                    onBackPressed = onBackPressed,
                 )
             }
         },

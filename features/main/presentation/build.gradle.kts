@@ -14,7 +14,7 @@ android {
 }
 
 dependencies {
-//    api(projects.features.chats.domain)
+    api(projects.features.main.domain)
     implementation(projects.core.essentials)
     implementation(projects.core.presentation)
     implementation(projects.core.theme)

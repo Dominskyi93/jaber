@@ -24,35 +24,3 @@ class ExtendedNavGraphBuilderImpl(
         }
     }
 }
-
-//origin.addEntryProvider(
-//clazz = routeClass,
-//content = {
-//    route ->
-//    val context = LocalContext.current
-//    val coroutineScope = rememberCoroutineScope()
-//    val viewModelStoreOwner = requireNotNull(LocalViewModelStoreOwner.current)
-//    viewModelStoreOwner as HasDefaultViewModelProviderFactory
-//
-//    val nav3ScreenScope = remember(
-//        kotlin.context,
-//        kotlinx.coroutines.coroutineScope,
-//        viewModelStoreOwner,
-//        route
-//    ) {
-//        Nav3ScreenScope(context, coroutineScope, coroutineScope, route) {
-//            configuration(this, route)
-//        }
-//    }
-//
-//    AppScreenScaffold(
-//        toolbar = nav3ScreenScope.toolbar,
-//        navigationBar = nav3ScreenScope.navigationBar,
-//        onBackPressed = router::goBack,
-//        showBackButton = !router.isRoot(route),
-//        modifier = Modifier.fillMaxSize()
-//
-//    ) { nav3ScreenScope.Content() }
-//
-//}
-//)
