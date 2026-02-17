@@ -1,0 +1,51 @@
+plugins {
+    alias(libs.plugins.custom.android.library)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.compose)
+}
+
+android {
+    namespace = "com.messenger.jaber.feature.main.presentation"
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+//    api(projects.features.chats.domain)
+    implementation(projects.core.essentials)
+    implementation(projects.core.presentation)
+    implementation(projects.core.theme)
+    implementation(projects.core.navigationDsl)
+    //hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    //container
+    implementation(libs.container)
+
+    implementation(libs.firebase.firestore)
+    //compose
+    implementation(libs.collections.immutable)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.material.icons.extended)
+
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    implementation(libs.navigation.compose)
+    implementation(libs.hilt.navigation)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+}
