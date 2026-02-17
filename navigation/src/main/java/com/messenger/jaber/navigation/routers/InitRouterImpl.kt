@@ -1,7 +1,6 @@
 package com.messenger.jaber.navigation.routers
 
 import com.messenger.jaber.feature.presentation.InitRouter
-import com.messenger.jaber.navigation.ChatsRoute
 import com.messenger.jaber.navigation.base.AppRouter
 import com.messenger.jaber.navigation.base.launchAuthFlow
 import com.messenger.jaber.navigation.base.launchMainFlow

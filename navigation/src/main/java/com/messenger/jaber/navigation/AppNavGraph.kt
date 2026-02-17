@@ -8,6 +8,7 @@ import com.messenger.jaber.feature.chats.presentation.chatsScreen
 import com.messenger.jaber.feature.main.presentation.Tab
 import com.messenger.jaber.feature.main.presentation.mainScreen
 import com.messenger.jaber.feature.presentation.initScreen
+import com.messenger.jaber.feature.profile.presentation.profileScreen
 import com.messenger.jaber.features.signup.presentation.congratsScreen
 import com.messenger.jaber.features.signup.presentation.signUpScreen
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
@@ -15,7 +16,7 @@ import com.messenger.jaber.navigation.base.composable
 import com.messenger.jaber.signin.presentation.signInScreen
 import com.messenger.jaber.feature.chats.presentation.R as ChatsR
 import com.messenger.jaber.features.signup.presentation.R as CongratsR
-import com.messenger.jaber.signin.presentation.R as SignInR
+import com.messenger.jaber.feature.profile.presentation.R as ProfileR
 
 fun ExtendedNavGraphBuilder.buildAppNavGraph() {
     composable<InitRoute> {
@@ -30,19 +31,20 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
     composable<CongratsRoute> {
         congratsScreen()
     }
-    //may remove later
     composable<ChatsRoute> {
         chatsScreen()
     }
 
+    composable<ProfileRoute> {
+        profileScreen()
+    }
+
     composable<MainRoute> {
         mainScreen(
-
-            //change to Profile
             Tab(
                 icon = Icons.Default.AccountBox,
-                label = { getString(SignInR.string.sign_in) },
-                configuration = { signInScreen() }
+                label = { getString(ProfileR.string.profile) },
+                configuration = { profileScreen() }
             ),
             Tab(
                 icon = Icons.AutoMirrored.Default.Message,

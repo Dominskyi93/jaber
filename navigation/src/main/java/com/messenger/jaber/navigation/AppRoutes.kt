@@ -21,3 +21,6 @@ data object CongratsRoute : Route
 
 @Serializable
 data object ChatsRoute : Route
+
+@Serializable
+data object ProfileRoute : Route
