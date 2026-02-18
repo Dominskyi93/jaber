@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -46,12 +47,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.elveum.container.errorContainer
 import com.elveum.container.successContainer
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
 import com.messenger.core.theme.components.AvatarImageView
 import com.messenger.core.theme.components.ContainerView
 import com.messenger.core.theme.components.ProgressButton
+import com.messenger.jaber.core.navigation.dsl.Action
 import com.messenger.jaber.core.navigation.dsl.ScreenScope
 import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.feature.chats.domain.entities.Chat
@@ -60,7 +63,13 @@ import kotlinx.collections.immutable.ImmutableList
 
 fun ScreenScope.chatsScreen() {
     val viewModel = viewModel(ChatsViewModel::class)
-    toolbar = ScreenToolbar.Default(context.getString(R.string.chats_title))
+    toolbar = ScreenToolbar.Default(
+        title = context.getString(R.string.chats_title),
+        action = Action(
+            icon = Icons.Filled.AddCircle,
+            onClick = {}
+        )
+    )
 
     content {
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()

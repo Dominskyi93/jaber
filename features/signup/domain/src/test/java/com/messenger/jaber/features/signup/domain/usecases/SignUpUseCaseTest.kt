@@ -4,6 +4,7 @@ import com.messenger.jaber.features.signup.domain.entities.NewAccount
 import com.messenger.jaber.features.signup.domain.entities.ValidationResult
 import com.messenger.jaber.features.signup.domain.exceptions.base.AbstractValidationException
 import com.messenger.jaber.features.signup.domain.repositories.CreateAccountRepository
+import com.messenger.jaber.features.signup.domain.repositories.CreateUserRepository
 import com.messenger.jaber.features.signup.domain.validators.NewAccountValidator
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -20,7 +21,11 @@ class SignUpUseCaseTest {
     private lateinit var validator: NewAccountValidator
 
     @RelaxedMockK
-    private lateinit var repository: CreateAccountRepository
+    private lateinit var createAccountRepository: CreateAccountRepository
+
+    @RelaxedMockK
+    private lateinit var createUserRepository: CreateUserRepository
+
     private lateinit var useCase: SignUpUseCaseImpl
 
     @Before
@@ -28,7 +33,8 @@ class SignUpUseCaseTest {
         MockKAnnotations.init(this)
         useCase = SignUpUseCaseImpl(
             newAccountValidator = validator,
-            createAccountRepository = repository
+            createAccountRepository = createAccountRepository,
+            createUserRepository = createUserRepository
         )
     }
 
@@ -41,7 +47,7 @@ class SignUpUseCaseTest {
         useCase.invoke(account)
 
         coVerify(exactly = 1) {
-            repository.createFirebaseAccount(account)
+            createAccountRepository.createFirebaseAccount(account)
         }
     }
 
@@ -59,7 +65,7 @@ class SignUpUseCaseTest {
         useCase.invoke(account)
 
         coVerify(exactly = 0) {
-            repository.createFirebaseAccount(any())
+            createAccountRepository.createFirebaseAccount(any())
         }
     }
 }

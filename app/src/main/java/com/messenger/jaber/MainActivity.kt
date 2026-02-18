@@ -36,34 +36,5 @@ class MainActivity : ComponentActivity() {
 //@PreviewScreenSizes
 @Composable
 fun JaberApp(dialogs: ComposeDialogs) {
-//    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
-//
-//    NavigationSuiteScaffold(
-//        navigationSuiteItems = {
-//            AppDestinations.entries.forEach {
-//                item(
-//                    icon = {
-//                        Icon(
-//                            it.icon,
-//                            contentDescription = it.label
-//                        )
-//                    },
-//                    label = { Text(it.label) },
-//                    selected = it == currentDestination,
-//                    onClick = { currentDestination = it }
-//                )
-//            }
-//        }
-//    ) {
     AppNavHost(dialogs = dialogs, modifier = Modifier.fillMaxSize())
-//    }
 }
-
-//enum class AppDestinations(
-//    val label: String,
-//    val icon: ImageVector,
-//) {
-//    HOME("Home", Icons.Default.Home),
-//    FAVORITES("Favorites", Icons.Default.Favorite),
-//    PROFILE("Profile", Icons.Default.AccountBox),
-//}

@@ -91,13 +91,17 @@ fun AppNavHost(
     Scaffold(
         topBar = {
             val toolbar = navStore.screen.toolbar
-
-
             if (toolbar is ScreenToolbar.Default) {
+                val actionButton = toolbar.action
+
                 AppToolbar(
                     title = toolbar.title,
                     showBackButton = showBackButton,
                     onBackPressed = onBackPressed,
+                    actionButtonIcon = actionButton?.icon,
+                    onPressedActionButton = if (actionButton != null) {
+                        actionButton.onClick
+                    } else { {} }
                 )
             }
         },
