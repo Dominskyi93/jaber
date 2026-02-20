@@ -52,13 +52,23 @@ class ChatsViewModel @Inject constructor(
         oldState.copy(disabledChatIds = oldState.disabledChatIds + chatId)
     }
 
+     fun showBottomSheet() = reducer.updateState { oldState ->
+        oldState.copy(showBottomSheets = true)
+    }
+
+    fun hideBottomSheet() = reducer.updateState { oldState ->
+        oldState.copy(showBottomSheets = false)
+    }
+
     interface State {
         val chats: ImmutableList<UiChat>
+        val showBottomSheet: Boolean
     }
 
     data class StateImpl(
         val originChats: List<Chat>,
-        val disabledChatIds: Set<Id> = emptySet()
+        val disabledChatIds: Set<Id> = emptySet(),
+        val showBottomSheets: Boolean = false
     ) : State {
         override val chats: ImmutableList<UiChat> = originChats
             .map { originChat ->
@@ -67,5 +77,6 @@ class ChatsViewModel @Inject constructor(
                     isEnabled = !disabledChatIds.contains(originChat.id)
                 )
             }.toImmutableList()
+        override val showBottomSheet: Boolean = showBottomSheets
     }
 }

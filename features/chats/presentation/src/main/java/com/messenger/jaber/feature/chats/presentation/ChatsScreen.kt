@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.messenger.jaber.feature.chats.presentation
 
 import androidx.compose.foundation.background
@@ -23,15 +25,19 @@ import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +53,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elveum.container.Container
 import com.elveum.container.errorContainer
 import com.elveum.container.successContainer
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.messenger.core.essentials.entities.Id
 import com.messenger.core.essentials.exceptions.ConnectionException
 import com.messenger.core.theme.Dimens
@@ -60,6 +65,7 @@ import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.feature.chats.domain.entities.Chat
 import com.messenger.jaber.feature.chats.domain.entities.hasUnreadMessages
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 
 fun ScreenScope.chatsScreen() {
     val viewModel = viewModel(ChatsViewModel::class)
@@ -67,12 +73,15 @@ fun ScreenScope.chatsScreen() {
         title = context.getString(R.string.chats_title),
         action = Action(
             icon = Icons.Filled.AddCircle,
-            onClick = {}
+            onClick = {
+                viewModel.showBottomSheet()
+            }
         )
     )
 
     content {
         val container by viewModel.stateFlow.collectAsStateWithLifecycle()
+
         ContainerView(
             container = container,
             enablePullToRefresh = true,
@@ -86,6 +95,12 @@ fun ScreenScope.chatsScreen() {
                     state = state,
                     onAction = viewModel::executeAction
                 )
+                if (state.showBottomSheet) {
+                    SearchBottomSheetContent(
+                        state = state,
+                        onDismiss = { viewModel.hideBottomSheet() }
+                    )
+                }
             }
         }
     }

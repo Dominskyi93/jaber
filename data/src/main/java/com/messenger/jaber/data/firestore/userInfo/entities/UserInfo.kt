@@ -1,6 +1,6 @@
-package com.messenger.jaber.data.firestore.userData.entities
+package com.messenger.jaber.data.firestore.userInfo.entities
 
-interface UserData {
+interface UserInfo {
     val uid: String
     val fcmToken: String
     val phone: String
@@ -23,7 +23,7 @@ interface UserData {
         override val bio: String? = null,
         override val lastSeen: Long = now,
         override val createdAt: Long = now
-    ) : UserData
+    ) : UserInfo
 
     companion object {
         val now = System.currentTimeMillis()
