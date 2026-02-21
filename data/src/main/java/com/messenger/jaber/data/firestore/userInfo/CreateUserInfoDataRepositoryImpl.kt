@@ -4,7 +4,7 @@ import com.elveum.container.unwrap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.messenger.jaber.core.data.network.containerOf
 import com.messenger.jaber.data.CreateUserInfoDataRepository
-import com.messenger.jaber.data.firestore.userInfo.entities.UserInfo
+import com.messenger.jaber.data.firestore.userInfo.entities.UserInfoResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,12 +12,11 @@ import javax.inject.Singleton
 class CreateUserInfoDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : CreateUserInfoDataRepository {
-    override suspend fun createUserInfo(userInfo: UserInfo.Default) {
+    override suspend fun createUserInfo(userInfoResponse: UserInfoResponse) {
         containerOf {
             firestore
                 .collection("users")
-                .add(userInfo)
+                .add(userInfoResponse)
         }.unwrap()
-
     }
 }

@@ -20,4 +20,6 @@ object Dimens {
 
     val MediumAvatarSize = 48.dp
 
+    val MediumCorner = 10.dp
+
 }

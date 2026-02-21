@@ -1,4 +1,4 @@
-package com.messenger.jaber.data.firestore.userInfo.entities
+package com.messenger.jaber.feature.chats.domain.entities
 
 interface UserInfo {
     val uid: String

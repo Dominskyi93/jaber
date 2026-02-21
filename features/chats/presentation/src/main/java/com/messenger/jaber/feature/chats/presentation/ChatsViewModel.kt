@@ -1,5 +1,7 @@
 package com.messenger.jaber.feature.chats.presentation
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.elveum.container.Container
 import com.elveum.container.containerMap
 import com.elveum.container.reducer.containerToReducer
@@ -8,16 +10,20 @@ import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.feature.chats.domain.DeleteChatUseCase
 import com.messenger.jaber.feature.chats.domain.GetChatsUseCase
+import com.messenger.jaber.feature.chats.domain.GetUserInfoUseCase
 import com.messenger.jaber.feature.chats.domain.entities.Chat
+import com.messenger.jaber.feature.chats.domain.entities.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatsViewModel @Inject constructor(
     getChatsUseCase: GetChatsUseCase,
+    private val getUserInfoUseCase: GetUserInfoUseCase,
     private val deleteChatUseCase: DeleteChatUseCase
 ) : AbstractViewModel(), WithMviState<ChatsViewModel.State> {
 
@@ -33,6 +39,16 @@ class ChatsViewModel @Inject constructor(
     fun executeAction(action: ChatsAction) = when (action) {
         is ChatsAction.DeleteChat -> deleteChat(chatId = action.chatId)
         else -> {}
+    }
+
+    fun getUserInfoByEmail(email: String) {
+        viewModelScope.launch {
+            val userInfo = getUserInfoUseCase.invoke(email)
+            Log.d("myTag", "getUserInfoByEmail: $userInfo")
+            reducer.updateState { oldState ->
+                oldState.copy(foundUserInfo = userInfo)
+            }
+        }
     }
 
     private fun deleteChat(chatId: Id) = launch {
@@ -52,7 +68,7 @@ class ChatsViewModel @Inject constructor(
         oldState.copy(disabledChatIds = oldState.disabledChatIds + chatId)
     }
 
-     fun showBottomSheet() = reducer.updateState { oldState ->
+    fun showBottomSheet() = reducer.updateState { oldState ->
         oldState.copy(showBottomSheets = true)
     }
 
@@ -63,12 +79,14 @@ class ChatsViewModel @Inject constructor(
     interface State {
         val chats: ImmutableList<UiChat>
         val showBottomSheet: Boolean
+        val newUserInfo: UserInfo?
     }
 
     data class StateImpl(
         val originChats: List<Chat>,
         val disabledChatIds: Set<Id> = emptySet(),
-        val showBottomSheets: Boolean = false
+        val showBottomSheets: Boolean = false,
+        val foundUserInfo: UserInfo? = null
     ) : State {
         override val chats: ImmutableList<UiChat> = originChats
             .map { originChat ->
@@ -78,5 +96,6 @@ class ChatsViewModel @Inject constructor(
                 )
             }.toImmutableList()
         override val showBottomSheet: Boolean = showBottomSheets
+        override val newUserInfo: UserInfo? = foundUserInfo
     }
 }

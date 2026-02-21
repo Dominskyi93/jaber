@@ -2,8 +2,10 @@ package com.messenger.jaber.feature.chats.domain.di
 
 import com.messenger.jaber.feature.chats.domain.DeleteChatUseCase
 import com.messenger.jaber.feature.chats.domain.GetChatsUseCase
+import com.messenger.jaber.feature.chats.domain.GetUserInfoUseCase
 import com.messenger.jaber.feature.chats.domain.usecases.DeleteChatUseCaseImpl
 import com.messenger.jaber.feature.chats.domain.usecases.GetChatsUseCaseImpl
+import com.messenger.jaber.feature.chats.domain.usecases.GetUserInfoUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,9 @@ internal interface UseCasesModule {
     fun bindDeleteChatUseCase(
         impl: DeleteChatUseCaseImpl
     ): DeleteChatUseCase
+
+    @Binds
+    fun bindGetUserInfoUseCase(
+        impl: GetUserInfoUseCaseImpl
+    ): GetUserInfoUseCase
 }

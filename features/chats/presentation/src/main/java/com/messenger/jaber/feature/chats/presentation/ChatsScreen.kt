@@ -98,6 +98,9 @@ fun ScreenScope.chatsScreen() {
                 if (state.showBottomSheet) {
                     SearchBottomSheetContent(
                         state = state,
+                        onSearch = { text ->
+                            viewModel.getUserInfoByEmail(text)
+                        },
                         onDismiss = { viewModel.hideBottomSheet() }
                     )
                 }
