@@ -1,4 +1,4 @@
-package com.messenger.jaber.data.firestore.userInfo.entities
+package com.messenger.jaber.data.userInfo.entities
 
 data class UserInfoResponse(
     val uid: String = "",

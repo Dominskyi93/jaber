@@ -3,6 +3,7 @@
 package com.messenger.jaber.feature.chats.presentation
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -94,6 +95,7 @@ fun SearchBottomSheetContent(
                         .fillMaxWidth()
                         .height(60.dp)
                         .border(1.dp, Color.Black, RoundedCornerShape(Dimens.MediumCorner))
+                        .clickable {}
                         .padding(Dimens.MediumPadding)
                 ) {
                     Box(

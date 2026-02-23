@@ -1,4 +1,4 @@
-package com.messenger.jaber.data.firestore.di
+package com.messenger.jaber.data.rooms.di
 
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,11 +11,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object FirestoreProvideModule {
+internal object RoomsModule {
 
     @Provides
     @Singleton
-    fun provideFirestore(): FirebaseFirestore {
-        return Firebase.firestore
-    }
+    fun provideFirestore(): FirebaseFirestore =
+        Firebase.firestore
 }

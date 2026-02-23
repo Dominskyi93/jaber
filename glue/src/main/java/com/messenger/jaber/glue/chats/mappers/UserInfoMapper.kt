@@ -1,6 +1,6 @@
 package com.messenger.jaber.glue.chats.mappers
 
-import com.messenger.jaber.data.firestore.userInfo.entities.UserInfoResponse
+import com.messenger.jaber.data.userInfo.entities.UserInfoResponse
 import com.messenger.jaber.feature.chats.domain.entities.UserInfo
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
-package com.messenger.jaber.data.firestore.userInfo
+package com.messenger.jaber.data.userInfo
 
 import com.elveum.container.unwrap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.messenger.jaber.core.data.network.containerOf
 import com.messenger.jaber.data.GetUserInfosDataRepository
-import com.messenger.jaber.data.firestore.userInfo.entities.UserInfoResponse
+import com.messenger.jaber.data.userInfo.entities.UserInfoResponse
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ChatsModule {
+internal interface ChatsModule {
 
     @Binds
     fun bindChatsRepository(
