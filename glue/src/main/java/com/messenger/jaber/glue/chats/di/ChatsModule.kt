@@ -4,6 +4,7 @@ import com.messenger.jaber.feature.chats.domain.repositories.ChatsRepository
 import com.messenger.jaber.feature.chats.domain.repositories.UserInfoRepository
 import com.messenger.jaber.glue.chats.ChatsGetChatsRepository
 import com.messenger.jaber.glue.chats.ChatsGetUserInfoRepository
+import com.messenger.jaber.glue.chats.mappers.ChatMapper
 import com.messenger.jaber.glue.chats.mappers.UserInfoMapper
 import dagger.Binds
 import dagger.Module
@@ -28,5 +29,10 @@ internal interface ChatsModule {
     fun bindUserInfoMapper(
         impl: UserInfoMapper.Default
     ): UserInfoMapper
+
+    @Binds
+    fun bindChatMapperMapper(
+        impl: ChatMapper.Default
+    ): ChatMapper
 
 }

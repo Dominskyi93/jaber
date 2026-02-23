@@ -19,20 +19,12 @@ class RoomsDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : RoomsDataRepository {
     override fun getRooms(): ListContainerFlow<RoomDataEntity> = flow {
-        delay(1000)
         val result = successContainer(
-//            firestore.collection("chats")
-//                .get()
-//                .await()
-//                .documents
-//                .mapNotNull { it.toObject(RoomDataEntity::class.java) }
-            listOf(
-                RoomDataEntity.Default(
-                    id = Id(1),
-                    title = "title",
-                    lastMessage = "last message"
-                )
-            )
+            firestore.collection("chats")
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(RoomDataEntity.Default::class.java) }
         )
         emit(result)
     }
