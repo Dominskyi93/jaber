@@ -47,7 +47,6 @@ fun SearchBottomSheetContent(
     onDismiss: () -> Unit
 ) {
     val searchFieldState = rememberSaveable { mutableStateOf("") }
-    // TODO: change to users
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
