@@ -4,7 +4,7 @@ import com.elveum.container.unwrap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.messenger.jaber.core.data.network.containerOf
 import com.messenger.jaber.data.GetUserInfosDataRepository
-import com.messenger.jaber.data.userInfo.entities.UserInfoResponse
+import com.messenger.jaber.data.userInfo.entities.UserInfoRequest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +14,7 @@ class GetUserInfosDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : GetUserInfosDataRepository {
 
-    override suspend fun findUsersByEmail(email: String): UserInfoResponse? {
+    override suspend fun findUsersByEmail(email: String): UserInfoRequest? {
         return containerOf {
             val snapshot = firestore
                 .collection("users")
@@ -24,7 +24,7 @@ class GetUserInfosDataRepositoryImpl @Inject constructor(
 
             snapshot.documents
                 .firstOrNull()
-                ?.toObject(UserInfoResponse::class.java)
+                ?.toObject(UserInfoRequest::class.java)
         }.unwrap()
     }
 }

@@ -1,6 +1,8 @@
 package com.messenger.jaber.data.rooms.di
 
+import com.messenger.jaber.data.CreateChatDataRepository
 import com.messenger.jaber.data.RoomsDataRepository
+import com.messenger.jaber.data.rooms.CreateChatDataRepositoryImpl
 import com.messenger.jaber.data.rooms.RoomsDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -15,5 +17,10 @@ internal interface RoomsRepositoryModule {
     fun bindRoomsRepository(
         impl: RoomsDataRepositoryImpl
     ): RoomsDataRepository
+
+    @Binds
+    fun bindCreateChatRepository(
+        impl: CreateChatDataRepositoryImpl
+    ): CreateChatDataRepository
 
 }

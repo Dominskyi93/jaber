@@ -1,6 +1,6 @@
 package com.messenger.jaber.data.userInfo.entities
 
-data class UserInfoResponse(
+data class UserInfoRequest(
     val uid: String = "",
     val fcmToken: String = "",
     val phone: String = "",

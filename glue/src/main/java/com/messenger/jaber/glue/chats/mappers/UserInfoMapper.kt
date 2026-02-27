@@ -1,16 +1,16 @@
 package com.messenger.jaber.glue.chats.mappers
 
-import com.messenger.jaber.data.userInfo.entities.UserInfoResponse
+import com.messenger.jaber.data.userInfo.entities.UserInfoRequest
 import com.messenger.jaber.feature.chats.domain.entities.UserInfo
 import javax.inject.Inject
 
 interface UserInfoMapper {
     suspend fun toFeatureEntity(
-        dataEntity: UserInfoResponse?
+        dataEntity: UserInfoRequest?
     ): UserInfo?
 
     class Default @Inject constructor() : UserInfoMapper {
-        override suspend fun toFeatureEntity(dataEntity: UserInfoResponse?): UserInfo? {
+        override suspend fun toFeatureEntity(dataEntity: UserInfoRequest?): UserInfo? {
             return if (dataEntity == null) {
                 null
             } else {

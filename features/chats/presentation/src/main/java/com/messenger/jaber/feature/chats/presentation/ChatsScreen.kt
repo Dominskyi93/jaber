@@ -31,13 +31,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +62,6 @@ import com.messenger.jaber.core.navigation.dsl.ScreenToolbar
 import com.messenger.jaber.feature.chats.domain.entities.Chat
 import com.messenger.jaber.feature.chats.domain.entities.hasUnreadMessages
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.launch
 
 fun ScreenScope.chatsScreen() {
     val viewModel = viewModel(ChatsViewModel::class)
