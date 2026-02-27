@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.features.main.presentation)
     implementation(projects.features.chats.presentation)
     implementation(projects.features.profile.presentation)
+    implementation(projects.features.settings.presentation)
 
     //hilt
     implementation(libs.hilt.android)

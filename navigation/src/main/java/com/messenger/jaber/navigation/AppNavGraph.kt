@@ -13,9 +13,9 @@ import com.messenger.jaber.features.signup.presentation.congratsScreen
 import com.messenger.jaber.features.signup.presentation.signUpScreen
 import com.messenger.jaber.navigation.base.ExtendedNavGraphBuilder
 import com.messenger.jaber.navigation.base.composable
+import com.messenger.jaber.settings.presentation.settingsScreen
 import com.messenger.jaber.signin.presentation.signInScreen
 import com.messenger.jaber.feature.chats.presentation.R as ChatsR
-import com.messenger.jaber.features.signup.presentation.R as CongratsR
 import com.messenger.jaber.feature.profile.presentation.R as ProfileR
 
 fun ExtendedNavGraphBuilder.buildAppNavGraph() {
@@ -39,6 +39,10 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
         profileScreen()
     }
 
+    composable<SettingsRoute> {
+        settingsScreen()
+    }
+
     composable<MainRoute> {
         mainScreen(
             Tab(
@@ -54,8 +58,8 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
             //change to settings
             Tab(
                 icon = Icons.Default.Settings,
-                label = { getString(CongratsR.string.signup_congratulations_toolbar) },
-                configuration = { congratsScreen() }
+                label = { "Settings" },
+                configuration = { settingsScreen() }
             )
         )
     }
