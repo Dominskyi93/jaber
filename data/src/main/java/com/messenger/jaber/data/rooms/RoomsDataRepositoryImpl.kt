@@ -3,6 +3,7 @@ package com.messenger.jaber.data.rooms
 import com.elveum.container.ListContainerFlow
 import com.elveum.container.errorContainer
 import com.elveum.container.successContainer
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.messenger.jaber.data.RoomsDataRepository
 import com.messenger.jaber.data.rooms.entities.RoomDataEntity
@@ -13,11 +14,15 @@ import javax.inject.Singleton
 
 @Singleton
 class RoomsDataRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    auth: FirebaseAuth
 ) : RoomsDataRepository {
+    val currentUserUid = auth.currentUser?.uid
+
     override fun getRooms(): ListContainerFlow<RoomDataEntity> = callbackFlow {
         val listenerRegistration = firestore
             .collection("chats")
+            .whereArrayContains("userIds", "$currentUserUid")
             .addSnapshotListener { snapshot, error ->
 
                 if (error != null) {
