@@ -5,8 +5,10 @@ import com.messenger.jaber.feature.presentation.InitRouter
 import com.messenger.jaber.features.signup.presentation.SignUpRouter
 import com.messenger.jaber.navigation.routers.ChatsRouterImpl
 import com.messenger.jaber.navigation.routers.InitRouterImpl
+import com.messenger.jaber.navigation.routers.SettingsRouterImpl
 import com.messenger.jaber.navigation.routers.SignInRouterImpl
 import com.messenger.jaber.navigation.routers.SignUpRouterImpl
+import com.messenger.jaber.settings.presentation.SettingsRouter
 import com.messenger.jaber.signin.presentation.SignInRouter
 import dagger.Binds
 import dagger.Module
@@ -36,4 +38,9 @@ interface RoutersModule {
     fun bindChatsRouter(
         impl: ChatsRouterImpl
     ): ChatsRouter
+
+    @Binds
+    fun bindSettingsRouter(
+        impl: SettingsRouterImpl
+    ): SettingsRouter
 }

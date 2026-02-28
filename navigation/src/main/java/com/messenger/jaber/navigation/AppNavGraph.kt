@@ -17,6 +17,7 @@ import com.messenger.jaber.settings.presentation.settingsScreen
 import com.messenger.jaber.signin.presentation.signInScreen
 import com.messenger.jaber.feature.chats.presentation.R as ChatsR
 import com.messenger.jaber.feature.profile.presentation.R as ProfileR
+import com.messenger.jaber.feature.settings.presentation.R as SettingsR
 
 fun ExtendedNavGraphBuilder.buildAppNavGraph() {
     composable<InitRoute> {
@@ -55,10 +56,9 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
                 label = { getString(ChatsR.string.chats_title) },
                 configuration = { chatsScreen() }
             ),
-            //change to settings
             Tab(
                 icon = Icons.Default.Settings,
-                label = { "Settings" },
+                label = { getString(SettingsR.string.settings_title) },
                 configuration = { settingsScreen() }
             )
         )
