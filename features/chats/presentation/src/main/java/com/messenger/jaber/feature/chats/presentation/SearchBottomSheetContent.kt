@@ -37,12 +37,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.messenger.core.essentials.entities.Id
 import com.messenger.core.theme.Dimens
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchBottomSheetContent(
     state: ChatsViewModel.State,
+    onChatClick: (Id) -> Unit,
     onSearch: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -94,7 +96,7 @@ fun SearchBottomSheetContent(
                         .fillMaxWidth()
                         .height(60.dp)
                         .border(1.dp, Color.Black, RoundedCornerShape(Dimens.MediumCorner))
-                        .clickable {}
+                        .clickable { onChatClick(Id("")) }
                         .padding(Dimens.MediumPadding)
                 ) {
                     Box(

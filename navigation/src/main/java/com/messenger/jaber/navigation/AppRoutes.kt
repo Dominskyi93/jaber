@@ -27,3 +27,6 @@ data object ProfileRoute : Route
 
 @Serializable
 data object SettingsRoute : Route
+
+@Serializable
+data object ChatRoute : Route

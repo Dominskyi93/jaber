@@ -97,6 +97,7 @@ fun ScreenScope.chatsScreen() {
                         onSearch = { text ->
                             viewModel.getUserInfoByEmail(text)
                         },
+                        onChatClick = { viewModel.executeAction(ChatsAction.GoToChat(it)) },
                         onDismiss = { viewModel.hideBottomSheet() }
                     )
                 }

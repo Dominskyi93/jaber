@@ -1,7 +1,7 @@
 package com.messenger.jaber.navigation.routers
 
-import com.messenger.core.essentials.entities.Id
 import com.messenger.jaber.feature.chats.presentation.ChatsRouter
+import com.messenger.jaber.navigation.ChatRoute
 import com.messenger.jaber.navigation.base.AppRouter
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class ChatsRouterImpl @Inject constructor(
         appRouter.goBack()
     }
 
-    override fun navigateToChat(chatId: Id) {
-//        appRouter.launch()
+    override fun navigateToChat(chatId: String) {
+        appRouter.launch(ChatRoute)
     }
 }
