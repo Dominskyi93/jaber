@@ -116,7 +116,8 @@ fun BoxScope.ChatsContent(
     if (chats.isNotEmpty()) {
         ChatsList(
             chats = chats,
-            onDeleteChat = { onAction(ChatsAction.DeleteChat(it)) }
+            onDeleteChat = { onAction(ChatsAction.DeleteChat(it)) },
+            onChatClick = { onAction(ChatsAction.GoToChat(it)) }
         )
     } else {
         EmptyChats()
@@ -127,6 +128,7 @@ fun BoxScope.ChatsContent(
 fun ChatsList(
     chats: ImmutableList<UiChat>,
     onDeleteChat: (chatId: Id) -> Unit,
+    onChatClick: (Id) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -141,6 +143,9 @@ fun ChatsList(
                 ChatItem(
                     chat = chat,
                     onDeleteChat = { onDeleteChat(chat.id) },
+                    onClick = {
+                        onChatClick(chat.id)
+                    },
                     modifier = Modifier.animateItem()
                 )
             }
@@ -180,7 +185,8 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
 fun ChatItem(
     chat: UiChat,
     modifier: Modifier = Modifier,
-    onDeleteChat: () -> Unit = {}
+    onDeleteChat: () -> Unit = {},
+    onClick: () -> Unit
 ) {
     Column {
         Row(
@@ -195,7 +201,7 @@ fun ChatItem(
                     MaterialTheme.colorScheme.secondaryContainer
                 )
                 .clickable {
-
+                    onClick()
                 }
                 .padding(
                     vertical = Dimens.ExtraSmallPadding,
@@ -318,7 +324,8 @@ private fun ChatItemPreview(
     )
 ) {
     ChatItem(
-        chat = chat as UiChat
+        chat = chat as UiChat,
+        onClick = {}
     )
 }
 
