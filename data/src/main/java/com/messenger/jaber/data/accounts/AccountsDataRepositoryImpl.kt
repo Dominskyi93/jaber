@@ -33,6 +33,14 @@ internal class AccountsDataRepositoryImpl @Inject constructor(
         }.unwrap()
     }
 
+    override suspend fun logout() {
+        containerOf {
+            firebaseAuthRepository.logout()
+        }.mapException(Exception::class) { e ->
+            mapFirebaseException(e)
+        }.unwrap()
+    }
+
     private fun mapFirebaseException(e: Exception): Exception {
         val cause = e.cause
         return when (cause) {

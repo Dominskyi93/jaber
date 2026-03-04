@@ -40,7 +40,6 @@ internal class SessionManagerImpl @Inject constructor(
             (getToken().first() as? AuthDataToken.Default)
                 ?.accessToken
         }
-
     }
 
     private companion object {

@@ -21,4 +21,13 @@ class FirebaseAuthDataRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun logout(): Result<Unit> {
+        return try {
+            auth.signOut()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

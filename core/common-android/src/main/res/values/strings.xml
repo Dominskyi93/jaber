@@ -7,4 +7,5 @@
     <string name="invalid_response_from_the_remote_server">Invalid response from the remote server.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
 </resources>

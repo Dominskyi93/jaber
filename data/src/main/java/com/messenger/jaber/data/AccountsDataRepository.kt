@@ -12,4 +12,6 @@ interface AccountsDataRepository {
     suspend fun signIn(
         credentials: AuthDataCredentials
     ): AuthDataToken.Default
+
+    suspend fun logout()
 }

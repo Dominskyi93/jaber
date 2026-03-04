@@ -6,6 +6,7 @@ interface CoreStringProvider : StringProvider {
     val invalidBackendResponseErrorMessage: String
     val delete: String
     val cancel: String
+    val yes: String
 
     fun backendErrorMessage(code: Int, backendMessage: String): String
 }

@@ -1,5 +1,6 @@
 package com.messenger.jaber.navigation.routers
 
+import com.messenger.jaber.navigation.SignInRoute
 import com.messenger.jaber.navigation.base.AppRouter
 import com.messenger.jaber.settings.presentation.SettingsRouter
 import javax.inject.Inject
@@ -9,5 +10,9 @@ class SettingsRouterImpl @Inject constructor(
 ) : SettingsRouter {
     override fun navigateUp() {
         appRouter.goBack()
+    }
+
+    override fun launchSignIn() {
+        appRouter.restart(SignInRoute)
     }
 }

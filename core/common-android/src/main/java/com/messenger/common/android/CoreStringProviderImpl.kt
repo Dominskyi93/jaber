@@ -16,6 +16,7 @@ class CoreStringProviderImpl @Inject constructor(
         context.getString(R.string.invalid_response_from_the_remote_server)
     override val delete: String = context.getString(R.string.delete)
     override val cancel: String = context.getString(R.string.cancel)
+    override val yes: String = context.getString(R.string.yes)
 
     override fun backendErrorMessage(
         code: Int,

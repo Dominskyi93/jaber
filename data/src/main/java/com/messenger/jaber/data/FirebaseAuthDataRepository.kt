@@ -5,4 +5,6 @@ import com.messenger.jaber.data.accounts.entities.AuthDataCredentials
 interface FirebaseAuthDataRepository {
 
     suspend fun signIn(credentials: AuthDataCredentials): Result<String>
+
+    suspend fun logout(): Result<Unit>
 }
