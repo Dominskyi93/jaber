@@ -40,7 +40,6 @@ class ChatsViewModel @Inject constructor(
     fun executeAction(action: ChatsAction) = when (action) {
         is ChatsAction.DeleteChat -> deleteChat(chatId = action.chatId)
         is ChatsAction.GoToChat -> appRouter.navigateToChat(chatId = action.chatId.value)
-        else -> {}
     }
 
     fun getUserInfoByEmail(email: String) {

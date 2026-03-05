@@ -1,6 +1,6 @@
 [versions]
 agp = "9.0.1"
-container = "2.0.0-beta14"
+container = "2.0.0-beta15"
 firebaseAuth = "24.0.1"
 firebaseBom = "34.10.0"
 firestore = "26.1.1"
