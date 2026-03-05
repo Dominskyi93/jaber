@@ -89,7 +89,8 @@ fun ScreenScope.chatsScreen() {
             Box(Modifier.fillMaxSize()) {
                 ChatsContent(
                     state = state,
-                    onAction = viewModel::executeAction
+                    onAction = viewModel::executeAction,
+                    createChatButtonAction = { viewModel.showBottomSheet() }
                 )
                 if (state.showBottomSheet) {
                     SearchBottomSheetContent(
@@ -109,7 +110,8 @@ fun ScreenScope.chatsScreen() {
 @Composable
 fun BoxScope.ChatsContent(
     state: ChatsViewModel.State,
-    onAction: (ChatsAction) -> Unit = {}
+    onAction: (ChatsAction) -> Unit = {},
+    createChatButtonAction: () -> Unit
 ) {
     val chats = state.chats
 
@@ -120,7 +122,9 @@ fun BoxScope.ChatsContent(
             onChatClick = { onAction(ChatsAction.GoToChat(it)) }
         )
     } else {
-        EmptyChats()
+        EmptyChats {
+            createChatButtonAction()
+        }
     }
 }
 
@@ -154,7 +158,11 @@ fun ChatsList(
 }
 
 @Composable
-fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
+fun BoxScope.EmptyChats(
+    modifier: Modifier = Modifier,
+    createChatButtonAction: () -> Unit
+
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding),
@@ -177,7 +185,7 @@ fun BoxScope.EmptyChats(modifier: Modifier = Modifier) {
         ProgressButton(
             isInProgress = false,
             text = "Create chat"
-        ) { }
+        ) { createChatButtonAction() }
     }
 }
 
@@ -333,7 +341,7 @@ private fun ChatItemPreview(
 @Composable
 fun EmptyChatPreview() {
     Box {
-        EmptyChats()
+        EmptyChats {}
     }
 }
 
