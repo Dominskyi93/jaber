@@ -22,7 +22,7 @@ interface ChatsStringProviderModule {
     ): StringProvider
 
     @Binds
-    fun bindSignInStringProvider(
+    fun bindChatsStringProvider(
         impl: ChatsStringProviderImpl
     ): ChatsStringProvider
 }

@@ -1,8 +1,10 @@
 package com.messenger.jaber.navigation.di
 
+import com.messenger.jaber.feature.chat_room.presentation.ChatRoomRouter
 import com.messenger.jaber.feature.chats.presentation.ChatsRouter
 import com.messenger.jaber.feature.presentation.InitRouter
 import com.messenger.jaber.features.signup.presentation.SignUpRouter
+import com.messenger.jaber.navigation.routers.ChatRoomRouterImpl
 import com.messenger.jaber.navigation.routers.ChatsRouterImpl
 import com.messenger.jaber.navigation.routers.InitRouterImpl
 import com.messenger.jaber.navigation.routers.SettingsRouterImpl
@@ -43,4 +45,9 @@ interface RoutersModule {
     fun bindSettingsRouter(
         impl: SettingsRouterImpl
     ): SettingsRouter
+
+    @Binds
+    fun bindChatRoomRouter(
+        impl: ChatRoomRouterImpl
+    ): ChatRoomRouter
 }

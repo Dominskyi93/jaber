@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.features.signup.presentation)
     implementation(projects.features.chats.presentation)
     implementation(projects.features.settings.presentation)
+    implementation(projects.features.chatRoom.presentation)
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

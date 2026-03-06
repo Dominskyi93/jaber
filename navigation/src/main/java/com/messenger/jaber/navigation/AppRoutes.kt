@@ -29,4 +29,4 @@ data object ProfileRoute : Route
 data object SettingsRoute : Route
 
 @Serializable
-data object ChatRoute : Route
+data class ChatRoomRoute(val chatId: String) : Route

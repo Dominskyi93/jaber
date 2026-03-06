@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Settings
-import com.messenger.jaber.feature.chats.presentation.chatScreen
+import com.messenger.jaber.feature.chat_room.presentation.chatRoomScreen
 import com.messenger.jaber.feature.chats.presentation.chatsScreen
 import com.messenger.jaber.feature.main.presentation.Tab
 import com.messenger.jaber.feature.main.presentation.mainScreen
@@ -45,8 +45,8 @@ fun ExtendedNavGraphBuilder.buildAppNavGraph() {
         settingsScreen()
     }
 
-    composable<ChatRoute> {
-        chatScreen()
+    composable<ChatRoomRoute> {
+        chatRoomScreen()
     }
 
     composable<MainRoute> {

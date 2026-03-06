@@ -1,28 +1,29 @@
-package com.messenger.jaber.data.rooms
+package com.messenger.jaber.data.messages
 
 import com.elveum.container.ListContainerFlow
 import com.elveum.container.errorContainer
 import com.elveum.container.successContainer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.messenger.jaber.data.RoomsDataRepository
-import com.messenger.jaber.data.rooms.entities.RoomDataEntity
+import com.messenger.jaber.data.MessagesDataRepository
+import com.messenger.jaber.data.messages.entities.MessageDataEntity
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class RoomsDataRepositoryImpl @Inject constructor(
+class MessagesDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    auth: FirebaseAuth
-) : RoomsDataRepository {
-    val currentUserUid = auth.currentUser?.uid
+    private val auth: FirebaseAuth
+) : MessagesDataRepository {
+    val myUid = auth.currentUser?.uid ?: ""
 
-    override fun getRooms(): ListContainerFlow<RoomDataEntity> = callbackFlow {
+    override fun getMessages(chatId: String): ListContainerFlow<MessageDataEntity> = callbackFlow {
+
         val listenerRegistration = firestore
             .collection("chats")
-            .whereArrayContains("userIds", "$currentUserUid")
+            .document(chatId)
+            .collection("messages")
+            .orderBy("timestamp")
             .addSnapshotListener { snapshot, error ->
 
                 if (error != null) {
@@ -31,8 +32,9 @@ class RoomsDataRepositoryImpl @Inject constructor(
                 }
 
                 val data = snapshot?.documents?.mapNotNull { doc ->
-                    doc.toObject(RoomDataEntity.Default::class.java)?.copy(
-                        id = doc.id
+                    doc.toObject(MessageDataEntity.Default::class.java)?.copy(
+                        id = doc.id,
+                        isMyMessage = myUid == doc.getString("senderId")
                     )
                 } ?: emptyList()
 
