@@ -41,7 +41,6 @@ fun ScreenScope.chatRoomScreen() {
 
         ContainerView(
             container = container,
-            enablePullToRefresh = true,
             modifier = Modifier.fillMaxSize(),
             onTryAgainAction = {
 

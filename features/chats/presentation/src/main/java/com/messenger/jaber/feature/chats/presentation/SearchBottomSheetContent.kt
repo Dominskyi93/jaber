@@ -100,7 +100,7 @@ fun SearchBottomSheetContent(
                         .fillMaxWidth()
                         .height(60.dp)
                         .border(1.dp, Color.Black, RoundedCornerShape(Dimens.MediumCorner))
-                        .clickable { onChatClick(Id("")) }
+                        .clickable { onChatClick(Id(it.uid)) }
                         .padding(Dimens.MediumPadding)
                 ) {
                     Box(

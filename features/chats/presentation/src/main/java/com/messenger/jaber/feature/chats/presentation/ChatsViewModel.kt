@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elveum.container.Container
 import com.elveum.container.containerMap
 import com.elveum.container.reducer.containerToReducer
+import com.elveum.container.unwrap
 import com.messenger.core.essentials.entities.Id
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
@@ -40,6 +41,14 @@ class ChatsViewModel @Inject constructor(
     fun executeAction(action: ChatsAction) = when (action) {
         is ChatsAction.DeleteChat -> deleteChat(chatId = action.chatId)
         is ChatsAction.GoToChat -> appRouter.navigateToChat(chatId = action.chatId.value)
+        is ChatsAction.GoToChatByUserId -> {
+            val chat = findChatByUserId(userId = action.userId)
+            if (chat != null) {
+                appRouter.navigateToChat(chat.id.value)
+            } else {
+
+            }
+        }
     }
 
     fun getUserInfoByEmail(email: String) {
@@ -49,6 +58,14 @@ class ChatsViewModel @Inject constructor(
             reducer.updateState { oldState ->
                 oldState.copy(foundUserInfo = userInfo)
             }
+        }
+    }
+
+    private fun findChatByUserId(userId: Id): Chat? {
+        val currentState = stateFlow.value.unwrap()
+
+        return currentState.chats.firstOrNull { chat ->
+            chat.userIds.any { it == userId }
         }
     }
 
