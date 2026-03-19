@@ -10,7 +10,9 @@ import com.messenger.jaber.data.messages.entities.MessageDataEntity
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MessagesDataRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val auth: FirebaseAuth
