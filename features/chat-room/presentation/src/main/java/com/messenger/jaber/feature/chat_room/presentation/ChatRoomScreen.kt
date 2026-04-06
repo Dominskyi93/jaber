@@ -1,6 +1,7 @@
 package com.messenger.jaber.feature.chat_room.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.messenger.core.theme.Dimens
@@ -60,11 +70,63 @@ fun ChatRoomContent(
     state: ChatRoomVM.State
 ) {
     val messages by remember(state.messages) { mutableStateOf(state.messages) }
+    val messageText = rememberTextFieldState("")
+
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(
+            start = Dimens.SmallPadding,
+            end = Dimens.SmallPadding,
+            bottom = Dimens.SmallPadding
+        )
     ) {
-        MessagesList(messages)
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (messages.isEmpty()) {
+                Text(
+                    text = "No messages yet",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                MessagesList(messages)
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+            ) {
+                IconButton(
+                    onClick = {},
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AttachFile,
+                        contentDescription = "Attach file"
+                    )
+                }
+                MessageTextField(
+                    messageTextState = messageText,
+                    modifier = Modifier
+                )
+                if (messageText.text.isNotBlank()) {
+                    IconButton(
+                        onClick = {
+
+                        },
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Send,
+                            contentDescription = "Send message"
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -75,7 +137,8 @@ fun MessagesList(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .padding(horizontal = Dimens.MediumPadding)
     ) {
         LazyColumn {
@@ -87,6 +150,43 @@ fun MessagesList(
             }
         }
     }
+}
+
+@Composable
+fun MessageTextField(
+    messageTextState: TextFieldState,
+    modifier: Modifier = Modifier,
+    placeholder: String = "Message"
+) {
+    BasicTextField(
+        state = messageTextState,
+        textStyle = TextStyle(
+            fontSize = Dimens.BadgeMediumTextSize,
+            color = MaterialTheme.colorScheme.onSurface
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(Dimens.ExtraLargeCorner))
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.outline,
+                RoundedCornerShape(Dimens.ExtraLargeCorner)
+            ),
+        decorator = { innerTextField ->
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
+                if (messageTextState.text.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                innerTextField()
+            }
+        }
+    )
 }
 
 @Composable
