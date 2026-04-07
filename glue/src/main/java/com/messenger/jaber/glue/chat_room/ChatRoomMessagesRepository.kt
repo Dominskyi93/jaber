@@ -6,9 +6,7 @@ import com.messenger.core.essentials.entities.Id
 import com.messenger.jaber.data.MessagesDataRepository
 import com.messenger.jaber.feature.chat_room.domain.entities.Message
 import com.messenger.jaber.feature.chat_room.domain.repositories.MessagesRepository
-import com.messenger.jaber.feature.chats.domain.entities.Chat
 import com.messenger.jaber.glue.chat_room.mappers.MessageMapper
-import com.messenger.jaber.glue.chats.mappers.ChatMapper
 import javax.inject.Inject
 
 internal class ChatRoomMessagesRepository @Inject constructor(
@@ -27,5 +25,13 @@ internal class ChatRoomMessagesRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun saveMessage(
+        message: Message,
+        chatId: Id
+    ) {
+        messagesDataRepository.saveMessage(
+            messageMapper.mapToMessageDataEntity(message), chatId.value
+        )
+    }
 
 }

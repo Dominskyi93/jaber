@@ -7,6 +7,19 @@ import javax.inject.Inject
 interface MessageMapper {
     fun mapToMessage(messageDataEntity: MessageDataEntity): Message
 
+    fun mapToMessageDataEntity(message: Message): MessageDataEntity.Default {
+        return with(message) {
+            MessageDataEntity.Default(
+                id = id,
+                text = text,
+                isRead = isRead,
+                senderId = senderId,
+                timestamp = timestamp,
+                isMyMessage = isMyMessage
+            )
+        }
+    }
+
     class Default @Inject constructor() : MessageMapper {
         override fun mapToMessage(messageDataEntity: MessageDataEntity): Message =
             with(messageDataEntity) {

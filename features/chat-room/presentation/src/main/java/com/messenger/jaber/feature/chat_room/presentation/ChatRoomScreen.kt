@@ -59,6 +59,9 @@ fun ScreenScope.chatRoomScreen() {
             Box(Modifier.fillMaxSize()) {
                 ChatRoomContent(
                     state = state,
+                    sendMessage = {
+                        viewModel.sendMessage(it)
+                    }
                 )
             }
         }
@@ -67,7 +70,8 @@ fun ScreenScope.chatRoomScreen() {
 
 @Composable
 fun ChatRoomContent(
-    state: ChatRoomVM.State
+    state: ChatRoomVM.State,
+    sendMessage: (String) -> Unit
 ) {
     val messages by remember(state.messages) { mutableStateOf(state.messages) }
     val messageText = rememberTextFieldState("")
@@ -110,21 +114,22 @@ fun ChatRoomContent(
                 MessageTextField(
                     messageTextState = messageText,
                     modifier = Modifier
+                        .weight(1f)
                 )
-                if (messageText.text.isNotBlank()) {
-                    IconButton(
-                        onClick = {
-
-                        },
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.Send,
-                            contentDescription = "Send message"
-                        )
-                    }
+//                if (messageText.text.isNotBlank()) {
+                IconButton(
+                    onClick = {
+                        sendMessage(messageText.text.toString())
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        contentDescription = "Send message"
+                    )
                 }
+//                }
             }
         }
     }

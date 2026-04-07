@@ -7,4 +7,5 @@ import com.messenger.jaber.feature.chat_room.domain.entities.Message
 interface MessagesRepository {
     fun getMessages(chatId: String): ListContainerFlow<Message>
     suspend fun deleteMessage(chatId: Id)
+    suspend fun saveMessage(message: Message, chatId: Id)
 }

@@ -4,9 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import com.elveum.container.Container
 import com.elveum.container.containerMap
 import com.elveum.container.reducer.containerToReducer
+import com.messenger.core.essentials.entities.Id
 import com.messenger.jaber.core.presentation.WithMviState
 import com.messenger.jaber.core.presentation.base.AbstractViewModel
 import com.messenger.jaber.feature.chat_room.domain.GetMessagesUseCase
+import com.messenger.jaber.feature.chat_room.domain.SaveMessageUseCase
 import com.messenger.jaber.feature.chat_room.domain.entities.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatRoomVM @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getMessagesUseCase: GetMessagesUseCase
+    getMessagesUseCase: GetMessagesUseCase,
+    private val saveMessageUseCase: SaveMessageUseCase
 ) : AbstractViewModel(), WithMviState<ChatRoomVM.State> {
 
     val chatId: StateFlow<String?> =
@@ -31,9 +34,17 @@ class ChatRoomVM @Inject constructor(
         )
     val stateFlow: StateFlow<Container<State>> = reducer.stateFlow
 
+    fun sendMessage(text: String) = launch {
+        saveMessageUseCase(
+            Message.Default(
+                text = text,
+                timestamp = System.currentTimeMillis()
+            ), Id(chatId.value ?: "")
+        )
+    }
+
     interface State {
         val messages: ImmutableList<Message>
-//        val myUId: String
     }
 
     data class StateImpl(
